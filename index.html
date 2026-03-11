@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scanner Prospects 74 — Duval DVL</title>
+  <style>
+    :root {
+      --bg:       #0D0F12;
+      --card:     #161A20;
+      --border:   rgba(255,255,255,0.07);
+      --accent:   #3B82F6;
+      --green:    #22C55E;
+      --yellow:   #EAB308;
+      --red:      #EF4444;
+      --text:     #94A3B8;
+      --white:    #E2E8F0;
+      --mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --sans:     -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      display: flex; flex-direction: column;
+    }
+
+    /* ── HEADER ────────────────────────────────────────────────── */
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+    .brand-name {
+      font-family: var(--mono); font-size: .8rem;
+      color: var(--white); letter-spacing: .08em;
+    }
+    .brand-version {
+      font-family: var(--mono); font-size: .65rem;
+      color: var(--text); letter-spacing: .06em; margin-left: 8px;
+    }
+    #status-badge {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; padding: 4px 12px;
+      border-radius: 2px; border: 1px solid;
+    }
+    .badge-idle    { color: var(--text);   border-color: var(--border); }
+    .badge-running { color: var(--yellow); border-color: rgba(234,179,8,.3); }
+    .badge-done    { color: var(--green);  border-color: rgba(34,197,94,.3); }
+    .badge-error   { color: var(--red);    border-color: rgba(239,68,68,.3); }
+
+    /* ── LAYOUT ────────────────────────────────────────────────── */
+    .main {
+      flex: 1; display: flex; overflow: hidden;
+    }
+
+    /* ── SIDEBAR ───────────────────────────────────────────────── */
+    .sidebar {
+      width: 300px; flex-shrink: 0;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-section {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-label {
+      font-family: var(--mono); font-size: .6rem;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar-label::before { content: '//'; opacity: .5; }
+
+    /* API Key */
+    .api-input-wrap { position: relative; }
+    .api-input-wrap input {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--white); font-family: var(--mono); font-size: .75rem;
+      padding: 10px 40px 10px 12px; letter-spacing: .04em;
+      transition: border-color .2s;
+    }
+    .api-input-wrap input:focus { outline: none; border-color: var(--accent); }
+    .api-toggle {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--text); cursor: pointer;
+      font-size: .85rem; padding: 2px;
+    }
+    .api-toggle:hover { color: var(--white); }
+    .api-help {
+      margin-top: 8px; font-size: .72rem; line-height: 1.5; color: var(--text);
+    }
+    .api-help a { color: var(--accent); text-decoration: none; }
+    .api-help a:hover { text-decoration: underline; }
+
+    /* Secteurs */
+    .sector-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .sector-tab {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
+      padding: 5px 12px; border: 1px solid var(--border);
+      background: none; color: var(--text); cursor: pointer;
+      transition: all .2s;
+    }
+    .sector-tab.active {
+      background: rgba(59,130,246,.15);
+      border-color: rgba(59,130,246,.4); color: var(--accent);
+    }
+    .metiers-list {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .metier-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .metier-check input { accent-color: var(--accent); cursor: pointer; }
+    .metier-check span { font-size: .82rem; color: var(--text); transition: color .2s; }
+    .metier-check:hover span { color: var(--white); }
+
+    /* Villes */
+    .villes-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    }
+    .ville-check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .ville-check input { accent-color: var(--accent); cursor: pointer; }
+    .ville-check span { font-size: .78rem; color: var(--text); transition: color .2s; }
+    .ville-check:hover span { color: var(--white); }
+    .villes-actions {
+      display: flex; gap: 8px; margin-top: 10px;
+    }
+    .btn-xs {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
+      padding: 4px 10px; border: 1px solid var(--border);
+      background: none; color: var(--text); cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-xs:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Options */
+    .option-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .option-label { font-size: .8rem; color: var(--text); }
+    .option-input {
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--white); font-family: var(--mono); font-size: .75rem;
+      padding: 4px 8px; width: 60px; text-align: center;
+    }
+    .option-input:focus { outline: none; border-color: var(--accent); }
+
+    /* Launch button */
+    .sidebar-footer { padding: 20px; margin-top: auto; }
+    #btn-scan {
+      width: 100%;
+      font-family: var(--mono); font-size: .8rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      background: var(--accent); color: #fff; border: none;
+      padding: 13px; cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+    #btn-scan:hover:not(:disabled) { opacity: .85; transform: translateY(-1px); }
+    #btn-scan:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+    #btn-stop {
+      display: none; width: 100%; margin-top: 8px;
+      font-family: var(--mono); font-size: .75rem; letter-spacing: .1em;
+      background: none; border: 1px solid rgba(239,68,68,.4);
+      color: var(--red); padding: 10px; cursor: pointer;
+      transition: background .2s;
+    }
+    #btn-stop:hover { background: rgba(239,68,68,.1); }
+
+    /* ── CONTENU PRINCIPAL ─────────────────────────────────────── */
+    .content {
+      flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    /* Barre de progression */
+    .progress-bar-wrap {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: none;
+    }
+    .progress-bar-wrap.visible { display: block; }
+    .progress-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    #progress-label {
+      font-family: var(--mono); font-size: .7rem; color: var(--text);
+    }
+    #progress-pct {
+      font-family: var(--mono); font-size: .7rem; color: var(--accent);
+    }
+    .progress-bar {
+      height: 2px; background: var(--border); overflow: hidden;
+    }
+    #progress-fill {
+      height: 100%; background: var(--accent);
+      transition: width .3s; width: 0%;
+    }
+
+    /* Barre outils résultats */
+    .results-toolbar {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .results-count {
+      font-family: var(--mono); font-size: .7rem; color: var(--text);
+    }
+    .results-count strong { color: var(--white); }
+    .filter-tabs { display: flex; gap: 4px; margin-left: auto; }
+    .filter-tab {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
+      padding: 4px 12px; border: 1px solid var(--border);
+      background: none; color: var(--text); cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,.08); }
+    #btn-export {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .08em;
+      background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.3);
+      color: var(--green); padding: 5px 14px; cursor: pointer;
+      transition: background .2s; display: none;
+    }
+    #btn-export:hover { background: rgba(34,197,94,.25); }
+    #btn-export.visible { display: block; }
+
+    /* Table résultats */
+    .table-wrap { flex: 1; overflow: auto; padding: 0; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: .8rem;
+    }
+    thead tr {
+      background: var(--card);
+      border-bottom: 2px solid var(--border);
+      position: sticky; top: 0; z-index: 10;
+    }
+    th {
+      padding: 12px 16px; text-align: left;
+      font-family: var(--mono); font-size: .62rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text); font-weight: 400;
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    tbody tr:hover { background: rgba(255,255,255,.025); }
+    tbody tr.hidden { display: none; }
+    td { padding: 11px 16px; color: var(--text); vertical-align: middle; }
+    td.nom { color: var(--white); font-weight: 500; max-width: 200px; }
+    td.adresse { max-width: 220px; font-size: .75rem; }
+    td.tel a { color: var(--accent); text-decoration: none; }
+    td.tel a:hover { text-decoration: underline; }
+    td.site a {
+      color: var(--accent); text-decoration: none;
+      font-family: var(--mono); font-size: .72rem;
+      display: block; max-width: 180px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    td.site a:hover { text-decoration: underline; }
+    td.site .no-site {
+      font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.2);
+    }
+    .priority-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
+      padding: 3px 10px; border-radius: 2px; white-space: nowrap;
+    }
+    .priority-1 { background: rgba(239,68,68,.12);  border: 1px solid rgba(239,68,68,.25);  color: #FCA5A5; }
+    .priority-2 { background: rgba(234,179,8,.1);   border: 1px solid rgba(234,179,8,.25);  color: #FDE047; }
+    .priority-3 { background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.2);   color: #86EFAC; }
+    .rating-stars { color: #FDE047; font-size: .75rem; }
+    td.metier {
+      font-family: var(--mono); font-size: .68rem;
+      color: rgba(255,255,255,.35);
+    }
+
+    /* État vide */
+    .empty-state {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+      padding: 60px;
+    }
+    .empty-icon {
+      font-size: 3rem; opacity: .2;
+    }
+    .empty-title {
+      font-family: var(--mono); font-size: .85rem;
+      color: var(--text); letter-spacing: .06em;
+    }
+    .empty-sub { font-size: .8rem; color: rgba(255,255,255,.2); text-align: center; max-width: 360px; line-height: 1.6; }
+
+    /* Guide API Key */
+    .api-guide {
+      background: rgba(59,130,246,.06);
+      border: 1px solid rgba(59,130,246,.15);
+      padding: 14px; margin-top: 12px;
+    }
+    .api-guide-title {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; color: var(--accent); margin-bottom: 10px;
+    }
+    .api-guide ol { padding-left: 16px; }
+    .api-guide li {
+      font-size: .73rem; line-height: 1.7; color: var(--text);
+      margin-bottom: 2px;
+    }
+    .api-guide li a { color: var(--accent); text-decoration: none; }
+    .api-guide li a:hover { text-decoration: underline; }
+
+    /* Map hidden (requis par PlacesService) */
+    #map { display: none; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.2); }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .main { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ─────────────────────────────────────────────────── -->
+  <header>
+    <div class="header-brand">
+      <div class="brand-dot"></div>
+      <span class="brand-name">SCANNER PROSPECTS</span>
+      <span class="brand-version">74 · v1.0 · Duval DVL</span>
+    </div>
+    <div id="status-badge" class="badge-idle">IDLE</div>
+  </header>
+
+  <div class="main">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────────────── -->
+    <div class="sidebar">
+
+      <!-- Clé API -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Clé API Google</div>
+        <div class="api-input-wrap">
+          <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off" />
+          <button class="api-toggle" id="toggle-key" title="Afficher/masquer">👁</button>
+        </div>
+        <p class="api-help" style="margin-top:8px">
+          Clé Google Maps avec <strong style="color:var(--white)">Places API</strong> activée.
+        </p>
+        <div class="api-guide">
+          <div class="api-guide-title">// OBTENIR UNE CLÉ (5 min)</div>
+          <ol>
+            <li>Aller sur <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
+            <li>Créer un projet (ex: "Scanner74")</li>
+            <li>Menu → APIs → Activer <strong style="color:var(--white)">Maps JavaScript API</strong> + <strong style="color:var(--white)">Places API</strong></li>
+            <li>Identifiants → Créer une clé API</li>
+            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong> (~20 scans complets)</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Secteur & Métiers -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Secteur & Métiers</div>
+        <div class="sector-tabs" id="sector-tabs"></div>
+        <div class="metiers-list" id="metiers-list"></div>
+      </div>
+
+      <!-- Villes -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Villes du 74</div>
+        <div class="villes-grid" id="villes-grid"></div>
+        <div class="villes-actions">
+          <button class="btn-xs" id="btn-all-villes">Tout sélectionner</button>
+          <button class="btn-xs" id="btn-none-villes">Tout désélectionner</button>
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Options</div>
+        <div class="option-row">
+          <span class="option-label">Résultats max / recherche</span>
+          <input type="number" class="option-input" id="opt-max" value="10" min="1" max="20" />
+        </div>
+        <div class="option-row">
+          <span class="option-label">Délai entre requêtes (ms)</span>
+          <input type="number" class="option-input" id="opt-delay" value="200" min="100" max="1000" />
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="sidebar-footer">
+        <button id="btn-scan" disabled>▶ Lancer le scan</button>
+        <button id="btn-stop">■ Arrêter</button>
+      </div>
+
+    </div>
+
+    <!-- ── CONTENU ───────────────────────────────────────────────── -->
+    <div class="content">
+
+      <!-- Progression -->
+      <div class="progress-bar-wrap" id="progress-wrap">
+        <div class="progress-header">
+          <span id="progress-label">Initialisation...</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="results-toolbar">
+        <div class="results-count" id="results-count">
+          <strong>0</strong> prospect(s) trouvé(s)
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">Tous</button>
+          <button class="filter-tab" data-filter="1">🔴 Sans site</button>
+          <button class="filter-tab" data-filter="2">🟡 Site faible</button>
+          <button class="filter-tab" data-filter="3">🟢 Site présent</button>
+        </div>
+        <button id="btn-export">↓ Exporter CSV</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap" id="table-wrap">
+
+        <!-- État vide -->
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">Aucun résultat pour l'instant</div>
+          <div class="empty-sub">Renseignez votre clé API, sélectionnez des métiers et des villes, puis lancez le scan.</div>
+        </div>
+
+        <!-- Table résultats -->
+        <table id="results-table" style="display:none">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Priorité</th>
+              <th>Entreprise</th>
+              <th>Adresse</th>
+              <th>Téléphone</th>
+              <th>Site web</th>
+              <th>Note</th>
+              <th>Métier</th>
+              <th>Ville</th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Map caché (requis par PlacesService) -->
+  <div id="map"></div>
+
+  <script>
+  // ── DONNÉES ───────────────────────────────────────────────────────
+
+  const SECTEURS = {
+    "Artisan BTP": [
+      "plombier", "électricien", "maçon", "menuisier",
+      "couvreur", "peintre bâtiment", "charpentier",
+      "carreleur", "chauffagiste", "serrurier"
+    ],
+    "Industrie / Décolletage": [
+      "décolletage", "usinage CNC", "mécanique de précision",
+      "métallurgie", "tôlerie", "fonderie", "traitement de surface"
+    ],
+    "Mécanique / Garage": [
+      "garage automobile", "mécanique auto", "carrosserie",
+      "contrôle technique", "pneumatique", "préparateur automobile"
+    ],
+    "Soin & Esthétique": [
+      "coiffeur", "esthéticienne", "nail art", "salon de beauté",
+      "spa", "masseur", "institut de beauté"
+    ]
+  };
+
+  const VILLES_74 = [
+    "Annecy", "Annemasse", "Thonon-les-Bains", "Bonneville",
+    "Cluses", "Sallanches", "Saint-Julien-en-Genevois",
+    "Évian-les-Bains", "Rumilly", "La Roche-sur-Foron",
+    "Chamonix", "Megève", "Morzine", "Seynod",
+    "Cran-Gevrier", "Gaillard", "Archamps", "Annecy-le-Vieux"
+  ];
+
+  // Domaines considérés comme "sites faibles"
+  const WEAK_DOMAINS = [
+    'facebook.com', 'fb.com', 'pages.facebook.com',
+    'wixsite.com', 'wix.com',
+    'jimdo.com', 'jimdofree.com', 'jimdosite.com',
+    'weebly.com', 'webnode.fr', 'webnode.com',
+    'e-monsite.com', 'site123.me', 'site123.com',
+    'free.fr', 'perso.wanadoo.fr', 'voila.fr',
+    'multimania.com', 'ifrance.com', 'chez.com',
+    'ovh.net', 'pagesjaunes.fr',
+    'wordpress.com', 'blogspot.com',
+    'google.com/maps', 'instagram.com'
+  ];
+
+  function scoreWebsite(url) {
+    if (!url) return { priority: 1, label: '🔴 Sans site web' };
+    const u = url.toLowerCase();
+    const isWeak = WEAK_DOMAINS.some(d => u.includes(d));
+    if (isWeak) return { priority: 2, label: '🟡 Site faible' };
+    return { priority: 3, label: '🟢 Site présent' };
+  }
+
+  // ── STATE ─────────────────────────────────────────────────────────
+
+  let results = [];
+  let isScanning = false;
+  let stopRequested = false;
+  let mapsLoaded = false;
+  let placesService = null;
+  let activeSector = Object.keys(SECTEURS)[0];
+  let currentFilter = 'all';
+
+  // ── INIT UI ───────────────────────────────────────────────────────
+
+  function buildSectorTabs() {
+    const container = document.getElementById('sector-tabs');
+    Object.keys(SECTEURS).forEach((s, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'sector-tab' + (i === 0 ? ' active' : '');
+      btn.textContent = s;
+      btn.addEventListener('click', () => {
+        activeSector = s;
+        document.querySelectorAll('.sector-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        buildMetiersList();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function buildMetiersList() {
+    const container = document.getElementById('metiers-list');
+    container.innerHTML = '';
+    SECTEURS[activeSector].forEach(m => {
+      const label = document.createElement('label');
+      label.className = 'metier-check';
+      label.innerHTML = `<input type="checkbox" value="${m}" checked /><span>${m}</span>`;
+      container.appendChild(label);
+    });
+  }
+
+  function buildVillesList() {
+    const container = document.getElementById('villes-grid');
+    VILLES_74.forEach(v => {
+      const label = document.createElement('label');
+      label.className = 'ville-check';
+      label.innerHTML = `<input type="checkbox" value="${v}" checked /><span>${v}</span>`;
+      container.appendChild(label);
+    });
+  }
+
+  function getSelectedMetiers() {
+    return [...document.querySelectorAll('#metiers-list input:checked')].map(i => i.value);
+  }
+
+  function getSelectedVilles() {
+    return [...document.querySelectorAll('#villes-grid input:checked')].map(i => i.value);
+  }
+
+  // ── GOOGLE MAPS ───────────────────────────────────────────────────
+
+  function loadGoogleMaps(apiKey) {
+    return new Promise((resolve, reject) => {
+      if (mapsLoaded) { resolve(); return; }
+      window.__gmCallback = () => {
+        mapsLoaded = true;
+        const mapDiv = document.getElementById('map');
+        const map = new google.maps.Map(mapDiv, {
+          center: { lat: 45.899247, lng: 6.129384 },
+          zoom: 10
+        });
+        placesService = new google.maps.places.PlacesService(map);
+        resolve();
+      };
+      const existing = document.querySelector('script[data-gm]');
+      if (existing) existing.remove();
+      const script = document.createElement('script');
+      script.setAttribute('data-gm', '1');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=__gmCallback`;
+      script.onerror = () => reject(new Error('Clé API invalide ou Maps API non activée.'));
+      document.head.appendChild(script);
+    });
+  }
+
+  function textSearch(query) {
+    return new Promise((resolve) => {
+      placesService.textSearch(
+        { query: `${query} Haute-Savoie`, region: 'fr' },
+        (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) resolve(results || []);
+          else resolve([]);
+        }
+      );
+    });
+  }
+
+  function getDetails(placeId) {
+    return new Promise((resolve) => {
+      placesService.getDetails(
+        {
+          placeId,
+          fields: ['name', 'website', 'formatted_phone_number', 'formatted_address', 'rating', 'place_id']
+        },
+        (result, status) => {
+          resolve(status === google.maps.places.PlacesServiceStatus.OK ? result : null);
+        }
+      );
+    });
+  }
+
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  // ── SCAN ──────────────────────────────────────────────────────────
+
+  async function runScan() {
+    const apiKey   = document.getElementById('api-key').value.trim();
+    const metiers  = getSelectedMetiers();
+    const villes   = getSelectedVilles();
+    const maxRes   = parseInt(document.getElementById('opt-max').value) || 10;
+    const delay    = parseInt(document.getElementById('opt-delay').value) || 200;
+
+    if (!apiKey)          { alert('Renseignez votre clé API Google.'); return; }
+    if (!metiers.length)  { alert('Sélectionnez au moins un métier.'); return; }
+    if (!villes.length)   { alert('Sélectionnez au moins une ville.'); return; }
+
+    isScanning    = true;
+    stopRequested = false;
+    results       = [];
+
+    document.getElementById('btn-scan').disabled = true;
+    document.getElementById('btn-stop').style.display = 'block';
+    document.getElementById('progress-wrap').classList.add('visible');
+    document.getElementById('results-table').style.display = 'none';
+    document.getElementById('empty-state').style.display = 'none';
+    document.getElementById('btn-export').classList.remove('visible');
+    document.getElementById('results-tbody').innerHTML = '';
+    setStatus('running', 'SCANNING');
+
+    const totalOps = metiers.length * villes.length;
+    let doneOps = 0;
+
+    try {
+      setProgress('Chargement de l\'API Google Maps...', 0);
+      await loadGoogleMaps(apiKey);
+
+      for (const metier of metiers) {
+        for (const ville of villes) {
+          if (stopRequested) break;
+
+          const query = `${metier} ${ville}`;
+          setProgress(`Recherche : ${metier} à ${ville}`, Math.round(doneOps / totalOps * 100));
+
+          let places = [];
+          try { places = await textSearch(query); } catch(e) { /* skip */ }
+          await sleep(delay);
+
+          const limited = places.slice(0, maxRes);
+
+          for (const place of limited) {
+            if (stopRequested) break;
+
+            setProgress(`Vérification : ${place.name}...`, Math.round(doneOps / totalOps * 100));
+            let details = null;
+            try { details = await getDetails(place.place_id); } catch(e) { /* skip */ }
+            await sleep(Math.round(delay * 0.6));
+
+            if (details) {
+              const score = scoreWebsite(details.website);
+              const row = {
+                nom:      details.name || place.name,
+                adresse:  details.formatted_address || '',
+                ville:    ville,
+                tel:      details.formatted_phone_number || '',
+                site:     details.website || '',
+                note:     details.rating || '',
+                priorite: score.priority,
+                label:    score.label,
+                metier:   metier,
+                secteur:  activeSector
+              };
+              results.push(row);
+              addRow(row, results.length);
+              updateCount();
+            }
+          }
+
+          doneOps++;
+        }
+        if (stopRequested) break;
+      }
+
+    } catch (err) {
+      setStatus('error', 'ERREUR');
+      alert('Erreur : ' + err.message);
+    } finally {
+      isScanning = false;
+      document.getElementById('btn-scan').disabled = false;
+      document.getElementById('btn-stop').style.display = 'none';
+      document.getElementById('progress-wrap').classList.remove('visible');
+      if (!stopRequested) setStatus('done', 'TERMINÉ');
+      else                setStatus('idle', 'ARRÊTÉ');
+      if (results.length > 0) document.getElementById('btn-export').classList.add('visible');
+    }
+  }
+
+  // ── TABLE ─────────────────────────────────────────────────────────
+
+  function addRow(row, index) {
+    const tbody = document.getElementById('results-tbody');
+    document.getElementById('results-table').style.display = 'table';
+    document.getElementById('empty-state').style.display = 'none';
+
+    const priorityClass = `priority-${row.priorite}`;
+    const stars = row.note ? '★'.repeat(Math.round(row.note)) + ` (${row.note})` : '—';
+    const siteCell = row.site
+      ? `<a href="${row.site}" target="_blank" title="${row.site}">${row.site.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>`
+      : `<span class="no-site">aucun site</span>`;
+    const telCell = row.tel
+      ? `<a href="tel:${row.tel.replace(/\s/g,'')}">${row.tel}</a>`
+      : '—';
+
+    const tr = document.createElement('tr');
+    tr.dataset.priority = row.priorite;
+    tr.innerHTML = `
+      <td style="color:rgba(255,255,255,.2);font-family:var(--mono);font-size:.65rem">${String(index).padStart(3,'0')}</td>
+      <td><span class="priority-badge ${priorityClass}">${row.label}</span></td>
+      <td class="nom">${row.nom}</td>
+      <td class="adresse">${row.adresse}</td>
+      <td class="tel">${telCell}</td>
+      <td class="site">${siteCell}</td>
+      <td class="rating-stars">${stars}</td>
+      <td class="metier">${row.metier}</td>
+      <td class="metier">${row.ville}</td>`;
+
+    // Appliquer filtre actif
+    if (currentFilter !== 'all' && String(row.priorite) !== currentFilter) {
+      tr.classList.add('hidden');
+    }
+    tbody.appendChild(tr);
+  }
+
+  function updateCount() {
+    const visible = [...document.querySelectorAll('#results-tbody tr:not(.hidden)')].length;
+    document.getElementById('results-count').innerHTML =
+      `<strong>${results.length}</strong> prospect(s) total · <strong>${visible}</strong> affiché(s)`;
+  }
+
+  function applyFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.filter === filter);
+    });
+    document.querySelectorAll('#results-tbody tr').forEach(tr => {
+      if (filter === 'all' || tr.dataset.priority === filter) {
+        tr.classList.remove('hidden');
+      } else {
+        tr.classList.add('hidden');
+      }
+    });
+    updateCount();
+  }
+
+  // ── EXPORT CSV ────────────────────────────────────────────────────
+
+  function exportCSV() {
+    if (!results.length) return;
+    const headers = ['Priorité','Entreprise','Adresse','Ville','Téléphone','Site web','Note Google','Métier','Secteur'];
+    const rows = results.map(r => [
+      r.label, r.nom, r.adresse, r.ville, r.tel,
+      r.site, r.note, r.metier, r.secteur
+    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(','));
+
+    const csv = [headers.join(','), ...rows].join('\n');
+    const bom = '\uFEFF'; // UTF-8 BOM pour Excel
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `prospects-74_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── HELPERS ───────────────────────────────────────────────────────
+
+  function setStatus(type, text) {
+    const badge = document.getElementById('status-badge');
+    badge.className = `badge-${type}`;
+    badge.textContent = text;
+  }
+
+  function setProgress(label, pct) {
+    document.getElementById('progress-label').textContent = label;
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+  }
+
+  // ── EVENTS ────────────────────────────────────────────────────────
+
+  document.getElementById('btn-scan').addEventListener('click', runScan);
+  document.getElementById('btn-stop').addEventListener('click', () => { stopRequested = true; });
+  document.getElementById('btn-export').addEventListener('click', exportCSV);
+
+  document.getElementById('toggle-key').addEventListener('click', () => {
+    const input = document.getElementById('api-key');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+
+  document.getElementById('btn-all-villes').addEventListener('click', () => {
+    document.querySelectorAll('#villes-grid input').forEach(i => i.checked = true);
+  });
+  document.getElementById('btn-none-villes').addEventListener('click', () => {
+    document.querySelectorAll('#villes-grid input').forEach(i => i.checked = false);
+  });
+
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+  });
+
+  // Activer le bouton scan si clé API renseignée
+  document.getElementById('api-key').addEventListener('input', (e) => {
+    document.getElementById('btn-scan').disabled = e.target.value.trim().length < 10;
+  });
+
+  // ── DÉMARRAGE ─────────────────────────────────────────────────────
+
+  buildSectorTabs();
+  buildMetiersList();
+  buildVillesList();
+
+  </script>
+</body>
+</html>
