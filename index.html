@@ -6,861 +6,727 @@
   <title>Scanner Prospects 74 — Duval DVL</title>
   <style>
     :root {
-      --bg:       #0D0F12;
-      --card:     #161A20;
-      --border:   rgba(255,255,255,0.07);
-      --accent:   #3B82F6;
-      --green:    #22C55E;
-      --yellow:   #EAB308;
-      --red:      #EF4444;
-      --text:     #94A3B8;
-      --white:    #E2E8F0;
-      --mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-      --sans:     -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --bg:      #0D0F12;
+      --card:    #161A20;
+      --card2:   #1C2128;
+      --border:  rgba(255,255,255,0.07);
+      --accent:  #3B82F6;
+      --green:   #22C55E;
+      --yellow:  #EAB308;
+      --red:     #EF4444;
+      --text:    #94A3B8;
+      --white:   #E2E8F0;
+      --mono:    'JetBrains Mono','Fira Code','Courier New',monospace;
+      --sans:    -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      display: flex; flex-direction: column;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 
-    /* ── HEADER ────────────────────────────────────────────────── */
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
-    }
-    .header-brand {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .brand-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--accent);
-    }
-    .brand-name {
-      font-family: var(--mono); font-size: .8rem;
-      color: var(--white); letter-spacing: .08em;
-    }
-    .brand-version {
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--text); letter-spacing: .06em; margin-left: 8px;
-    }
-    #status-badge {
-      font-family: var(--mono); font-size: .65rem;
-      letter-spacing: .1em; padding: 4px 12px;
-      border-radius: 2px; border: 1px solid;
-    }
-    .badge-idle    { color: var(--text);   border-color: var(--border); }
-    .badge-running { color: var(--yellow); border-color: rgba(234,179,8,.3); }
-    .badge-done    { color: var(--green);  border-color: rgba(34,197,94,.3); }
-    .badge-error   { color: var(--red);    border-color: rgba(239,68,68,.3); }
+    /* ── HEADER ──────────────────────────────────────────────────── */
+    header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px;flex-wrap:wrap}
+    .header-left{display:flex;align-items:center;gap:12px}
+    .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .brand-name{font-family:var(--mono);font-size:.8rem;color:var(--white);letter-spacing:.08em}
+    .brand-version{font-family:var(--mono);font-size:.6rem;color:var(--text);letter-spacing:.06em;margin-left:6px}
+    .header-stats{display:flex;gap:20px;align-items:center}
+    .hstat{font-family:var(--mono);font-size:.65rem;color:var(--text);letter-spacing:.06em}
+    .hstat strong{color:var(--white)}
+    #status-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;padding:4px 12px;border-radius:2px;border:1px solid}
+    .badge-idle{color:var(--text);border-color:var(--border)}
+    .badge-running{color:var(--yellow);border-color:rgba(234,179,8,.3)}
+    .badge-done{color:var(--green);border-color:rgba(34,197,94,.3)}
+    .badge-error{color:var(--red);border-color:rgba(239,68,68,.3)}
 
-    /* ── LAYOUT ────────────────────────────────────────────────── */
-    .main {
-      flex: 1; display: flex; overflow: hidden;
-    }
+    /* ── LAYOUT ──────────────────────────────────────────────────── */
+    .main{flex:1;display:flex;overflow:hidden}
 
-    /* ── SIDEBAR ───────────────────────────────────────────────── */
-    .sidebar {
-      width: 300px; flex-shrink: 0;
-      background: var(--card);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      overflow-y: auto;
-    }
-    .sidebar-section {
-      padding: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-    .sidebar-label {
-      font-family: var(--mono); font-size: .6rem;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 14px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .sidebar-label::before { content: '//'; opacity: .5; }
+    /* ── SIDEBAR ─────────────────────────────────────────────────── */
+    .sidebar{width:280px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+    .sidebar-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+    .sidebar-tab{flex:1;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:10px;background:none;border:none;color:var(--text);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+    .sidebar-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .sidebar-tab:hover:not(.active){color:var(--white)}
+    .tab-pane{display:none;flex-direction:column;overflow-y:auto;flex:1}
+    .tab-pane.active{display:flex}
+    .sidebar-section{padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+    .s-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .s-label::before{content:'//';opacity:.4}
 
-    /* API Key */
-    .api-input-wrap { position: relative; }
-    .api-input-wrap input {
-      width: 100%; background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--white); font-family: var(--mono); font-size: .75rem;
-      padding: 10px 40px 10px 12px; letter-spacing: .04em;
-      transition: border-color .2s;
-    }
-    .api-input-wrap input:focus { outline: none; border-color: var(--accent); }
-    .api-toggle {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: var(--text); cursor: pointer;
-      font-size: .85rem; padding: 2px;
-    }
-    .api-toggle:hover { color: var(--white); }
-    .api-help {
-      margin-top: 8px; font-size: .72rem; line-height: 1.5; color: var(--text);
-    }
-    .api-help a { color: var(--accent); text-decoration: none; }
-    .api-help a:hover { text-decoration: underline; }
+    .api-wrap{position:relative}
+    .api-wrap input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.72rem;padding:9px 36px 9px 10px;transition:border-color .2s}
+    .api-wrap input:focus{outline:none;border-color:var(--accent)}
+    .api-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text);cursor:pointer;font-size:.8rem}
+    .api-help{font-size:.7rem;line-height:1.6;color:var(--text);margin-top:8px}
+    .api-help a{color:var(--accent);text-decoration:none}
+    .api-guide{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);padding:12px;margin-top:10px}
+    .api-guide-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--accent);margin-bottom:8px}
+    .api-guide ol{padding-left:14px}
+    .api-guide li{font-size:.7rem;line-height:1.7;color:var(--text)}
+    .api-guide li a{color:var(--accent);text-decoration:none}
 
-    /* Secteurs */
-    .sector-tabs {
-      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
-    }
-    .sector-tab {
-      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
-      padding: 5px 12px; border: 1px solid var(--border);
-      background: none; color: var(--text); cursor: pointer;
-      transition: all .2s;
-    }
-    .sector-tab.active {
-      background: rgba(59,130,246,.15);
-      border-color: rgba(59,130,246,.4); color: var(--accent);
-    }
-    .metiers-list {
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .metier-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .metier-check input { accent-color: var(--accent); cursor: pointer; }
-    .metier-check span { font-size: .82rem; color: var(--text); transition: color .2s; }
-    .metier-check:hover span { color: var(--white); }
+    .sector-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+    .sector-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
+    .sector-tab.active{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.4);color:var(--accent)}
+    .metiers-list{display:flex;flex-direction:column;gap:5px}
+    .mcheck{display:flex;align-items:center;gap:7px;cursor:pointer}
+    .mcheck input{accent-color:var(--accent);cursor:pointer}
+    .mcheck span{font-size:.78rem;color:var(--text);transition:color .2s}
+    .mcheck:hover span{color:var(--white)}
 
-    /* Villes */
-    .villes-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
-    }
-    .ville-check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-    .ville-check input { accent-color: var(--accent); cursor: pointer; }
-    .ville-check span { font-size: .78rem; color: var(--text); transition: color .2s; }
-    .ville-check:hover span { color: var(--white); }
-    .villes-actions {
-      display: flex; gap: 8px; margin-top: 10px;
-    }
-    .btn-xs {
-      font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
-      padding: 4px 10px; border: 1px solid var(--border);
-      background: none; color: var(--text); cursor: pointer;
-      transition: all .2s;
-    }
-    .btn-xs:hover { border-color: var(--accent); color: var(--accent); }
+    .villes-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+    .vcheck{display:flex;align-items:center;gap:5px;cursor:pointer}
+    .vcheck input{accent-color:var(--accent);cursor:pointer}
+    .vcheck span{font-size:.73rem;color:var(--text);transition:color .2s}
+    .villes-actions{display:flex;gap:6px;margin-top:8px}
+    .btn-xs{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;padding:3px 8px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
+    .btn-xs:hover{border-color:var(--accent);color:var(--accent)}
 
-    /* Options */
-    .option-row {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .option-label { font-size: .8rem; color: var(--text); }
-    .option-input {
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--white); font-family: var(--mono); font-size: .75rem;
-      padding: 4px 8px; width: 60px; text-align: center;
-    }
-    .option-input:focus { outline: none; border-color: var(--accent); }
+    .opt-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .opt-label{font-size:.75rem;color:var(--text)}
+    .opt-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.72rem;padding:4px 7px;width:58px;text-align:center}
+    .opt-input:focus{outline:none;border-color:var(--accent)}
 
-    /* Launch button */
-    .sidebar-footer { padding: 20px; margin-top: auto; }
-    #btn-scan {
-      width: 100%;
-      font-family: var(--mono); font-size: .8rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      background: var(--accent); color: #fff; border: none;
-      padding: 13px; cursor: pointer;
-      transition: opacity .2s, transform .2s;
-    }
-    #btn-scan:hover:not(:disabled) { opacity: .85; transform: translateY(-1px); }
-    #btn-scan:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    #btn-stop {
-      display: none; width: 100%; margin-top: 8px;
-      font-family: var(--mono); font-size: .75rem; letter-spacing: .1em;
-      background: none; border: 1px solid rgba(239,68,68,.4);
-      color: var(--red); padding: 10px; cursor: pointer;
-      transition: background .2s;
-    }
-    #btn-stop:hover { background: rgba(239,68,68,.1); }
+    .sidebar-footer{padding:16px 18px;border-top:1px solid var(--border);flex-shrink:0}
+    #btn-scan{width:100%;font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#fff;border:none;padding:12px;cursor:pointer;transition:opacity .2s,transform .2s}
+    #btn-scan:hover:not(:disabled){opacity:.85;transform:translateY(-1px)}
+    #btn-scan:disabled{opacity:.35;cursor:not-allowed;transform:none}
+    #btn-stop{display:none;width:100%;margin-top:7px;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;background:none;border:1px solid rgba(239,68,68,.4);color:var(--red);padding:9px;cursor:pointer;transition:background .2s}
+    #btn-stop:hover{background:rgba(239,68,68,.1)}
 
-    /* ── CONTENU PRINCIPAL ─────────────────────────────────────── */
-    .content {
-      flex: 1; display: flex; flex-direction: column; overflow: hidden;
-    }
+    /* mémoire */
+    .mem-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .mem-stat{background:var(--bg);border:1px solid var(--border);padding:10px;text-align:center}
+    .mem-stat-val{font-family:var(--mono);font-size:1.3rem;color:var(--white);line-height:1}
+    .mem-stat-lbl{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:var(--text);margin-top:3px}
+    .mem-btn{width:100%;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:9px;cursor:pointer;border:1px solid;margin-bottom:7px;transition:background .2s}
+    #btn-show-mem{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:var(--accent)}
+    #btn-show-mem:hover{background:rgba(59,130,246,.18)}
+    #btn-export-mem{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:var(--green)}
+    #btn-export-mem:hover{background:rgba(34,197,94,.16)}
+    #btn-clear-mem{background:none;border-color:rgba(239,68,68,.25);color:var(--red)}
+    #btn-clear-mem:hover{background:rgba(239,68,68,.08)}
+    .mem-info{font-size:.7rem;line-height:1.75;color:var(--text)}
+    .mem-info strong{color:var(--white)}
 
-    /* Barre de progression */
-    .progress-bar-wrap {
-      background: var(--card); border-bottom: 1px solid var(--border);
-      padding: 12px 24px;
-      display: none;
-    }
-    .progress-bar-wrap.visible { display: block; }
-    .progress-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 8px;
-    }
-    #progress-label {
-      font-family: var(--mono); font-size: .7rem; color: var(--text);
-    }
-    #progress-pct {
-      font-family: var(--mono); font-size: .7rem; color: var(--accent);
-    }
-    .progress-bar {
-      height: 2px; background: var(--border); overflow: hidden;
-    }
-    #progress-fill {
-      height: 100%; background: var(--accent);
-      transition: width .3s; width: 0%;
-    }
+    /* ── CONTENT ─────────────────────────────────────────────────── */
+    .content{flex:1;display:flex;flex-direction:column;overflow:hidden}
 
-    /* Barre outils résultats */
-    .results-toolbar {
-      background: var(--card); border-bottom: 1px solid var(--border);
-      padding: 10px 24px;
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-    }
-    .results-count {
-      font-family: var(--mono); font-size: .7rem; color: var(--text);
-    }
-    .results-count strong { color: var(--white); }
-    .filter-tabs { display: flex; gap: 4px; margin-left: auto; }
-    .filter-tab {
-      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
-      padding: 4px 12px; border: 1px solid var(--border);
-      background: none; color: var(--text); cursor: pointer;
-      transition: all .2s;
-    }
-    .filter-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,.08); }
-    #btn-export {
-      font-family: var(--mono); font-size: .7rem; letter-spacing: .08em;
-      background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.3);
-      color: var(--green); padding: 5px 14px; cursor: pointer;
-      transition: background .2s; display: none;
-    }
-    #btn-export:hover { background: rgba(34,197,94,.25); }
-    #btn-export.visible { display: block; }
+    .progress-wrap{background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:none;flex-shrink:0}
+    .progress-wrap.visible{display:block}
+    .progress-head{display:flex;justify-content:space-between;margin-bottom:6px}
+    #progress-label{font-family:var(--mono);font-size:.68rem;color:var(--text)}
+    #progress-pct{font-family:var(--mono);font-size:.68rem;color:var(--accent)}
+    .progress-bar{height:2px;background:var(--border);overflow:hidden}
+    #progress-fill{height:100%;background:var(--accent);transition:width .3s;width:0%}
 
-    /* Table résultats */
-    .table-wrap { flex: 1; overflow: auto; padding: 0; }
-    table {
-      width: 100%; border-collapse: collapse;
-      font-size: .8rem;
-    }
-    thead tr {
-      background: var(--card);
-      border-bottom: 2px solid var(--border);
-      position: sticky; top: 0; z-index: 10;
-    }
-    th {
-      padding: 12px 16px; text-align: left;
-      font-family: var(--mono); font-size: .62rem;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--text); font-weight: 400;
-      white-space: nowrap;
-    }
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background .15s;
-    }
-    tbody tr:hover { background: rgba(255,255,255,.025); }
-    tbody tr.hidden { display: none; }
-    td { padding: 11px 16px; color: var(--text); vertical-align: middle; }
-    td.nom { color: var(--white); font-weight: 500; max-width: 200px; }
-    td.adresse { max-width: 220px; font-size: .75rem; }
-    td.tel a { color: var(--accent); text-decoration: none; }
-    td.tel a:hover { text-decoration: underline; }
-    td.site a {
-      color: var(--accent); text-decoration: none;
-      font-family: var(--mono); font-size: .72rem;
-      display: block; max-width: 180px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    td.site a:hover { text-decoration: underline; }
-    td.site .no-site {
-      font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.2);
-    }
-    .priority-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
-      padding: 3px 10px; border-radius: 2px; white-space: nowrap;
-    }
-    .priority-1 { background: rgba(239,68,68,.12);  border: 1px solid rgba(239,68,68,.25);  color: #FCA5A5; }
-    .priority-2 { background: rgba(234,179,8,.1);   border: 1px solid rgba(234,179,8,.25);  color: #FDE047; }
-    .priority-3 { background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.2);   color: #86EFAC; }
-    .rating-stars { color: #FDE047; font-size: .75rem; }
-    td.metier {
-      font-family: var(--mono); font-size: .68rem;
-      color: rgba(255,255,255,.35);
-    }
+    .toolbar{background:var(--card);border-bottom:1px solid var(--border);padding:9px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0}
+    .results-count{font-family:var(--mono);font-size:.65rem;color:var(--text)}
+    .results-count strong{color:var(--white)}
+    .filter-tabs{display:flex;gap:3px;flex-wrap:wrap}
+    .filter-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
+    .filter-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,.08)}
+    .toolbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+    .search-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.68rem;padding:4px 10px;width:150px;transition:border-color .2s}
+    .search-input:focus{outline:none;border-color:var(--accent)}
+    .search-input::placeholder{color:rgba(255,255,255,.2)}
+    #btn-export{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:4px 12px;cursor:pointer;transition:background .2s;display:none}
+    #btn-export:hover{background:rgba(34,197,94,.22)}
+    #btn-export.visible{display:block}
 
-    /* État vide */
-    .empty-state {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 16px;
-      padding: 60px;
-    }
-    .empty-icon {
-      font-size: 3rem; opacity: .2;
-    }
-    .empty-title {
-      font-family: var(--mono); font-size: .85rem;
-      color: var(--text); letter-spacing: .06em;
-    }
-    .empty-sub { font-size: .8rem; color: rgba(255,255,255,.2); text-align: center; max-width: 360px; line-height: 1.6; }
+    /* table */
+    .table-wrap{flex:1;overflow:auto}
+    table{width:100%;border-collapse:collapse;font-size:.78rem}
+    thead tr{background:var(--card);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:10}
+    th{padding:10px 12px;text-align:left;font-family:var(--mono);font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-weight:400;white-space:nowrap}
+    tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+    tbody tr:hover{background:rgba(255,255,255,.02)}
+    tbody tr.hidden{display:none}
+    td{padding:9px 12px;color:var(--text);vertical-align:middle}
+    td.t-nom{color:var(--white);font-weight:500;max-width:170px}
+    .mem-badge{font-family:var(--mono);font-size:.52rem;color:var(--yellow);border:1px solid rgba(234,179,8,.3);padding:1px 5px;margin-left:5px;vertical-align:middle}
+    td.t-tel a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.7rem}
+    td.t-tel a:hover{text-decoration:underline}
+    td.t-site a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.67rem;max-width:150px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .no-site{font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.18)}
+    .stars{color:#FDE047;font-size:.68rem}
+    td.t-meta{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.28)}
 
-    /* Guide API Key */
-    .api-guide {
-      background: rgba(59,130,246,.06);
-      border: 1px solid rgba(59,130,246,.15);
-      padding: 14px; margin-top: 12px;
-    }
-    .api-guide-title {
-      font-family: var(--mono); font-size: .65rem;
-      letter-spacing: .1em; color: var(--accent); margin-bottom: 10px;
-    }
-    .api-guide ol { padding-left: 16px; }
-    .api-guide li {
-      font-size: .73rem; line-height: 1.7; color: var(--text);
-      margin-bottom: 2px;
-    }
-    .api-guide li a { color: var(--accent); text-decoration: none; }
-    .api-guide li a:hover { text-decoration: underline; }
+    .pri{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;padding:2px 7px;border-radius:2px;white-space:nowrap}
+    .pri-1{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#FCA5A5}
+    .pri-2{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.22);color:#FDE047}
+    .pri-3{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);color:#86EFAC}
 
-    /* Map hidden (requis par PlacesService) */
-    #map { display: none; }
+    /* statut */
+    .statut-wrap{min-width:130px}
+    .statut-select{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.6rem;padding:4px 6px;cursor:pointer;width:100%;transition:border-color .2s}
+    .statut-select:focus{outline:none}
+    .statut-select option{background:var(--card)}
+    .s-nouveau    {border-color:rgba(255,255,255,.12)!important;color:var(--text)!important}
+    .s-a-contacter{border-color:rgba(59,130,246,.45)!important;color:#93C5FD!important}
+    .s-site-cree  {border-color:rgba(168,85,247,.45)!important;color:#D8B4FE!important}
+    .s-mail-envoye{border-color:rgba(234,179,8,.45)!important;color:#FDE047!important}
+    .s-a-relancer {border-color:rgba(249,115,22,.45)!important;color:#FED7AA!important}
+    .s-signe      {border-color:rgba(34,197,94,.45)!important;color:#86EFAC!important}
+    .s-archive    {border-color:rgba(255,255,255,.08)!important;color:rgba(255,255,255,.22)!important}
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.2); }
+    /* email */
+    .email-wrap{min-width:155px}
+    .email-display{font-family:var(--mono);font-size:.63rem;cursor:pointer;padding:4px 7px;border:1px solid transparent;border-radius:2px;display:flex;align-items:center;gap:5px;transition:border-color .2s}
+    .email-display:hover{border-color:var(--border)}
+    .email-hint{font-size:.52rem;color:rgba(255,255,255,.18);opacity:0;transition:opacity .2s}
+    .email-display:hover .email-hint{opacity:1}
+    .email-val.has-email{color:var(--accent)}
+    .email-val.no-email{color:rgba(255,255,255,.2)}
+    .email-input-field{background:var(--bg);border:1px solid var(--accent);color:var(--white);font-family:var(--mono);font-size:.63rem;padding:4px 7px;width:100%;display:none}
+    .email-input-field:focus{outline:none}
 
-    @media (max-width: 768px) {
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
-      .main { flex-direction: column; }
-    }
+    /* notes */
+    .notes-wrap{min-width:140px}
+    .notes-display{font-size:.7rem;cursor:pointer;padding:4px 7px;border:1px solid transparent;border-radius:2px;transition:border-color .2s;max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .notes-display:hover{border-color:var(--border)}
+    .notes-display.has-note{color:var(--text)}
+    .notes-display.no-note{color:rgba(255,255,255,.18);font-size:.63rem}
+    .notes-input{background:var(--bg);border:1px solid var(--accent);color:var(--white);font-family:var(--sans);font-size:.7rem;padding:4px 7px;width:100%;display:none;resize:none}
+    .notes-input:focus{outline:none}
+
+    .date-col{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.28);white-space:nowrap}
+
+    /* empty */
+    .empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:60px}
+    .empty-icon{font-size:2.5rem;opacity:.2}
+    .empty-title{font-family:var(--mono);font-size:.8rem;color:var(--text);letter-spacing:.06em}
+    .empty-sub{font-size:.75rem;color:rgba(255,255,255,.2);text-align:center;max-width:360px;line-height:1.75}
+
+    /* toast */
+    .toast{position:fixed;bottom:20px;right:20px;background:var(--card2);border:1px solid var(--border);padding:10px 18px;font-family:var(--mono);font-size:.68rem;color:var(--white);letter-spacing:.06em;z-index:1000;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    #map{display:none}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
   </style>
 </head>
 <body>
 
-  <!-- ── HEADER ─────────────────────────────────────────────────── -->
-  <header>
-    <div class="header-brand">
-      <div class="brand-dot"></div>
-      <span class="brand-name">SCANNER PROSPECTS</span>
-      <span class="brand-version">74 · v1.0 · Duval DVL</span>
+<header>
+  <div class="header-left">
+    <div class="brand-dot"></div>
+    <span class="brand-name">SCANNER PROSPECTS</span>
+    <span class="brand-version">74 · v2.0 · Duval DVL</span>
+  </div>
+  <div class="header-stats">
+    <div class="hstat">Mémoire : <strong id="stat-mem">0</strong></div>
+    <div class="hstat">Sans site : <strong id="stat-nossite">0</strong></div>
+    <div class="hstat">Signés : <strong id="stat-signes">0</strong></div>
+  </div>
+  <div id="status-badge" class="badge-idle">IDLE</div>
+</header>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab active" data-tab="scan">Scan</button>
+      <button class="sidebar-tab" data-tab="memoire">Mémoire</button>
     </div>
-    <div id="status-badge" class="badge-idle">IDLE</div>
-  </header>
 
-  <div class="main">
-
-    <!-- ── SIDEBAR ──────────────────────────────────────────────── -->
-    <div class="sidebar">
-
-      <!-- Clé API -->
+    <!-- TAB SCAN -->
+    <div class="tab-pane active" id="tab-scan">
       <div class="sidebar-section">
-        <div class="sidebar-label">Clé API Google</div>
-        <div class="api-input-wrap">
-          <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off" />
-          <button class="api-toggle" id="toggle-key" title="Afficher/masquer">👁</button>
+        <div class="s-label">Clé API Google</div>
+        <div class="api-wrap">
+          <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off"/>
+          <button class="api-eye" id="toggle-key">👁</button>
         </div>
-        <p class="api-help" style="margin-top:8px">
-          Clé Google Maps avec <strong style="color:var(--white)">Places API</strong> activée.
-        </p>
+        <p class="api-help">Clé avec <strong style="color:var(--white)">Maps JS API</strong> + <strong style="color:var(--white)">Places API</strong> activées.</p>
         <div class="api-guide">
           <div class="api-guide-title">// OBTENIR UNE CLÉ (5 min)</div>
           <ol>
-            <li>Aller sur <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
-            <li>Créer un projet (ex: "Scanner74")</li>
-            <li>Menu → APIs → Activer <strong style="color:var(--white)">Maps JavaScript API</strong> + <strong style="color:var(--white)">Places API</strong></li>
+            <li><a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
+            <li>Nouveau projet → Activer Maps JS API + Places API</li>
             <li>Identifiants → Créer une clé API</li>
-            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong> (~20 scans complets)</li>
+            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong></li>
           </ol>
         </div>
       </div>
 
-      <!-- Secteur & Métiers -->
       <div class="sidebar-section">
-        <div class="sidebar-label">Secteur & Métiers</div>
+        <div class="s-label">Secteur & Métiers</div>
         <div class="sector-tabs" id="sector-tabs"></div>
         <div class="metiers-list" id="metiers-list"></div>
       </div>
 
-      <!-- Villes -->
       <div class="sidebar-section">
-        <div class="sidebar-label">Villes du 74</div>
+        <div class="s-label">Villes du 74</div>
         <div class="villes-grid" id="villes-grid"></div>
         <div class="villes-actions">
-          <button class="btn-xs" id="btn-all-villes">Tout sélectionner</button>
-          <button class="btn-xs" id="btn-none-villes">Tout désélectionner</button>
+          <button class="btn-xs" id="btn-all-v">Tout</button>
+          <button class="btn-xs" id="btn-none-v">Aucun</button>
         </div>
       </div>
 
-      <!-- Options -->
       <div class="sidebar-section">
-        <div class="sidebar-label">Options</div>
-        <div class="option-row">
-          <span class="option-label">Résultats max / recherche</span>
-          <input type="number" class="option-input" id="opt-max" value="10" min="1" max="20" />
+        <div class="s-label">Options</div>
+        <div class="opt-row">
+          <span class="opt-label">Résultats max / recherche</span>
+          <input type="number" class="opt-input" id="opt-max" value="10" min="1" max="20"/>
         </div>
-        <div class="option-row">
-          <span class="option-label">Délai entre requêtes (ms)</span>
-          <input type="number" class="option-input" id="opt-delay" value="200" min="100" max="1000" />
+        <div class="opt-row">
+          <span class="opt-label">Délai entre requêtes (ms)</span>
+          <input type="number" class="opt-input" id="opt-delay" value="200" min="100" max="1000"/>
         </div>
       </div>
 
-      <!-- Boutons -->
       <div class="sidebar-footer">
         <button id="btn-scan" disabled>▶ Lancer le scan</button>
         <button id="btn-stop">■ Arrêter</button>
       </div>
-
     </div>
 
-    <!-- ── CONTENU ───────────────────────────────────────────────── -->
-    <div class="content">
-
-      <!-- Progression -->
-      <div class="progress-bar-wrap" id="progress-wrap">
-        <div class="progress-header">
-          <span id="progress-label">Initialisation...</span>
-          <span id="progress-pct">0%</span>
+    <!-- TAB MÉMOIRE -->
+    <div class="tab-pane" id="tab-memoire">
+      <div class="sidebar-section">
+        <div class="s-label">Statistiques</div>
+        <div class="mem-stats">
+          <div class="mem-stat"><div class="mem-stat-val" id="ms-total">0</div><div class="mem-stat-lbl">Total</div></div>
+          <div class="mem-stat"><div class="mem-stat-val" id="ms-nossite" style="color:var(--red)">0</div><div class="mem-stat-lbl">Sans site</div></div>
+          <div class="mem-stat"><div class="mem-stat-val" id="ms-envoyes" style="color:var(--yellow)">0</div><div class="mem-stat-lbl">Mails envoyés</div></div>
+          <div class="mem-stat"><div class="mem-stat-val" id="ms-signes" style="color:var(--green)">0</div><div class="mem-stat-lbl">Signés</div></div>
         </div>
-        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <button class="mem-btn" id="btn-show-mem">📋 Afficher tous les prospects</button>
+        <button class="mem-btn" id="btn-export-mem">↓ Exporter tout en CSV</button>
+        <button class="mem-btn" id="btn-clear-mem">🗑 Effacer la mémoire</button>
       </div>
-
-      <!-- Toolbar -->
-      <div class="results-toolbar">
-        <div class="results-count" id="results-count">
-          <strong>0</strong> prospect(s) trouvé(s)
-        </div>
-        <div class="filter-tabs">
-          <button class="filter-tab active" data-filter="all">Tous</button>
-          <button class="filter-tab" data-filter="1">🔴 Sans site</button>
-          <button class="filter-tab" data-filter="2">🟡 Site faible</button>
-          <button class="filter-tab" data-filter="3">🟢 Site présent</button>
-        </div>
-        <button id="btn-export">↓ Exporter CSV</button>
-      </div>
-
-      <!-- Table -->
-      <div class="table-wrap" id="table-wrap">
-
-        <!-- État vide -->
-        <div class="empty-state" id="empty-state">
-          <div class="empty-icon">🔍</div>
-          <div class="empty-title">Aucun résultat pour l'instant</div>
-          <div class="empty-sub">Renseignez votre clé API, sélectionnez des métiers et des villes, puis lancez le scan.</div>
-        </div>
-
-        <!-- Table résultats -->
-        <table id="results-table" style="display:none">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Priorité</th>
-              <th>Entreprise</th>
-              <th>Adresse</th>
-              <th>Téléphone</th>
-              <th>Site web</th>
-              <th>Note</th>
-              <th>Métier</th>
-              <th>Ville</th>
-            </tr>
-          </thead>
-          <tbody id="results-tbody"></tbody>
-        </table>
-
+      <div class="sidebar-section">
+        <div class="s-label">Comment ça marche</div>
+        <p class="mem-info">
+          Chaque prospect scanné est <strong>mémorisé automatiquement</strong> dans votre navigateur.<br/><br/>
+          Lors d'un prochain scan, si un prospect est déjà connu, il s'affiche <strong>sans consommer de crédit API</strong>.<br/><br/>
+          Ses <strong>emails, statuts et notes</strong> sont restaurés automatiquement.<br/><br/>
+          ⚠️ Mémoire liée à ce navigateur. Exportez régulièrement en CSV.
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- Map caché (requis par PlacesService) -->
-  <div id="map"></div>
+  <div class="content">
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-head">
+        <span id="progress-label">Initialisation...</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div id="progress-fill"></div></div>
+    </div>
 
-  <script>
-  // ── DONNÉES ───────────────────────────────────────────────────────
+    <div class="toolbar">
+      <div class="results-count" id="results-count"><strong>0</strong> prospect(s)</div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">Tous</button>
+        <button class="filter-tab" data-filter="1">🔴 Sans site</button>
+        <button class="filter-tab" data-filter="2">🟡 Faible</button>
+        <button class="filter-tab" data-filter="3">🟢 Présent</button>
+        <button class="filter-tab" data-filter="signe">✅ Signés</button>
+        <button class="filter-tab" data-filter="relancer">🔁 À relancer</button>
+      </div>
+      <div class="toolbar-right">
+        <input type="text" class="search-input" id="search-input" placeholder="Rechercher..."/>
+        <button id="btn-export">↓ CSV</button>
+      </div>
+    </div>
 
-  const SECTEURS = {
-    "Artisan BTP": [
-      "plombier", "électricien", "maçon", "menuisier",
-      "couvreur", "peintre bâtiment", "charpentier",
-      "carreleur", "chauffagiste", "serrurier"
-    ],
-    "Industrie / Décolletage": [
-      "décolletage", "usinage CNC", "mécanique de précision",
-      "métallurgie", "tôlerie", "fonderie", "traitement de surface"
-    ],
-    "Mécanique / Garage": [
-      "garage automobile", "mécanique auto", "carrosserie",
-      "contrôle technique", "pneumatique", "préparateur automobile"
-    ],
-    "Soin & Esthétique": [
-      "coiffeur", "esthéticienne", "nail art", "salon de beauté",
-      "spa", "masseur", "institut de beauté"
-    ]
-  };
+    <div class="table-wrap">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">Aucun résultat pour l'instant</div>
+        <div class="empty-sub">Lancez un scan ou cliquez sur "Afficher tous les prospects" pour charger la mémoire.<br/><br/>Les prospects déjà connus s'affichent instantanément, sans consommer de crédit API.</div>
+      </div>
+      <table id="results-table" style="display:none">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Priorité</th>
+            <th>Statut</th>
+            <th>Entreprise</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Site web</th>
+            <th>Note</th>
+            <th>Notes internes</th>
+            <th>Dernier contact</th>
+            <th>Métier</th>
+            <th>Ville</th>
+          </tr>
+        </thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-  const VILLES_74 = [
-    "Annecy", "Annemasse", "Thonon-les-Bains", "Bonneville",
-    "Cluses", "Sallanches", "Saint-Julien-en-Genevois",
-    "Évian-les-Bains", "Rumilly", "La Roche-sur-Foron",
-    "Chamonix", "Megève", "Morzine", "Seynod",
-    "Cran-Gevrier", "Gaillard", "Archamps", "Annecy-le-Vieux"
-  ];
+<div class="toast" id="toast"></div>
+<div id="map"></div>
 
-  // Domaines considérés comme "sites faibles"
-  const WEAK_DOMAINS = [
-    'facebook.com', 'fb.com', 'pages.facebook.com',
-    'wixsite.com', 'wix.com',
-    'jimdo.com', 'jimdofree.com', 'jimdosite.com',
-    'weebly.com', 'webnode.fr', 'webnode.com',
-    'e-monsite.com', 'site123.me', 'site123.com',
-    'free.fr', 'perso.wanadoo.fr', 'voila.fr',
-    'multimania.com', 'ifrance.com', 'chez.com',
-    'ovh.net', 'pagesjaunes.fr',
-    'wordpress.com', 'blogspot.com',
-    'google.com/maps', 'instagram.com'
-  ];
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────
 
-  function scoreWebsite(url) {
-    if (!url) return { priority: 1, label: '🔴 Sans site web' };
-    const u = url.toLowerCase();
-    const isWeak = WEAK_DOMAINS.some(d => u.includes(d));
-    if (isWeak) return { priority: 2, label: '🟡 Site faible' };
-    return { priority: 3, label: '🟢 Site présent' };
-  }
+const SECTEURS = {
+  "Artisan BTP": ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier"],
+  "Industrie":   ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface"],
+  "Auto":        ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile"],
+  "Esthétique":  ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté"]
+};
 
-  // ── STATE ─────────────────────────────────────────────────────────
+const VILLES_74 = [
+  "Annecy","Annemasse","Thonon-les-Bains","Bonneville","Cluses","Sallanches",
+  "Saint-Julien-en-Genevois","Évian-les-Bains","Rumilly","La Roche-sur-Foron",
+  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux"
+];
 
-  let results = [];
-  let isScanning = false;
-  let stopRequested = false;
-  let mapsLoaded = false;
-  let placesService = null;
-  let activeSector = Object.keys(SECTEURS)[0];
-  let currentFilter = 'all';
+const WEAK = ['facebook.com','fb.com','wixsite.com','wix.com','jimdo.com','jimdofree.com',
+  'weebly.com','webnode.fr','e-monsite.com','site123.me','free.fr','perso.wanadoo.fr',
+  'wordpress.com','blogspot.com','google.com/maps','instagram.com','pagesjaunes.fr'];
 
-  // ── INIT UI ───────────────────────────────────────────────────────
+const STATUTS = [
+  { val:'nouveau',     label:'— Nouveau',      css:'s-nouveau' },
+  { val:'a-contacter', label:'📋 À contacter',  css:'s-a-contacter' },
+  { val:'site-cree',   label:'🎨 Site créé',     css:'s-site-cree' },
+  { val:'mail-envoye', label:'📧 Mail envoyé',   css:'s-mail-envoye' },
+  { val:'a-relancer',  label:'🔁 À relancer',    css:'s-a-relancer' },
+  { val:'signe',       label:'✅ Signé',          css:'s-signe' },
+  { val:'archive',     label:'🗄 Archivé',        css:'s-archive' }
+];
 
-  function buildSectorTabs() {
-    const container = document.getElementById('sector-tabs');
-    Object.keys(SECTEURS).forEach((s, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'sector-tab' + (i === 0 ? ' active' : '');
-      btn.textContent = s;
-      btn.addEventListener('click', () => {
-        activeSector = s;
-        document.querySelectorAll('.sector-tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        buildMetiersList();
-      });
-      container.appendChild(btn);
-    });
-  }
+// ── MÉMOIRE ───────────────────────────────────────────────────────
 
-  function buildMetiersList() {
-    const container = document.getElementById('metiers-list');
-    container.innerHTML = '';
-    SECTEURS[activeSector].forEach(m => {
-      const label = document.createElement('label');
-      label.className = 'metier-check';
-      label.innerHTML = `<input type="checkbox" value="${m}" checked /><span>${m}</span>`;
-      container.appendChild(label);
-    });
-  }
+const MEM_KEY = 'duval_dvl_v2';
+const memLoad  = () => { try { return JSON.parse(localStorage.getItem(MEM_KEY)||'{}'); } catch(e){ return {}; } };
+const memSave  = db => localStorage.setItem(MEM_KEY, JSON.stringify(db));
+const memGet   = id => memLoad()[id] || null;
+const memSet   = (id, patch) => { const db=memLoad(); db[id]={...db[id],...patch,updatedAt:Date.now()}; memSave(db); };
+const memAll   = () => Object.values(memLoad());
 
-  function buildVillesList() {
-    const container = document.getElementById('villes-grid');
-    VILLES_74.forEach(v => {
-      const label = document.createElement('label');
-      label.className = 'ville-check';
-      label.innerHTML = `<input type="checkbox" value="${v}" checked /><span>${v}</span>`;
-      container.appendChild(label);
-    });
-  }
+// ── STATE ─────────────────────────────────────────────────────────
 
-  function getSelectedMetiers() {
-    return [...document.querySelectorAll('#metiers-list input:checked')].map(i => i.value);
-  }
+let rows = [];            // { placeId, tr }
+let scanning = false, stopReq = false;
+let mapsReady = false, svc = null;
+let activeSector = Object.keys(SECTEURS)[0];
+let activeFilter = 'all';
 
-  function getSelectedVilles() {
-    return [...document.querySelectorAll('#villes-grid input:checked')].map(i => i.value);
-  }
+// ── SCORING ───────────────────────────────────────────────────────
 
-  // ── GOOGLE MAPS ───────────────────────────────────────────────────
+function score(url) {
+  if (!url) return { p:1, label:'🔴 Sans site web' };
+  const u = url.toLowerCase();
+  return WEAK.some(d=>u.includes(d)) ? { p:2, label:'🟡 Site faible' } : { p:3, label:'🟢 Site présent' };
+}
 
-  function loadGoogleMaps(apiKey) {
-    return new Promise((resolve, reject) => {
-      if (mapsLoaded) { resolve(); return; }
-      window.__gmCallback = () => {
-        mapsLoaded = true;
-        const mapDiv = document.getElementById('map');
-        const map = new google.maps.Map(mapDiv, {
-          center: { lat: 45.899247, lng: 6.129384 },
-          zoom: 10
-        });
-        placesService = new google.maps.places.PlacesService(map);
-        resolve();
-      };
-      const existing = document.querySelector('script[data-gm]');
-      if (existing) existing.remove();
-      const script = document.createElement('script');
-      script.setAttribute('data-gm', '1');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=__gmCallback`;
-      script.onerror = () => reject(new Error('Clé API invalide ou Maps API non activée.'));
-      document.head.appendChild(script);
-    });
-  }
+// ── INIT ──────────────────────────────────────────────────────────
 
-  function textSearch(query) {
-    return new Promise((resolve) => {
-      placesService.textSearch(
-        { query: `${query} Haute-Savoie`, region: 'fr' },
-        (results, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK) resolve(results || []);
-          else resolve([]);
-        }
-      );
-    });
-  }
+function buildSectors() {
+  const c = document.getElementById('sector-tabs');
+  Object.keys(SECTEURS).forEach((s,i) => {
+    const b = document.createElement('button');
+    b.className='sector-tab'+(i===0?' active':'');
+    b.textContent=s;
+    b.onclick=()=>{ activeSector=s; document.querySelectorAll('.sector-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); buildMetiers(); };
+    c.appendChild(b);
+  });
+}
+function buildMetiers() {
+  const c=document.getElementById('metiers-list'); c.innerHTML='';
+  SECTEURS[activeSector].forEach(m=>{ const l=document.createElement('label'); l.className='mcheck'; l.innerHTML=`<input type="checkbox" value="${m}" checked/><span>${m}</span>`; c.appendChild(l); });
+}
+function buildVilles() {
+  const c=document.getElementById('villes-grid');
+  VILLES_74.forEach(v=>{ const l=document.createElement('label'); l.className='vcheck'; l.innerHTML=`<input type="checkbox" value="${v}" checked/><span>${v}</span>`; c.appendChild(l); });
+}
+const getMetiers = ()=>[...document.querySelectorAll('#metiers-list input:checked')].map(i=>i.value);
+const getVilles  = ()=>[...document.querySelectorAll('#villes-grid input:checked')].map(i=>i.value);
 
-  function getDetails(placeId) {
-    return new Promise((resolve) => {
-      placesService.getDetails(
-        {
-          placeId,
-          fields: ['name', 'website', 'formatted_phone_number', 'formatted_address', 'rating', 'place_id']
-        },
-        (result, status) => {
-          resolve(status === google.maps.places.PlacesServiceStatus.OK ? result : null);
-        }
-      );
-    });
-  }
+// ── GOOGLE MAPS ───────────────────────────────────────────────────
 
-  function sleep(ms) {
-    return new Promise(r => setTimeout(r, ms));
-  }
+function loadMaps(key) {
+  return new Promise((res,rej)=>{
+    if(mapsReady){res();return;}
+    window.__gm=()=>{ mapsReady=true; svc=new google.maps.places.PlacesService(new google.maps.Map(document.getElementById('map'),{center:{lat:45.9,lng:6.1},zoom:10})); res(); };
+    const old=document.querySelector('script[data-gm]'); if(old)old.remove();
+    const s=document.createElement('script'); s.setAttribute('data-gm','1');
+    s.src=`https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=__gm`;
+    s.onerror=()=>rej(new Error('Clé API invalide ou Maps API non activée.'));
+    document.head.appendChild(s);
+  });
+}
+const txtSearch = q=>new Promise(res=>svc.textSearch({query:`${q} Haute-Savoie`,region:'fr'},(r,st)=>res(st==='OK'?r||[]:[])));
+const getDetails = id=>new Promise(res=>svc.getDetails({placeId:id,fields:['name','website','formatted_phone_number','formatted_address','rating','place_id']},(r,st)=>res(st==='OK'?r:null)));
+const sleep = ms=>new Promise(r=>setTimeout(r,ms));
 
-  // ── SCAN ──────────────────────────────────────────────────────────
+// ── SCAN ──────────────────────────────────────────────────────────
 
-  async function runScan() {
-    const apiKey   = document.getElementById('api-key').value.trim();
-    const metiers  = getSelectedMetiers();
-    const villes   = getSelectedVilles();
-    const maxRes   = parseInt(document.getElementById('opt-max').value) || 10;
-    const delay    = parseInt(document.getElementById('opt-delay').value) || 200;
+async function runScan() {
+  const key=document.getElementById('api-key').value.trim();
+  const metiers=getMetiers(), villes=getVilles();
+  const maxR=parseInt(document.getElementById('opt-max').value)||10;
+  const delay=parseInt(document.getElementById('opt-delay').value)||200;
+  if(!key){alert('Renseignez votre clé API.');return;}
+  if(!metiers.length){alert('Sélectionnez au moins un métier.');return;}
+  if(!villes.length){alert('Sélectionnez au moins une ville.');return;}
 
-    if (!apiKey)          { alert('Renseignez votre clé API Google.'); return; }
-    if (!metiers.length)  { alert('Sélectionnez au moins un métier.'); return; }
-    if (!villes.length)   { alert('Sélectionnez au moins une ville.'); return; }
+  scanning=true; stopReq=false; rows=[];
+  document.getElementById('btn-scan').disabled=true;
+  document.getElementById('btn-stop').style.display='block';
+  document.getElementById('progress-wrap').classList.add('visible');
+  document.getElementById('results-table').style.display='none';
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('btn-export').classList.remove('visible');
+  document.getElementById('results-tbody').innerHTML='';
+  setStatus('running','SCANNING');
 
-    isScanning    = true;
-    stopRequested = false;
-    results       = [];
+  const total=metiers.length*villes.length; let done=0, apiC=0, memC=0;
 
-    document.getElementById('btn-scan').disabled = true;
-    document.getElementById('btn-stop').style.display = 'block';
-    document.getElementById('progress-wrap').classList.add('visible');
-    document.getElementById('results-table').style.display = 'none';
-    document.getElementById('empty-state').style.display = 'none';
-    document.getElementById('btn-export').classList.remove('visible');
-    document.getElementById('results-tbody').innerHTML = '';
-    setStatus('running', 'SCANNING');
+  try {
+    setProgress('Chargement Google Maps...',0);
+    await loadMaps(key);
 
-    const totalOps = metiers.length * villes.length;
-    let doneOps = 0;
+    for(const m of metiers) {
+      for(const v of villes) {
+        if(stopReq) break;
+        setProgress(`Recherche : ${m} à ${v}`, Math.round(done/total*100));
+        let places=[];
+        try{ places=await txtSearch(`${m} ${v}`); apiC++; }catch(e){}
+        await sleep(delay);
 
-    try {
-      setProgress('Chargement de l\'API Google Maps...', 0);
-      await loadGoogleMaps(apiKey);
+        for(const pl of places.slice(0,maxR)) {
+          if(stopReq) break;
+          const pid=pl.place_id;
 
-      for (const metier of metiers) {
-        for (const ville of villes) {
-          if (stopRequested) break;
-
-          const query = `${metier} ${ville}`;
-          setProgress(`Recherche : ${metier} à ${ville}`, Math.round(doneOps / totalOps * 100));
-
-          let places = [];
-          try { places = await textSearch(query); } catch(e) { /* skip */ }
-          await sleep(delay);
-
-          const limited = places.slice(0, maxRes);
-
-          for (const place of limited) {
-            if (stopRequested) break;
-
-            setProgress(`Vérification : ${place.name}...`, Math.round(doneOps / totalOps * 100));
-            let details = null;
-            try { details = await getDetails(place.place_id); } catch(e) { /* skip */ }
-            await sleep(Math.round(delay * 0.6));
-
-            if (details) {
-              const score = scoreWebsite(details.website);
-              const row = {
-                nom:      details.name || place.name,
-                adresse:  details.formatted_address || '',
-                ville:    ville,
-                tel:      details.formatted_phone_number || '',
-                site:     details.website || '',
-                note:     details.rating || '',
-                priorite: score.priority,
-                label:    score.label,
-                metier:   metier,
-                secteur:  activeSector
-              };
-              results.push(row);
-              addRow(row, results.length);
-              updateCount();
-            }
+          // Déjà en mémoire ?
+          const cached=memGet(pid);
+          if(cached) {
+            memC++;
+            if(!rows.find(r=>r.placeId===pid)) addRow({...cached,fromMem:true}, rows.length+1);
+            continue;
           }
 
-          doneOps++;
+          setProgress(`Détails : ${pl.name}...`, Math.round(done/total*100));
+          let det=null;
+          try{ det=await getDetails(pid); apiC++; }catch(e){}
+          await sleep(Math.round(delay*.5));
+
+          if(det) {
+            const s=score(det.website);
+            const p={
+              placeId:pid, nom:det.name||pl.name,
+              adresse:det.formatted_address||'', ville:v,
+              tel:det.formatted_phone_number||'', site:det.website||'',
+              note:det.rating||'', priorite:s.p, prioriteLabel:s.label,
+              metier:m, secteur:activeSector,
+              email:'', statut:'nouveau', notes:'', dateContact:'',
+              createdAt:Date.now()
+            };
+            memSet(pid,p);
+            addRow(p, rows.length+1);
+          }
         }
-        if (stopRequested) break;
+        done++;
       }
-
-    } catch (err) {
-      setStatus('error', 'ERREUR');
-      alert('Erreur : ' + err.message);
-    } finally {
-      isScanning = false;
-      document.getElementById('btn-scan').disabled = false;
-      document.getElementById('btn-stop').style.display = 'none';
-      document.getElementById('progress-wrap').classList.remove('visible');
-      if (!stopRequested) setStatus('done', 'TERMINÉ');
-      else                setStatus('idle', 'ARRÊTÉ');
-      if (results.length > 0) document.getElementById('btn-export').classList.add('visible');
+      if(stopReq) break;
     }
+  } catch(err) {
+    setStatus('error','ERREUR'); alert('Erreur : '+err.message);
+  } finally {
+    scanning=false;
+    document.getElementById('btn-scan').disabled=false;
+    document.getElementById('btn-stop').style.display='none';
+    document.getElementById('progress-wrap').classList.remove('visible');
+    setStatus(stopReq?'idle':'done', stopReq?'ARRÊTÉ':'TERMINÉ');
+    if(rows.length) document.getElementById('btn-export').classList.add('visible');
+    updateStats();
+    showToast(`${rows.length} prospects · ${memC} depuis mémoire · ${apiC} appels API`);
   }
+}
 
-  // ── TABLE ─────────────────────────────────────────────────────────
+// ── LIGNE ─────────────────────────────────────────────────────────
 
-  function addRow(row, index) {
-    const tbody = document.getElementById('results-tbody');
-    document.getElementById('results-table').style.display = 'table';
-    document.getElementById('empty-state').style.display = 'none';
+function addRow(p, idx) {
+  document.getElementById('results-table').style.display='table';
+  document.getElementById('empty-state').style.display='none';
 
-    const priorityClass = `priority-${row.priorite}`;
-    const stars = row.note ? '★'.repeat(Math.round(row.note)) + ` (${row.note})` : '—';
-    const siteCell = row.site
-      ? `<a href="${row.site}" target="_blank" title="${row.site}">${row.site.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>`
-      : `<span class="no-site">aucun site</span>`;
-    const telCell = row.tel
-      ? `<a href="tel:${row.tel.replace(/\s/g,'')}">${row.tel}</a>`
-      : '—';
+  const tr=document.createElement('tr');
+  tr.dataset.priority=p.priorite;
+  tr.dataset.statut=p.statut||'nouveau';
+  tr.dataset.search=`${p.nom} ${p.ville} ${p.metier}`.toLowerCase();
 
-    const tr = document.createElement('tr');
-    tr.dataset.priority = row.priorite;
-    tr.innerHTML = `
-      <td style="color:rgba(255,255,255,.2);font-family:var(--mono);font-size:.65rem">${String(index).padStart(3,'0')}</td>
-      <td><span class="priority-badge ${priorityClass}">${row.label}</span></td>
-      <td class="nom">${row.nom}</td>
-      <td class="adresse">${row.adresse}</td>
-      <td class="tel">${telCell}</td>
-      <td class="site">${siteCell}</td>
-      <td class="rating-stars">${stars}</td>
-      <td class="metier">${row.metier}</td>
-      <td class="metier">${row.ville}</td>`;
+  const statOpts=STATUTS.map(s=>`<option value="${s.val}"${s.val===(p.statut||'nouveau')?' selected':''}>${s.label}</option>`).join('');
+  const statCss=STATUTS.find(s=>s.val===(p.statut||'nouveau'))?.css||'s-nouveau';
+  const siteHtml=p.site?`<a href="${p.site}" target="_blank">${p.site.replace(/^https?:\/\//,'').replace(/\/$/,'').slice(0,28)}</a>`:`<span class="no-site">aucun site</span>`;
+  const telHtml=p.tel?`<a href="tel:${p.tel.replace(/\s/g,'')}">${p.tel}</a>`:'—';
+  const memBadge=p.fromMem?'<span class="mem-badge">MEM</span>':'';
 
-    // Appliquer filtre actif
-    if (currentFilter !== 'all' && String(row.priorite) !== currentFilter) {
-      tr.classList.add('hidden');
-    }
-    tbody.appendChild(tr);
-  }
+  tr.innerHTML=`
+    <td style="font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.2)">${String(idx).padStart(3,'0')}</td>
+    <td><span class="pri pri-${p.priorite}">${p.prioriteLabel}</span></td>
+    <td class="statut-wrap"><select class="statut-select ${statCss}">${statOpts}</select></td>
+    <td class="t-nom">${p.nom}${memBadge}</td>
+    <td class="t-tel">${telHtml}</td>
+    <td class="email-wrap">
+      <div class="email-display">
+        <span class="email-val ${p.email?'has-email':'no-email'}">${p.email||'Ajouter email…'}</span>
+        <span class="email-hint">✎</span>
+      </div>
+      <input type="email" class="email-input-field" value="${p.email||''}" placeholder="email@entreprise.fr"/>
+    </td>
+    <td class="t-site">${siteHtml}</td>
+    <td class="stars">${p.note?'★'.repeat(Math.round(p.note))+` (${p.note})`:'—'}</td>
+    <td class="notes-wrap">
+      <div class="notes-display ${p.notes?'has-note':'no-note'}">${p.notes||'Ajouter une note…'}</div>
+      <textarea class="notes-input" rows="2">${p.notes||''}</textarea>
+    </td>
+    <td class="date-col">${fmtDate(p.dateContact)}</td>
+    <td class="t-meta">${p.metier}</td>
+    <td class="t-meta">${p.ville}</td>`;
 
-  function updateCount() {
-    const visible = [...document.querySelectorAll('#results-tbody tr:not(.hidden)')].length;
-    document.getElementById('results-count').innerHTML =
-      `<strong>${results.length}</strong> prospect(s) total · <strong>${visible}</strong> affiché(s)`;
-  }
-
-  function applyFilter(filter) {
-    currentFilter = filter;
-    document.querySelectorAll('.filter-tab').forEach(b => {
-      b.classList.toggle('active', b.dataset.filter === filter);
-    });
-    document.querySelectorAll('#results-tbody tr').forEach(tr => {
-      if (filter === 'all' || tr.dataset.priority === filter) {
-        tr.classList.remove('hidden');
-      } else {
-        tr.classList.add('hidden');
-      }
-    });
-    updateCount();
-  }
-
-  // ── EXPORT CSV ────────────────────────────────────────────────────
-
-  function exportCSV() {
-    if (!results.length) return;
-    const headers = ['Priorité','Entreprise','Adresse','Ville','Téléphone','Site web','Note Google','Métier','Secteur'];
-    const rows = results.map(r => [
-      r.label, r.nom, r.adresse, r.ville, r.tel,
-      r.site, r.note, r.metier, r.secteur
-    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(','));
-
-    const csv = [headers.join(','), ...rows].join('\n');
-    const bom = '\uFEFF'; // UTF-8 BOM pour Excel
-    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `prospects-74_${new Date().toISOString().slice(0,10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // ── HELPERS ───────────────────────────────────────────────────────
-
-  function setStatus(type, text) {
-    const badge = document.getElementById('status-badge');
-    badge.className = `badge-${type}`;
-    badge.textContent = text;
-  }
-
-  function setProgress(label, pct) {
-    document.getElementById('progress-label').textContent = label;
-    document.getElementById('progress-pct').textContent = pct + '%';
-    document.getElementById('progress-fill').style.width = pct + '%';
-  }
-
-  // ── EVENTS ────────────────────────────────────────────────────────
-
-  document.getElementById('btn-scan').addEventListener('click', runScan);
-  document.getElementById('btn-stop').addEventListener('click', () => { stopRequested = true; });
-  document.getElementById('btn-export').addEventListener('click', exportCSV);
-
-  document.getElementById('toggle-key').addEventListener('click', () => {
-    const input = document.getElementById('api-key');
-    input.type = input.type === 'password' ? 'text' : 'password';
+  // Statut
+  const sel=tr.querySelector('.statut-select');
+  sel.addEventListener('change',()=>{
+    const v=sel.value, css=STATUTS.find(s=>s.val===v)?.css||'s-nouveau';
+    sel.className=`statut-select ${css}`;
+    tr.dataset.statut=v;
+    const dc=v!=='nouveau'?Date.now():'';
+    memSet(p.placeId,{statut:v,dateContact:dc});
+    tr.querySelector('.date-col').textContent=fmtDate(dc);
+    filterRow(tr); updateCount(); updateStats();
+    showToast(`Statut : ${STATUTS.find(s=>s.val===v)?.label}`);
   });
 
-  document.getElementById('btn-all-villes').addEventListener('click', () => {
-    document.querySelectorAll('#villes-grid input').forEach(i => i.checked = true);
-  });
-  document.getElementById('btn-none-villes').addEventListener('click', () => {
-    document.querySelectorAll('#villes-grid input').forEach(i => i.checked = false);
-  });
+  // Email
+  const ed=tr.querySelector('.email-display'), ei=tr.querySelector('.email-input-field');
+  ed.addEventListener('click',()=>{ ed.style.display='none'; ei.style.display='block'; ei.focus(); ei.select(); });
+  const saveEmail=()=>{
+    const v=ei.value.trim(); memSet(p.placeId,{email:v});
+    const ev=tr.querySelector('.email-val'); ev.textContent=v||'Ajouter email…'; ev.className=`email-val ${v?'has-email':'no-email'}`;
+    ei.style.display='none'; ed.style.display='flex';
+    if(v) showToast('Email enregistré ✓');
+  };
+  ei.addEventListener('blur',saveEmail);
+  ei.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();ei.blur();} if(e.key==='Escape'){ei.value=memGet(p.placeId)?.email||'';ei.blur();} });
 
-  document.querySelectorAll('.filter-tab').forEach(btn => {
-    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
-  });
+  // Notes
+  const nd=tr.querySelector('.notes-display'), ni=tr.querySelector('.notes-input');
+  nd.addEventListener('click',()=>{ nd.style.display='none'; ni.style.display='block'; ni.focus(); });
+  const saveNote=()=>{
+    const v=ni.value.trim(); memSet(p.placeId,{notes:v});
+    nd.textContent=v||'Ajouter une note…'; nd.className=`notes-display ${v?'has-note':'no-note'}`;
+    ni.style.display='none'; nd.style.display='block';
+  };
+  ni.addEventListener('blur',saveNote);
+  ni.addEventListener('keydown',e=>{ if(e.key==='Escape')ni.blur(); });
 
-  // Activer le bouton scan si clé API renseignée
-  document.getElementById('api-key').addEventListener('input', (e) => {
-    document.getElementById('btn-scan').disabled = e.target.value.trim().length < 10;
-  });
+  filterRow(tr);
+  document.getElementById('results-tbody').appendChild(tr);
+  rows.push({placeId:p.placeId,tr});
+  updateCount();
+}
 
-  // ── DÉMARRAGE ─────────────────────────────────────────────────────
+// ── FILTRES ───────────────────────────────────────────────────────
 
-  buildSectorTabs();
-  buildMetiersList();
-  buildVillesList();
+function filterRow(tr) {
+  const pri=tr.dataset.priority, stat=tr.dataset.statut, search=tr.dataset.search;
+  const q=document.getElementById('search-input').value.toLowerCase().trim();
+  let ok=false;
+  if(activeFilter==='all')      ok=true;
+  else if(activeFilter==='1')   ok=pri==='1';
+  else if(activeFilter==='2')   ok=pri==='2';
+  else if(activeFilter==='3')   ok=pri==='3';
+  else if(activeFilter==='signe')   ok=stat==='signe';
+  else if(activeFilter==='relancer') ok=stat==='a-relancer';
+  if(q&&ok) ok=search.includes(q);
+  tr.classList.toggle('hidden',!ok);
+}
+function filterAll() { rows.forEach(r=>filterRow(r.tr)); updateCount(); }
 
-  </script>
+function updateCount() {
+  const vis=rows.filter(r=>!r.tr.classList.contains('hidden')).length;
+  document.getElementById('results-count').innerHTML=`<strong>${rows.length}</strong> prospect(s) · <strong>${vis}</strong> affiché(s)`;
+}
+
+// ── STATS ─────────────────────────────────────────────────────────
+
+function updateStats() {
+  const all=memAll();
+  document.getElementById('stat-mem').textContent    =all.length;
+  document.getElementById('stat-nossite').textContent=all.filter(p=>p.priorite===1).length;
+  document.getElementById('stat-signes').textContent =all.filter(p=>p.statut==='signe').length;
+  document.getElementById('ms-total').textContent   =all.length;
+  document.getElementById('ms-nossite').textContent =all.filter(p=>p.priorite===1).length;
+  document.getElementById('ms-envoyes').textContent =all.filter(p=>p.statut==='mail-envoye').length;
+  document.getElementById('ms-signes').textContent  =all.filter(p=>p.statut==='signe').length;
+}
+
+// ── AFFICHER MÉMOIRE ──────────────────────────────────────────────
+
+function showMemory() {
+  const all=memAll(); if(!all.length){showToast('Aucun prospect en mémoire');return;}
+  rows=[]; document.getElementById('results-tbody').innerHTML='';
+  document.getElementById('results-table').style.display='table';
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('btn-export').classList.add('visible');
+  all.sort((a,b)=>a.priorite-b.priorite||(b.createdAt||0)-(a.createdAt||0));
+  all.forEach((p,i)=>addRow({...p,fromMem:true},i+1));
+  document.querySelector('[data-tab="scan"]').click();
+  showToast(`${all.length} prospects chargés depuis la mémoire`);
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────
+
+function exportCSV(data) {
+  if(!data?.length){showToast('Aucune donnée');return;}
+  const h=['Priorité','Statut','Entreprise','Adresse','Ville','Téléphone','Email','Site web','Note','Notes internes','Dernier contact','Métier','Secteur'];
+  const r=data.map(p=>[p.prioriteLabel,p.statut,p.nom,p.adresse,p.ville,p.tel,p.email,p.site,p.note,p.notes,fmtDate(p.dateContact),p.metier,p.secteur].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv='\uFEFF'+[h.join(','),...r].join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=`prospects-74_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+
+const setStatus=(t,x)=>{ const b=document.getElementById('status-badge'); b.className=`badge-${t}`; b.textContent=x; };
+const setProgress=(l,p)=>{ document.getElementById('progress-label').textContent=l; document.getElementById('progress-pct').textContent=p+'%'; document.getElementById('progress-fill').style.width=p+'%'; };
+const fmtDate=ts=>{ if(!ts)return''; const d=new Date(ts); return`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`; };
+let tt; const showToast=m=>{ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),3000); };
+
+// ── EVENTS ────────────────────────────────────────────────────────
+
+document.getElementById('btn-scan').addEventListener('click',runScan);
+document.getElementById('btn-stop').addEventListener('click',()=>stopReq=true);
+document.getElementById('btn-export').addEventListener('click',()=>exportCSV(rows.map(r=>memGet(r.placeId)).filter(Boolean)));
+document.getElementById('btn-export-mem').addEventListener('click',()=>exportCSV(memAll()));
+document.getElementById('btn-show-mem').addEventListener('click',showMemory);
+document.getElementById('toggle-key').addEventListener('click',()=>{ const i=document.getElementById('api-key'); i.type=i.type==='password'?'text':'password'; });
+document.getElementById('btn-all-v').addEventListener('click',()=>document.querySelectorAll('#villes-grid input').forEach(i=>i.checked=true));
+document.getElementById('btn-none-v').addEventListener('click',()=>document.querySelectorAll('#villes-grid input').forEach(i=>i.checked=false));
+document.getElementById('api-key').addEventListener('input',e=>document.getElementById('btn-scan').disabled=e.target.value.trim().length<10);
+document.getElementById('search-input').addEventListener('input',filterAll);
+document.getElementById('btn-clear-mem').addEventListener('click',()=>{
+  if(confirm('Effacer toute la mémoire ?\n\nAction irréversible — exportez en CSV avant si besoin.')){
+    localStorage.removeItem(MEM_KEY); updateStats(); showToast('Mémoire effacée');
+  }
+});
+document.querySelectorAll('.filter-tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+  activeFilter=b.dataset.filter; filterAll();
+}));
+document.querySelectorAll('.sidebar-tab').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.sidebar-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+  if(b.dataset.tab==='memoire') updateStats();
+}));
+
+// ── DÉMARRAGE ─────────────────────────────────────────────────────
+
+buildSectors(); buildMetiers(); buildVilles(); updateStats();
+</script>
 </body>
 </html>
