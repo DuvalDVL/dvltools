@@ -246,7 +246,7 @@
             <li><a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
             <li>Nouveau projet → Activer Maps JS API + Places API</li>
             <li>Identifiants → Créer une clé API</li>
-            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong></li>
+            <li>Crédit gratuit : <strong style="color:var(--green)">254€/mois</strong></li>
           </ol>
         </div>
       </div>
@@ -371,16 +371,26 @@
 // ── CONFIG ────────────────────────────────────────────────────────
 
 const SECTEURS = {
-  "Artisan BTP": ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier"],
-  "Industrie":   ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface"],
-  "Auto":        ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile"],
-  "Esthétique":  ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté"]
+  "Artisan BTP":   ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier","plaquiste","isolation thermique","terrassement","paysagiste","pisciniste","pompe à chaleur","climatisation","étanchéité","ramoneur","rénovation énergétique"],
+  "Industrie":     ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface","horlogerie","chaudronnerie","plasturgie","automatisme industriel","câblage industriel","soudure","outillage"],
+  "Auto":          ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile","detailing","car wash","vitrage auto","dépannage remorquage","moto","aménagement utilitaire"],
+  "Esthétique":    ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté","barbier","onglerie","épilation laser","tatoueur","microblading"],
+  "Restauration":  ["restaurant","brasserie","pizzeria","boulangerie","pâtisserie","traiteur","glacier","coffee shop","crêperie","snack","burger","sushi","cave à vins"],
+  "Paramédical":   ["kinésithérapeute","ostéopathe","chiropracteur","podologue","orthophoniste","diététicien","psychologue","opticien","vétérinaire","sage-femme","audioprothésiste"],
+  "Sport & Bien-être": ["salle de sport","coach sportif","yoga","pilates","arts martiaux","centre équestre","guide de montagne","moniteur ski"],
+  "Hébergement":   ["chambre d'hôtes","gîte","chalet location saisonnière","hôtel","camping"],
+  "Services":      ["agence immobilière","expert-comptable","auto-école","centre de formation","pressing","photographe","agence de voyage"]
 };
 
 const VILLES_74 = [
   "Annecy","Annemasse","Thonon-les-Bains","Bonneville","Cluses","Sallanches",
   "Saint-Julien-en-Genevois","Évian-les-Bains","Rumilly","La Roche-sur-Foron",
-  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux"
+  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux",
+  "Scionzier","Thyez","Nancy-sur-Cluses","Marignier","Saint-Pierre-en-Faucigny",
+  "Combloux","Saint-Gervais-les-Bains","Passy","Les Contamines-Montjoie",
+  "Les Gets","Samoëns","Taninges","Le Grand-Bornand","La Clusaz","Thônes","Faverges",
+  "Reignier-Ésery","Ville-la-Grand","Cruseilles","Scientrier","Épagny Metz-Tessy",
+  "Douvaine","Publier","Sciez","Bons-en-Chablais"
 ];
 
 const WEAK = ['facebook.com','fb.com','wixsite.com','wix.com','jimdo.com','jimdofree.com',
