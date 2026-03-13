@@ -120,16 +120,22 @@
     .progress-bar{height:2px;background:var(--border);overflow:hidden}
     #progress-fill{height:100%;background:var(--accent);transition:width .3s;width:0%}
 
-    .toolbar{background:var(--card);border-bottom:1px solid var(--border);padding:9px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0}
+    .toolbar{background:var(--card);border-bottom:1px solid var(--border);padding:8px 20px;display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+    .toolbar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
     .results-count{font-family:var(--mono);font-size:.65rem;color:var(--text)}
     .results-count strong{color:var(--white)}
     .filter-tabs{display:flex;gap:3px;flex-wrap:wrap}
-    .filter-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
+    .filter-tab{font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;padding:3px 9px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s;white-space:nowrap}
     .filter-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,.08)}
+    .filter-sep{width:1px;height:16px;background:var(--border);flex-shrink:0}
     .toolbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
-    .search-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.68rem;padding:4px 10px;width:150px;transition:border-color .2s}
+    .search-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.68rem;padding:4px 10px;width:140px;transition:border-color .2s}
     .search-input:focus{outline:none;border-color:var(--accent)}
     .search-input::placeholder{color:rgba(255,255,255,.2)}
+    .filter-select{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.62rem;padding:4px 8px;cursor:pointer;transition:border-color .2s;max-width:170px}
+    .filter-select:focus{outline:none;border-color:var(--accent)}
+    .filter-select option{background:var(--card)}
+    .filter-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--text);text-transform:uppercase;white-space:nowrap}
     #btn-export{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:4px 12px;cursor:pointer;transition:background .2s;display:none}
     #btn-export:hover{background:rgba(34,197,94,.22)}
     #btn-export.visible{display:block}
@@ -246,7 +252,7 @@
             <li><a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
             <li>Nouveau projet → Activer Maps JS API + Places API</li>
             <li>Identifiants → Créer une clé API</li>
-            <li>Crédit gratuit : <strong style="color:var(--green)">254€/mois</strong></li>
+            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong></li>
           </ol>
         </div>
       </div>
@@ -320,18 +326,40 @@
     </div>
 
     <div class="toolbar">
-      <div class="results-count" id="results-count"><strong>0</strong> prospect(s)</div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">Tous</button>
-        <button class="filter-tab" data-filter="1">🔴 Sans site</button>
-        <button class="filter-tab" data-filter="2">🟡 Faible</button>
-        <button class="filter-tab" data-filter="3">🟢 Présent</button>
-        <button class="filter-tab" data-filter="signe">✅ Signés</button>
-        <button class="filter-tab" data-filter="relancer">🔁 À relancer</button>
+      <!-- Ligne 1 : filtres priorité + statut -->
+      <div class="toolbar-row">
+        <div class="results-count" id="results-count"><strong>0</strong> prospect(s)</div>
+        <div class="filter-tabs" id="filter-tabs-priority">
+          <button class="filter-tab active" data-filter="all">Tous</button>
+          <button class="filter-tab" data-filter="1">🔴 Sans site</button>
+          <button class="filter-tab" data-filter="2">🟡 Faible</button>
+          <button class="filter-tab" data-filter="3">🟢 Présent</button>
+        </div>
+        <div class="filter-sep"></div>
+        <div class="filter-tabs" id="filter-tabs-statut">
+          <button class="filter-tab" data-filter="a-contacter">📋 À contacter</button>
+          <button class="filter-tab" data-filter="site-cree">🎨 Site créé</button>
+          <button class="filter-tab" data-filter="mail-envoye">📧 Mail envoyé</button>
+          <button class="filter-tab" data-filter="a-relancer">🔁 À relancer</button>
+          <button class="filter-tab" data-filter="signe">✅ Signés</button>
+        </div>
+        <div class="toolbar-right">
+          <button id="btn-export">↓ CSV</button>
+        </div>
       </div>
-      <div class="toolbar-right">
-        <input type="text" class="search-input" id="search-input" placeholder="Rechercher..."/>
-        <button id="btn-export">↓ CSV</button>
+      <!-- Ligne 2 : filtres secteur + métier + recherche -->
+      <div class="toolbar-row">
+        <span class="filter-label">Secteur :</span>
+        <select class="filter-select" id="filter-secteur">
+          <option value="">— Tous —</option>
+        </select>
+        <span class="filter-label">Métier :</span>
+        <select class="filter-select" id="filter-metier">
+          <option value="">— Tous —</option>
+        </select>
+        <div class="toolbar-right">
+          <input type="text" class="search-input" id="search-input" placeholder="Rechercher..."/>
+        </div>
       </div>
     </div>
 
@@ -371,26 +399,16 @@
 // ── CONFIG ────────────────────────────────────────────────────────
 
 const SECTEURS = {
-  "Artisan BTP":   ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier","plaquiste","isolation thermique","terrassement","paysagiste","pisciniste","pompe à chaleur","climatisation","étanchéité","ramoneur","rénovation énergétique"],
-  "Industrie":     ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface","horlogerie","chaudronnerie","plasturgie","automatisme industriel","câblage industriel","soudure","outillage"],
-  "Auto":          ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile","detailing","car wash","vitrage auto","dépannage remorquage","moto","aménagement utilitaire"],
-  "Esthétique":    ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté","barbier","onglerie","épilation laser","tatoueur","microblading"],
-  "Restauration":  ["restaurant","brasserie","pizzeria","boulangerie","pâtisserie","traiteur","glacier","coffee shop","crêperie","snack","burger","sushi","cave à vins"],
-  "Paramédical":   ["kinésithérapeute","ostéopathe","chiropracteur","podologue","orthophoniste","diététicien","psychologue","opticien","vétérinaire","sage-femme","audioprothésiste"],
-  "Sport & Bien-être": ["salle de sport","coach sportif","yoga","pilates","arts martiaux","centre équestre","guide de montagne","moniteur ski"],
-  "Hébergement":   ["chambre d'hôtes","gîte","chalet location saisonnière","hôtel","camping"],
-  "Services":      ["agence immobilière","expert-comptable","auto-école","centre de formation","pressing","photographe","agence de voyage"]
+  "Artisan BTP": ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier"],
+  "Industrie":   ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface"],
+  "Auto":        ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile"],
+  "Esthétique":  ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté"]
 };
 
 const VILLES_74 = [
   "Annecy","Annemasse","Thonon-les-Bains","Bonneville","Cluses","Sallanches",
   "Saint-Julien-en-Genevois","Évian-les-Bains","Rumilly","La Roche-sur-Foron",
-  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux",
-  "Scionzier","Thyez","Nancy-sur-Cluses","Marignier","Saint-Pierre-en-Faucigny",
-  "Combloux","Saint-Gervais-les-Bains","Passy","Les Contamines-Montjoie",
-  "Les Gets","Samoëns","Taninges","Le Grand-Bornand","La Clusaz","Thônes","Faverges",
-  "Reignier-Ésery","Ville-la-Grand","Cruseilles","Scientrier","Épagny Metz-Tessy",
-  "Douvaine","Publier","Sciez","Bons-en-Chablais"
+  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux"
 ];
 
 const WEAK = ['facebook.com','fb.com','wixsite.com','wix.com','jimdo.com','jimdofree.com',
@@ -564,9 +582,11 @@ function addRow(p, idx) {
   document.getElementById('empty-state').style.display='none';
 
   const tr=document.createElement('tr');
-  tr.dataset.priority=p.priorite;
-  tr.dataset.statut=p.statut||'nouveau';
-  tr.dataset.search=`${p.nom} ${p.ville} ${p.metier}`.toLowerCase();
+  tr.dataset.priority = p.priorite;
+  tr.dataset.statut   = p.statut || 'nouveau';
+  tr.dataset.search   = `${p.nom} ${p.ville} ${p.metier} ${p.secteur}`.toLowerCase();
+  tr.dataset.secteur  = p.secteur || '';
+  tr.dataset.metier   = p.metier  || '';
 
   const statOpts=STATUTS.map(s=>`<option value="${s.val}"${s.val===(p.statut||'nouveau')?' selected':''}>${s.label}</option>`).join('');
   const statCss=STATUTS.find(s=>s.val===(p.statut||'nouveau'))?.css||'s-nouveau';
@@ -637,24 +657,54 @@ function addRow(p, idx) {
   document.getElementById('results-tbody').appendChild(tr);
   rows.push({placeId:p.placeId,tr});
   updateCount();
+  refreshFilterDropdowns();
 }
 
 // ── FILTRES ───────────────────────────────────────────────────────
 
 function filterRow(tr) {
-  const pri=tr.dataset.priority, stat=tr.dataset.statut, search=tr.dataset.search;
-  const q=document.getElementById('search-input').value.toLowerCase().trim();
-  let ok=false;
-  if(activeFilter==='all')      ok=true;
-  else if(activeFilter==='1')   ok=pri==='1';
-  else if(activeFilter==='2')   ok=pri==='2';
-  else if(activeFilter==='3')   ok=pri==='3';
-  else if(activeFilter==='signe')   ok=stat==='signe';
-  else if(activeFilter==='relancer') ok=stat==='a-relancer';
-  if(q&&ok) ok=search.includes(q);
-  tr.classList.toggle('hidden',!ok);
+  const pri    = tr.dataset.priority;
+  const stat   = tr.dataset.statut;
+  const search = tr.dataset.search;
+  const secteur = tr.dataset.secteur || '';
+  const metier  = tr.dataset.metier  || '';
+
+  const q        = document.getElementById('search-input').value.toLowerCase().trim();
+  const fSecteur = document.getElementById('filter-secteur').value;
+  const fMetier  = document.getElementById('filter-metier').value;
+
+  let ok = false;
+  if      (activeFilter === 'all')         ok = true;
+  else if (activeFilter === '1')           ok = pri === '1';
+  else if (activeFilter === '2')           ok = pri === '2';
+  else if (activeFilter === '3')           ok = pri === '3';
+  else                                     ok = stat === activeFilter;
+
+  if (fSecteur && ok) ok = secteur === fSecteur;
+  if (fMetier  && ok) ok = metier  === fMetier;
+  if (q        && ok) ok = search.includes(q);
+
+  tr.classList.toggle('hidden', !ok);
 }
-function filterAll() { rows.forEach(r=>filterRow(r.tr)); updateCount(); }
+function filterAll() { rows.forEach(r => filterRow(r.tr)); updateCount(); }
+
+// Peuple les dropdowns secteur/métier depuis les lignes actuelles
+function refreshFilterDropdowns() {
+  const secteurs = [...new Set(rows.map(r => r.tr.dataset.secteur).filter(Boolean))].sort();
+  const metiers  = [...new Set(rows.map(r => r.tr.dataset.metier ).filter(Boolean))].sort();
+
+  const selS = document.getElementById('filter-secteur');
+  const curS = selS.value;
+  selS.innerHTML = '<option value="">— Tous secteurs —</option>';
+  secteurs.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; selS.appendChild(o); });
+  if (curS) selS.value = curS;
+
+  const selM = document.getElementById('filter-metier');
+  const curM = selM.value;
+  selM.innerHTML = '<option value="">— Tous métiers —</option>';
+  metiers.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; selM.appendChild(o); });
+  if (curM) selM.value = curM;
+}
 
 function updateCount() {
   const vis=rows.filter(r=>!r.tr.classList.contains('hidden')).length;
@@ -718,14 +768,23 @@ document.getElementById('btn-all-v').addEventListener('click',()=>document.query
 document.getElementById('btn-none-v').addEventListener('click',()=>document.querySelectorAll('#villes-grid input').forEach(i=>i.checked=false));
 document.getElementById('api-key').addEventListener('input',e=>document.getElementById('btn-scan').disabled=e.target.value.trim().length<10);
 document.getElementById('search-input').addEventListener('input',filterAll);
+document.getElementById('filter-secteur').addEventListener('change', () => {
+  // Quand on change de secteur, on réinitialise le filtre métier
+  document.getElementById('filter-metier').value = '';
+  filterAll();
+});
+document.getElementById('filter-metier').addEventListener('change', filterAll);
 document.getElementById('btn-clear-mem').addEventListener('click',()=>{
   if(confirm('Effacer toute la mémoire ?\n\nAction irréversible — exportez en CSV avant si besoin.')){
     localStorage.removeItem(MEM_KEY); updateStats(); showToast('Mémoire effacée');
   }
 });
+// Tous les filter-tabs (priorité + statut) partagent la même logique
 document.querySelectorAll('.filter-tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
-  activeFilter=b.dataset.filter; filterAll();
+  document.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  activeFilter=b.dataset.filter;
+  filterAll();
 }));
 document.querySelectorAll('.sidebar-tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.sidebar-tab').forEach(x=>x.classList.remove('active'));
@@ -737,7 +796,6 @@ document.querySelectorAll('.sidebar-tab').forEach(b=>b.addEventListener('click',
 // ── DÉMARRAGE ─────────────────────────────────────────────────────
 
 buildSectors(); buildMetiers(); buildVilles(); updateStats();
-if(memAll().length) showMemory();
 </script>
 </body>
 </html>
