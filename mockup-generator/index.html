@@ -275,6 +275,11 @@
     <div class="divider"></div>
 
     <div class="field">
+      <label>URL du site client</label>
+      <input type="text" id="url-txt" placeholder="ex: bl-motorsport-montblanc.com" value="duvaldvl.com">
+    </div>
+
+    <div class="field">
       <label>Badge secteur</label>
       <input type="text" id="badge-txt" placeholder="ex: SITE VITRINE · ESTHÉTIQUE AUTO">
     </div>
@@ -338,6 +343,7 @@ let currentStyle = 'browser';
 let currentRatio = '16/9';
 let currentBg = '#f8fcf9';
 let badgeTxt = '';
+let urlTxt = 'duvaldvl.com';
 
 // Upload
 document.getElementById('img-input').addEventListener('change', e => loadFile(e.target.files[0]));
@@ -385,6 +391,7 @@ document.querySelectorAll('.color-swatch').forEach(s => s.addEventListener('clic
   s.classList.add('active'); currentBg = s.dataset.c; draw();
 }));
 document.getElementById('badge-txt').addEventListener('input', e => { badgeTxt = e.target.value; draw(); });
+document.getElementById('url-txt').addEventListener('input', e => { urlTxt = e.target.value || 'duvaldvl.com'; draw(); });
 
 // Canvas
 function draw() {
@@ -447,7 +454,7 @@ function draw() {
     ctx.fillStyle = '#999';
     ctx.font = '13px -apple-system, monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('duvaldvl.com', ux + uw / 2, pad + 28);
+    ctx.fillText(urlTxt, ux + uw / 2, pad + 28);
     ctx.textAlign = 'left';
 
     // Screenshot
