@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de mockup — Duval DVL</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #009966;
+    --green-dark: #007a52;
+    --green-light: #e8f7f2;
+    --bg: #f5f7f6;
+    --surface: #ffffff;
+    --border: #e2e8e5;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --hint: #9ca3af;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .header .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .header .logo span { color: var(--green); }
+  .header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .header p {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .container { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="text"] {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--surface);
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus { border-color: var(--green); }
+
+  .seg {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .seg button {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: inherit;
+  }
+  .seg button:hover { border-color: var(--green); color: var(--green); }
+  .seg button.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .upload-zone:hover, .upload-zone.drag { border-color: var(--green); background: var(--green-light); }
+  .upload-zone svg { display: block; margin: 0 auto 0.75rem; opacity: 0.5; }
+  .upload-zone p { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+  .upload-zone .hint { font-size: 0.75rem; color: var(--hint); }
+  .upload-zone input { display: none; }
+
+  .filename {
+    font-size: 0.8rem;
+    color: var(--green);
+    text-align: center;
+    font-weight: 500;
+    display: none;
+  }
+
+  .preview-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 3rem 1rem;
+    color: var(--hint);
+    text-align: center;
+  }
+  .empty-state svg { opacity: 0.3; }
+  .empty-state p { font-size: 0.85rem; }
+
+  canvas {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .btn-dl {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 28px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-dl:hover { background: var(--green-dark); }
+
+  .btn-reset {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-reset:hover { border-color: var(--muted); color: var(--text); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .color-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.1s;
+    flex-shrink: 0;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active { border-color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Duval <span>DVL.</span></div>
+  <h1>Générateur de mockup</h1>
+  <p>Crée les visuels pour tes cards de réalisations en quelques secondes</p>
+</div>
+
+<div class="container">
+
+  <!-- PANNEAU OPTIONS -->
+  <div class="panel">
+
+    <div class="field">
+      <label>Style de frame</label>
+      <div class="seg" id="style-seg">
+        <button class="active" data-v="browser">Navigateur</button>
+        <button data-v="flat">Flat card</button>
+        <button data-v="shadow">Ombre portée</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ratio</label>
+      <div class="seg" id="ratio-seg">
+        <button class="active" data-v="16/9">16 : 9</button>
+        <button data-v="4/3">4 : 3</button>
+        <button data-v="1/1">Carré</button>
+        <button data-v="3/4">Portrait</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Badge secteur</label>
+      <input type="text" id="badge-txt" placeholder="ex: SITE VITRINE · ESTHÉTIQUE AUTO">
+    </div>
+
+    <div class="field">
+      <label>Couleur de fond</label>
+      <div class="color-row">
+        <div class="color-swatch active" data-c="#f8fcf9" style="background:#f8fcf9;border-color:#ccc" title="Blanc doux"></div>
+        <div class="color-swatch" data-c="#111111" style="background:#111111" title="Sombre"></div>
+        <div class="color-swatch" data-c="#f0faf6" style="background:#f0faf6;border-color:#ccc" title="Vert clair"></div>
+        <div class="color-swatch" data-c="#f5f5f5" style="background:#f5f5f5;border-color:#ccc" title="Gris clair"></div>
+        <div class="color-swatch" data-c="#0a2e1f" style="background:#0a2e1f" title="Vert foncé"></div>
+        <div class="color-swatch" data-c="#ffffff" style="background:#ffffff;border-color:#ccc" title="Blanc pur"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Screenshot du site client</label>
+      <div class="upload-zone" id="drop-zone">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p>Glisse ton screenshot ici</p>
+        <p class="hint">ou clique pour choisir · PNG / JPG</p>
+        <input type="file" id="img-input" accept="image/*">
+      </div>
+      <div class="filename" id="filename"></div>
+    </div>
+
+  </div>
+
+  <!-- PANNEAU PREVIEW -->
+  <div class="preview-panel">
+
+    <div class="empty-state" id="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <p>Le mockup apparaîtra ici<br>après avoir chargé un screenshot</p>
+    </div>
+
+    <canvas id="cnv" style="display:none"></canvas>
+
+    <div class="actions" id="actions" style="display:none">
+      <button class="btn-dl" onclick="downloadPNG()">Télécharger PNG</button>
+      <button class="btn-reset" onclick="resetImg()">Changer d'image</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let img = null;
+let currentStyle = 'browser';
+let currentRatio = '16/9';
+let currentBg = '#f8fcf9';
+let badgeTxt = '';
+
+// Upload
+document.getElementById('img-input').addEventListener('change', e => loadFile(e.target.files[0]));
+document.getElementById('drop-zone').addEventListener('click', () => document.getElementById('img-input').click());
+document.getElementById('drop-zone').addEventListener('dragover', e => { e.preventDefault(); e.currentTarget.classList.add('drag'); });
+document.getElementById('drop-zone').addEventListener('dragleave', e => e.currentTarget.classList.remove('drag'));
+document.getElementById('drop-zone').addEventListener('drop', e => {
+  e.preventDefault(); e.currentTarget.classList.remove('drag');
+  loadFile(e.dataTransfer.files[0]);
+});
+
+function loadFile(f) {
+  if (!f) return;
+  document.getElementById('filename').textContent = f.name;
+  document.getElementById('filename').style.display = 'block';
+  const r = new FileReader();
+  r.onload = ev => {
+    img = new Image();
+    img.onload = draw;
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(f);
+}
+
+function resetImg() {
+  img = null;
+  document.getElementById('cnv').style.display = 'none';
+  document.getElementById('actions').style.display = 'none';
+  document.getElementById('empty-state').style.display = 'flex';
+  document.getElementById('filename').style.display = 'none';
+  document.getElementById('img-input').value = '';
+}
+
+// Segments
+document.querySelectorAll('#style-seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#style-seg button').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); currentStyle = b.dataset.v; draw();
+}));
+document.querySelectorAll('#ratio-seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#ratio-seg button').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); currentRatio = b.dataset.v; draw();
+}));
+document.querySelectorAll('.color-swatch').forEach(s => s.addEventListener('click', () => {
+  document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
+  s.classList.add('active'); currentBg = s.dataset.c; draw();
+}));
+document.getElementById('badge-txt').addEventListener('input', e => { badgeTxt = e.target.value; draw(); });
+
+// Canvas
+function draw() {
+  if (!img) return;
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('cnv').style.display = 'block';
+  document.getElementById('actions').style.display = 'flex';
+
+  const cnv = document.getElementById('cnv');
+  const [rw, rh] = currentRatio.split('/').map(Number);
+  const W = 1200;
+  const H = Math.round(W * rh / rw);
+  cnv.width = W; cnv.height = H;
+  const ctx = cnv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  if (currentStyle === 'shadow') {
+    ctx.fillStyle = currentBg;
+    ctx.fillRect(0, 0, W, H);
+    const pad = 50;
+    ctx.shadowColor = 'rgba(0,0,0,0.22)';
+    ctx.shadowBlur = 48;
+    ctx.shadowOffsetY = 12;
+    roundRect(ctx, pad, pad, W - pad * 2, H - pad * 2, 16);
+    ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.shadowColor = 'transparent';
+    drawImage(ctx, img, pad + 2, pad + 2, W - pad * 2 - 4, H - pad * 2 - 4, 14);
+    roundRect(ctx, pad, pad, W - pad * 2, H - pad * 2, 16);
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)'; ctx.lineWidth = 1; ctx.stroke();
+
+  } else if (currentStyle === 'browser') {
+    ctx.fillStyle = currentBg;
+    ctx.fillRect(0, 0, W, H);
+    const pad = 40;
+    const barH = 48;
+    const rx = 14;
+    const fw = W - pad * 2;
+    const fh = H - pad * 2;
+
+    // Frame
+    roundRect(ctx, pad, pad, fw, fh, rx);
+    ctx.fillStyle = '#1c1c1e'; ctx.fill();
+
+    // Barre titre
+    ctx.fillStyle = '#2c2c2e';
+    ctx.fillRect(pad, pad + rx, fw, barH - rx);
+    roundRect(ctx, pad, pad, fw, barH, rx);
+    ctx.fillStyle = '#2c2c2e'; ctx.fill();
+
+    // Dots
+    [['#ff5f57', 0], ['#febc2e', 1], ['#28c840', 2]].forEach(([c, i]) => {
+      ctx.beginPath(); ctx.arc(pad + 22 + i * 22, pad + barH / 2, 7, 0, Math.PI * 2);
+      ctx.fillStyle = c; ctx.fill();
+    });
+
+    // URL bar
+    const ux = pad + 80; const uw = fw - 120;
+    roundRect(ctx, ux, pad + 10, uw, 28, 6);
+    ctx.fillStyle = '#3a3a3c'; ctx.fill();
+    ctx.fillStyle = '#999';
+    ctx.font = '13px -apple-system, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('duvaldvl.com', ux + uw / 2, pad + 28);
+    ctx.textAlign = 'left';
+
+    // Screenshot
+    drawImage(ctx, img, pad, pad + barH, fw, fh - barH, 0, true, rx);
+
+    // Border
+    roundRect(ctx, pad, pad, fw, fh, rx);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.stroke();
+
+  } else {
+    // Flat
+    ctx.fillStyle = currentBg;
+    ctx.fillRect(0, 0, W, H);
+    const pad = 40;
+    roundRect(ctx, pad, pad, W - pad * 2, H - pad * 2, 16);
+    ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.07)'; ctx.lineWidth = 1; ctx.stroke();
+    drawImage(ctx, img, pad, pad, W - pad * 2, H - pad * 2, 16);
+  }
+
+  // Badge
+  if (badgeTxt.trim()) {
+    const txt = badgeTxt.trim().toUpperCase();
+    ctx.font = '600 14px -apple-system, sans-serif';
+    const tw = ctx.measureText(txt).width;
+    const bx = currentStyle === 'browser' ? 60 : 60;
+    const by = currentStyle === 'browser' ? 112 : 60;
+    const bw = tw + 28; const bh = 30;
+    roundRect(ctx, bx, by, bw, bh, 6);
+    ctx.fillStyle = '#009966'; ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(txt, bx + 14, by + 20);
+  }
+}
+
+function drawImage(ctx, img, x, y, w, h, r, bottomOnly = false, fullR = 0) {
+  ctx.save();
+  if (bottomOnly && fullR > 0) {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + w, y);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.closePath();
+    ctx.clip();
+  } else if (r > 0) {
+    roundRect(ctx, x, y, w, h, r);
+    ctx.clip();
+  }
+  const iR = img.width / img.height;
+  const cR = w / h;
+  let sx, sy, sw, sh;
+  if (iR > cR) { sw = img.height * cR; sh = img.height; sx = (img.width - sw) / 2; sy = 0; }
+  else { sw = img.width; sh = img.width / cR; sx = 0; sy = 0; }
+  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  ctx.restore();
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r); ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r); ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r); ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
+}
+
+function downloadPNG() {
+  const cnv = document.getElementById('cnv');
+  const a = document.createElement('a');
+  a.download = 'mockup-realisation.png';
+  a.href = cnv.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>
