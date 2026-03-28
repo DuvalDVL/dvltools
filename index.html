@@ -1,801 +1,156 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scanner Prospects 74 — Duval DVL</title>
-  <style>
-    :root {
-      --bg:      #0D0F12;
-      --card:    #161A20;
-      --card2:   #1C2128;
-      --border:  rgba(255,255,255,0.07);
-      --accent:  #3B82F6;
-      --green:   #22C55E;
-      --yellow:  #EAB308;
-      --red:     #EF4444;
-      --text:    #94A3B8;
-      --white:   #E2E8F0;
-      --mono:    'JetBrains Mono','Fira Code','Courier New',monospace;
-      --sans:    -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Lab - Outils gratuits par Duval DVL</title>
+    <style>
+        /* ---CSS GLOBAL --- */
+        :root {
+            --primary-color: #009966;
+            --primary-dark: #007a52;
+            --primary-gradient: linear-gradient(135deg, #2ecf93 0%, #009966 100%);
+            --accent-color: #111111;
+            --text-body: #4a5568;
+            --bg-light: #f8fcf9;
+            --white: #ffffff;
+            --container-width: 1200px;
+            --header-height: 80px;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px rgba(0, 153, 102, 0.15);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-    /* ── HEADER ──────────────────────────────────────────────────── */
-    header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px;flex-wrap:wrap}
-    .header-left{display:flex;align-items:center;gap:12px}
-    .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-    .brand-name{font-family:var(--mono);font-size:.8rem;color:var(--white);letter-spacing:.08em}
-    .brand-version{font-family:var(--mono);font-size:.6rem;color:var(--text);letter-spacing:.06em;margin-left:6px}
-    .header-stats{display:flex;gap:20px;align-items:center}
-    .hstat{font-family:var(--mono);font-size:.65rem;color:var(--text);letter-spacing:.06em}
-    .hstat strong{color:var(--white)}
-    #status-badge{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;padding:4px 12px;border-radius:2px;border:1px solid}
-    .badge-idle{color:var(--text);border-color:var(--border)}
-    .badge-running{color:var(--yellow);border-color:rgba(234,179,8,.3)}
-    .badge-done{color:var(--green);border-color:rgba(34,197,94,.3)}
-    .badge-error{color:var(--red);border-color:rgba(239,68,68,.3)}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); color: var(--text-body); line-height: 1.7; background-color: var(--bg-light); padding-top: var(--header-height); -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3, h4 { color: var(--accent-color); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1.5rem; }
+        a { text-decoration: none; transition: all 0.3s ease; color: inherit; }
+        ul { list-style: none; }
+        
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .section { padding: 5rem 0; }
+        
+        .btn { display: inline-flex; align-items: center; justify-content: center; background: var(--primary-color); color: white !important; padding: 14px 32px; border-radius: var(--radius-btn); font-weight: 600; font-size: 1.05rem; border: 2px solid var(--primary-color); box-shadow: 0 4px 15px rgba(0, 153, 102, 0.3); cursor: pointer; }
+        .btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 153, 102, 0.4); }
 
-    /* ── LAYOUT ──────────────────────────────────────────────────── */
-    .main{flex:1;display:flex;overflow:hidden}
+        /* --- HEADER --- */
+        .site-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); height: var(--header-height); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--accent-color); letter-spacing: -0.05em; }
+        .logo span { color: var(--primary-color); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-weight: 600; font-size: 0.95rem; color: var(--accent-color); }
+        .nav-links a:hover { color: var(--primary-color); }
+        .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--accent-color); }
+        
+        @media (max-width: 900px) {
+            .nav-links { position: absolute; top: var(--header-height); left: 0; right: 0; background: white; flex-direction: column; padding: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: translateY(-150%); transition: transform 0.3s ease; }
+            .nav-links.active { transform: translateY(0); }
+            .menu-toggle { display: block; }
+        }
 
-    /* ── SIDEBAR ─────────────────────────────────────────────────── */
-    .sidebar{width:280px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-    .sidebar-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
-    .sidebar-tab{flex:1;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:10px;background:none;border:none;color:var(--text);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
-    .sidebar-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-    .sidebar-tab:hover:not(.active){color:var(--white)}
-    .tab-pane{display:none;flex-direction:column;overflow-y:auto;flex:1}
-    .tab-pane.active{display:flex}
-    .sidebar-section{padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
-    .s-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-    .s-label::before{content:'//';opacity:.4}
+        /* --- FOOTER --- */
+        .site-footer { background: #0a0a0a; color: white; padding: 4rem 0 0 0; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .footer-links a:hover { color: var(--primary-color) !important; padding-left: 5px; }
+        @media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; gap: 10px; } .hidden-mobile { display: none; } }
 
-    .api-wrap{position:relative}
-    .api-wrap input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.72rem;padding:9px 36px 9px 10px;transition:border-color .2s}
-    .api-wrap input:focus{outline:none;border-color:var(--accent)}
-    .api-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text);cursor:pointer;font-size:.8rem}
-    .api-help{font-size:.7rem;line-height:1.6;color:var(--text);margin-top:8px}
-    .api-help a{color:var(--accent);text-decoration:none}
-    .api-guide{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);padding:12px;margin-top:10px}
-    .api-guide-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--accent);margin-bottom:8px}
-    .api-guide ol{padding-left:14px}
-    .api-guide li{font-size:.7rem;line-height:1.7;color:var(--text)}
-    .api-guide li a{color:var(--accent);text-decoration:none}
-
-    .sector-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
-    .sector-tab{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
-    .sector-tab.active{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.4);color:var(--accent)}
-    .metiers-list{display:flex;flex-direction:column;gap:5px}
-    .mcheck{display:flex;align-items:center;gap:7px;cursor:pointer}
-    .mcheck input{accent-color:var(--accent);cursor:pointer}
-    .mcheck span{font-size:.78rem;color:var(--text);transition:color .2s}
-    .mcheck:hover span{color:var(--white)}
-
-    .villes-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-    .vcheck{display:flex;align-items:center;gap:5px;cursor:pointer}
-    .vcheck input{accent-color:var(--accent);cursor:pointer}
-    .vcheck span{font-size:.73rem;color:var(--text);transition:color .2s}
-    .villes-actions{display:flex;gap:6px;margin-top:8px}
-    .btn-xs{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;padding:3px 8px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s}
-    .btn-xs:hover{border-color:var(--accent);color:var(--accent)}
-
-    .opt-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .opt-label{font-size:.75rem;color:var(--text)}
-    .opt-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.72rem;padding:4px 7px;width:58px;text-align:center}
-    .opt-input:focus{outline:none;border-color:var(--accent)}
-
-    .sidebar-footer{padding:16px 18px;border-top:1px solid var(--border);flex-shrink:0}
-    #btn-scan{width:100%;font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#fff;border:none;padding:12px;cursor:pointer;transition:opacity .2s,transform .2s}
-    #btn-scan:hover:not(:disabled){opacity:.85;transform:translateY(-1px)}
-    #btn-scan:disabled{opacity:.35;cursor:not-allowed;transform:none}
-    #btn-stop{display:none;width:100%;margin-top:7px;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;background:none;border:1px solid rgba(239,68,68,.4);color:var(--red);padding:9px;cursor:pointer;transition:background .2s}
-    #btn-stop:hover{background:rgba(239,68,68,.1)}
-
-    /* mémoire */
-    .mem-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-    .mem-stat{background:var(--bg);border:1px solid var(--border);padding:10px;text-align:center}
-    .mem-stat-val{font-family:var(--mono);font-size:1.3rem;color:var(--white);line-height:1}
-    .mem-stat-lbl{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:var(--text);margin-top:3px}
-    .mem-btn{width:100%;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:9px;cursor:pointer;border:1px solid;margin-bottom:7px;transition:background .2s}
-    #btn-show-mem{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:var(--accent)}
-    #btn-show-mem:hover{background:rgba(59,130,246,.18)}
-    #btn-export-mem{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:var(--green)}
-    #btn-export-mem:hover{background:rgba(34,197,94,.16)}
-    #btn-clear-mem{background:none;border-color:rgba(239,68,68,.25);color:var(--red)}
-    #btn-clear-mem:hover{background:rgba(239,68,68,.08)}
-    .mem-info{font-size:.7rem;line-height:1.75;color:var(--text)}
-    .mem-info strong{color:var(--white)}
-
-    /* ── CONTENT ─────────────────────────────────────────────────── */
-    .content{flex:1;display:flex;flex-direction:column;overflow:hidden}
-
-    .progress-wrap{background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:none;flex-shrink:0}
-    .progress-wrap.visible{display:block}
-    .progress-head{display:flex;justify-content:space-between;margin-bottom:6px}
-    #progress-label{font-family:var(--mono);font-size:.68rem;color:var(--text)}
-    #progress-pct{font-family:var(--mono);font-size:.68rem;color:var(--accent)}
-    .progress-bar{height:2px;background:var(--border);overflow:hidden}
-    #progress-fill{height:100%;background:var(--accent);transition:width .3s;width:0%}
-
-    .toolbar{background:var(--card);border-bottom:1px solid var(--border);padding:8px 20px;display:flex;flex-direction:column;gap:7px;flex-shrink:0}
-    .toolbar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .results-count{font-family:var(--mono);font-size:.65rem;color:var(--text)}
-    .results-count strong{color:var(--white)}
-    .filter-tabs{display:flex;gap:3px;flex-wrap:wrap}
-    .filter-tab{font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;padding:3px 9px;border:1px solid var(--border);background:none;color:var(--text);cursor:pointer;transition:all .2s;white-space:nowrap}
-    .filter-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,.08)}
-    .filter-sep{width:1px;height:16px;background:var(--border);flex-shrink:0}
-    .toolbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
-    .search-input{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.68rem;padding:4px 10px;width:140px;transition:border-color .2s}
-    .search-input:focus{outline:none;border-color:var(--accent)}
-    .search-input::placeholder{color:rgba(255,255,255,.2)}
-    .filter-select{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.62rem;padding:4px 8px;cursor:pointer;transition:border-color .2s;max-width:170px}
-    .filter-select:focus{outline:none;border-color:var(--accent)}
-    .filter-select option{background:var(--card)}
-    .filter-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--text);text-transform:uppercase;white-space:nowrap}
-    #btn-export{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:4px 12px;cursor:pointer;transition:background .2s;display:none}
-    #btn-export:hover{background:rgba(34,197,94,.22)}
-    #btn-export.visible{display:block}
-
-    /* table */
-    .table-wrap{flex:1;overflow:auto}
-    table{width:100%;border-collapse:collapse;font-size:.78rem}
-    thead tr{background:var(--card);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:10}
-    th{padding:10px 12px;text-align:left;font-family:var(--mono);font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-weight:400;white-space:nowrap}
-    tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
-    tbody tr:hover{background:rgba(255,255,255,.02)}
-    tbody tr.hidden{display:none}
-    td{padding:9px 12px;color:var(--text);vertical-align:middle}
-    td.t-nom{color:var(--white);font-weight:500;max-width:170px}
-    .mem-badge{font-family:var(--mono);font-size:.52rem;color:var(--yellow);border:1px solid rgba(234,179,8,.3);padding:1px 5px;margin-left:5px;vertical-align:middle}
-    td.t-tel a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.7rem}
-    td.t-tel a:hover{text-decoration:underline}
-    td.t-site a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.67rem;max-width:150px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .no-site{font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.18)}
-    .stars{color:#FDE047;font-size:.68rem}
-    td.t-meta{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.28)}
-
-    .pri{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;padding:2px 7px;border-radius:2px;white-space:nowrap}
-    .pri-1{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#FCA5A5}
-    .pri-2{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.22);color:#FDE047}
-    .pri-3{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);color:#86EFAC}
-
-    /* statut */
-    .statut-wrap{min-width:130px}
-    .statut-select{background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:var(--mono);font-size:.6rem;padding:4px 6px;cursor:pointer;width:100%;transition:border-color .2s}
-    .statut-select:focus{outline:none}
-    .statut-select option{background:var(--card)}
-    .s-nouveau    {border-color:rgba(255,255,255,.12)!important;color:var(--text)!important}
-    .s-a-contacter{border-color:rgba(59,130,246,.45)!important;color:#93C5FD!important}
-    .s-site-cree  {border-color:rgba(168,85,247,.45)!important;color:#D8B4FE!important}
-    .s-mail-envoye{border-color:rgba(234,179,8,.45)!important;color:#FDE047!important}
-    .s-a-relancer {border-color:rgba(249,115,22,.45)!important;color:#FED7AA!important}
-    .s-signe      {border-color:rgba(34,197,94,.45)!important;color:#86EFAC!important}
-    .s-archive    {border-color:rgba(255,255,255,.08)!important;color:rgba(255,255,255,.22)!important}
-
-    /* email */
-    .email-wrap{min-width:155px}
-    .email-display{font-family:var(--mono);font-size:.63rem;cursor:pointer;padding:4px 7px;border:1px solid transparent;border-radius:2px;display:flex;align-items:center;gap:5px;transition:border-color .2s}
-    .email-display:hover{border-color:var(--border)}
-    .email-hint{font-size:.52rem;color:rgba(255,255,255,.18);opacity:0;transition:opacity .2s}
-    .email-display:hover .email-hint{opacity:1}
-    .email-val.has-email{color:var(--accent)}
-    .email-val.no-email{color:rgba(255,255,255,.2)}
-    .email-input-field{background:var(--bg);border:1px solid var(--accent);color:var(--white);font-family:var(--mono);font-size:.63rem;padding:4px 7px;width:100%;display:none}
-    .email-input-field:focus{outline:none}
-
-    /* notes */
-    .notes-wrap{min-width:140px}
-    .notes-display{font-size:.7rem;cursor:pointer;padding:4px 7px;border:1px solid transparent;border-radius:2px;transition:border-color .2s;max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .notes-display:hover{border-color:var(--border)}
-    .notes-display.has-note{color:var(--text)}
-    .notes-display.no-note{color:rgba(255,255,255,.18);font-size:.63rem}
-    .notes-input{background:var(--bg);border:1px solid var(--accent);color:var(--white);font-family:var(--sans);font-size:.7rem;padding:4px 7px;width:100%;display:none;resize:none}
-    .notes-input:focus{outline:none}
-
-    .date-col{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.28);white-space:nowrap}
-
-    /* empty */
-    .empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:60px}
-    .empty-icon{font-size:2.5rem;opacity:.2}
-    .empty-title{font-family:var(--mono);font-size:.8rem;color:var(--text);letter-spacing:.06em}
-    .empty-sub{font-size:.75rem;color:rgba(255,255,255,.2);text-align:center;max-width:360px;line-height:1.75}
-
-    /* toast */
-    .toast{position:fixed;bottom:20px;right:20px;background:var(--card2);border:1px solid var(--border);padding:10px 18px;font-family:var(--mono);font-size:.68rem;color:var(--white);letter-spacing:.06em;z-index:1000;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none}
-    .toast.show{opacity:1;transform:translateY(0)}
-
-    #map{display:none}
-    ::-webkit-scrollbar{width:5px;height:5px}
-    ::-webkit-scrollbar-track{background:transparent}
-    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
-  </style>
+        /* --- STYLES SPÉCIFIQUES LAB --- */
+        .lab-hero { text-align: center; padding: 4rem 0 2rem; }
+        .lab-hero h1 { font-size: 2.5rem; }
+        .lab-hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin: 3rem 0; }
+        .tool-card { background: white; border-radius: var(--radius-card); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
+        .tool-icon { background: #e8f7f2; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .tool-icon svg { width: 30px; height: 30px; }
+        .tool-card h3 { margin-bottom: 0.5rem; }
+        .tool-card p { font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        
+        .tool-card.disabled { opacity: 0.6; cursor: not-allowed; }
+        .tool-card.disabled:hover { transform: none; box-shadow: var(--shadow-sm); border-color: rgba(0,0,0,0.05); }
+        .badge-soon { background: #f1f5f9; color: #64748b; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 50px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <div class="brand-dot"></div>
-    <span class="brand-name">SCANNER PROSPECTS</span>
-    <span class="brand-version">74 · v2.0 · Duval DVL</span>
-  </div>
-  <div class="header-stats">
-    <div class="hstat">Mémoire : <strong id="stat-mem">0</strong></div>
-    <div class="hstat">Sans site : <strong id="stat-nossite">0</strong></div>
-    <div class="hstat">Signés : <strong id="stat-signes">0</strong></div>
-  </div>
-  <div id="status-badge" class="badge-idle">IDLE</div>
+<header class="site-header">
+    <div class="container navbar">
+        <a href="https://duvaldvl.com/" class="logo">Duval <span>DVL.</span></a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav class="nav-links" id="nav-links">
+            <a href="https://duvaldvl.com/">Accueil Agence</a>
+            <a href="https://duvaldvl.com/creation-sites-internet">Site Internet</a>
+            <a href="https://duvaldvl.com/referencement-local">SEO Local</a>
+            <a href="https://duvaldvl.com/nos-realisations">Réalisations</a>
+            <a href="https://duvaldvl.com/contact" class="btn" style="padding: 10px 24px; font-size: 0.95rem;">Contact</a>
+        </nav>
+    </div>
 </header>
 
-<div class="main">
-  <div class="sidebar">
-    <div class="sidebar-tabs">
-      <button class="sidebar-tab active" data-tab="scan">Scan</button>
-      <button class="sidebar-tab" data-tab="memoire">Mémoire</button>
+<main class="container">
+    <div class="lab-hero">
+        <span style="color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Le Lab</span>
+        <h1>Les outils internes de l'agence,<br>ouverts à tous.</h1>
+        <p>J'ai développé ces petits utilitaires pour accélérer mon quotidien d'artisan du web. Servez-vous, c'est gratuit.</p>
     </div>
 
-    <!-- TAB SCAN -->
-    <div class="tab-pane active" id="tab-scan">
-      <div class="sidebar-section">
-        <div class="s-label">Clé API Google</div>
-        <div class="api-wrap">
-          <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off"/>
-          <button class="api-eye" id="toggle-key">👁</button>
-        </div>
-        <p class="api-help">Clé avec <strong style="color:var(--white)">Maps JS API</strong> + <strong style="color:var(--white)">Places API</strong> activées.</p>
-        <div class="api-guide">
-          <div class="api-guide-title">// OBTENIR UNE CLÉ (5 min)</div>
-          <ol>
-            <li><a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a></li>
-            <li>Nouveau projet → Activer Maps JS API + Places API</li>
-            <li>Identifiants → Créer une clé API</li>
-            <li>Crédit gratuit : <strong style="color:var(--green)">200$/mois</strong></li>
-          </ol>
-        </div>
-      </div>
+    <div class="tools-grid">
+        <a href="./mockup-generator/" class="tool-card">
+            <div class="tool-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <h3>Générateur de Mockup</h3>
+            <p>Transforme de simples captures d'écran en superbes mockups (navigateur, ombres portées) pour tes présentations ou ton portfolio.</p>
+            <span style="color: var(--primary-color); font-weight: 700; display: flex; align-items: center; gap: 5px;">Lancer l'outil →</span>
+        </a>
 
-      <div class="sidebar-section">
-        <div class="s-label">Secteur & Métiers</div>
-        <div class="sector-tabs" id="sector-tabs"></div>
-        <div class="metiers-list" id="metiers-list"></div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="s-label">Villes du 74</div>
-        <div class="villes-grid" id="villes-grid"></div>
-        <div class="villes-actions">
-          <button class="btn-xs" id="btn-all-v">Tout</button>
-          <button class="btn-xs" id="btn-none-v">Aucun</button>
+        <div class="tool-card disabled">
+            <span class="badge-soon">En cours de dev</span>
+            <div class="tool-icon" style="background: #f1f5f9; color: #94a3b8;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            </div>
+            <h3 style="color: #64748b;">Générateur de Schema SEO</h3>
+            <p>Un outil pour générer facilement les données structurées (JSON-LD) de ton entreprise locale pour Google.</p>
         </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="s-label">Options</div>
-        <div class="opt-row">
-          <span class="opt-label">Résultats max / recherche</span>
-          <input type="number" class="opt-input" id="opt-max" value="10" min="1" max="20"/>
-        </div>
-        <div class="opt-row">
-          <span class="opt-label">Délai entre requêtes (ms)</span>
-          <input type="number" class="opt-input" id="opt-delay" value="200" min="100" max="1000"/>
-        </div>
-      </div>
-
-      <div class="sidebar-footer">
-        <button id="btn-scan" disabled>▶ Lancer le scan</button>
-        <button id="btn-stop">■ Arrêter</button>
-      </div>
     </div>
+</main>
 
-    <!-- TAB MÉMOIRE -->
-    <div class="tab-pane" id="tab-memoire">
-      <div class="sidebar-section">
-        <div class="s-label">Statistiques</div>
-        <div class="mem-stats">
-          <div class="mem-stat"><div class="mem-stat-val" id="ms-total">0</div><div class="mem-stat-lbl">Total</div></div>
-          <div class="mem-stat"><div class="mem-stat-val" id="ms-nossite" style="color:var(--red)">0</div><div class="mem-stat-lbl">Sans site</div></div>
-          <div class="mem-stat"><div class="mem-stat-val" id="ms-envoyes" style="color:var(--yellow)">0</div><div class="mem-stat-lbl">Mails envoyés</div></div>
-          <div class="mem-stat"><div class="mem-stat-val" id="ms-signes" style="color:var(--green)">0</div><div class="mem-stat-lbl">Signés</div></div>
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <span style="font-weight: 700; font-size: 1.5rem; color: #fff; display: block; margin-bottom: 1rem;">Duval DVL</span>
+                <p style="color: #ccc; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                    Webdesigner & Expert SEO en Haute-Savoie.<br>
+                    J'accompagne les artisans, commerçants et PME vers la réussite digitale.
+                </p>
+                </div>
+            <div class="footer-col">
+                <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 1.5rem;">Mes Services</h4>
+                <ul class="footer-links" style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="https://duvaldvl.com/" style="color: #ccc; text-decoration: none; transition: 0.3s;">Accueil Agence</a></li>
+                    <li style="margin-bottom: 10px;"><a href="https://duvaldvl.com/creation-sites-internet/" style="color: #ccc; text-decoration: none; transition: 0.3s;">Création Site Internet</a></li>
+                    <li style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+                        <a href="https://duvaldvl.com/contact/" style="color: #fff; text-decoration: underline; font-weight: bold;">Travailler avec moi</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <button class="mem-btn" id="btn-show-mem">📋 Afficher tous les prospects</button>
-        <button class="mem-btn" id="btn-export-mem">↓ Exporter tout en CSV</button>
-        <button class="mem-btn" id="btn-clear-mem">🗑 Effacer la mémoire</button>
-      </div>
-      <div class="sidebar-section">
-        <div class="s-label">Comment ça marche</div>
-        <p class="mem-info">
-          Chaque prospect scanné est <strong>mémorisé automatiquement</strong> dans votre navigateur.<br/><br/>
-          Lors d'un prochain scan, si un prospect est déjà connu, il s'affiche <strong>sans consommer de crédit API</strong>.<br/><br/>
-          Ses <strong>emails, statuts et notes</strong> sont restaurés automatiquement.<br/><br/>
-          ⚠️ Mémoire liée à ce navigateur. Exportez régulièrement en CSV.
-        </p>
-      </div>
+        <div class="footer-bottom" style="border-top: 1px solid #333; margin-top: 3rem; padding: 1.5rem 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+            <div style="margin-bottom: 10px;">&copy; 2026 Duval DVL - Le Lab</div>
+        </div>
     </div>
-  </div>
-
-  <div class="content">
-    <div class="progress-wrap" id="progress-wrap">
-      <div class="progress-head">
-        <span id="progress-label">Initialisation...</span>
-        <span id="progress-pct">0%</span>
-      </div>
-      <div class="progress-bar"><div id="progress-fill"></div></div>
-    </div>
-
-    <div class="toolbar">
-      <!-- Ligne 1 : filtres priorité + statut -->
-      <div class="toolbar-row">
-        <div class="results-count" id="results-count"><strong>0</strong> prospect(s)</div>
-        <div class="filter-tabs" id="filter-tabs-priority">
-          <button class="filter-tab active" data-filter="all">Tous</button>
-          <button class="filter-tab" data-filter="1">🔴 Sans site</button>
-          <button class="filter-tab" data-filter="2">🟡 Faible</button>
-          <button class="filter-tab" data-filter="3">🟢 Présent</button>
-        </div>
-        <div class="filter-sep"></div>
-        <div class="filter-tabs" id="filter-tabs-statut">
-          <button class="filter-tab" data-filter="a-contacter">📋 À contacter</button>
-          <button class="filter-tab" data-filter="site-cree">🎨 Site créé</button>
-          <button class="filter-tab" data-filter="mail-envoye">📧 Mail envoyé</button>
-          <button class="filter-tab" data-filter="a-relancer">🔁 À relancer</button>
-          <button class="filter-tab" data-filter="signe">✅ Signés</button>
-        </div>
-        <div class="toolbar-right">
-          <button id="btn-export">↓ CSV</button>
-        </div>
-      </div>
-      <!-- Ligne 2 : filtres secteur + métier + recherche -->
-      <div class="toolbar-row">
-        <span class="filter-label">Secteur :</span>
-        <select class="filter-select" id="filter-secteur">
-          <option value="">— Tous —</option>
-        </select>
-        <span class="filter-label">Métier :</span>
-        <select class="filter-select" id="filter-metier">
-          <option value="">— Tous —</option>
-        </select>
-        <div class="toolbar-right">
-          <input type="text" class="search-input" id="search-input" placeholder="Rechercher..."/>
-        </div>
-      </div>
-    </div>
-
-    <div class="table-wrap">
-      <div class="empty-state" id="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-title">Aucun résultat pour l'instant</div>
-        <div class="empty-sub">Lancez un scan ou cliquez sur "Afficher tous les prospects" pour charger la mémoire.<br/><br/>Les prospects déjà connus s'affichent instantanément, sans consommer de crédit API.</div>
-      </div>
-      <table id="results-table" style="display:none">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Priorité</th>
-            <th>Statut</th>
-            <th>Entreprise</th>
-            <th>Téléphone</th>
-            <th>Email</th>
-            <th>Site web</th>
-            <th>Note</th>
-            <th>Notes internes</th>
-            <th>Dernier contact</th>
-            <th>Métier</th>
-            <th>Ville</th>
-          </tr>
-        </thead>
-        <tbody id="results-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-<div id="map"></div>
+</footer>
 
 <script>
-// ── CONFIG ────────────────────────────────────────────────────────
-
-const SECTEURS = {
-  "Artisan BTP": ["plombier","électricien","maçon","menuisier","couvreur","peintre bâtiment","charpentier","carreleur","chauffagiste","serrurier"],
-  "Industrie":   ["décolletage","usinage CNC","mécanique de précision","métallurgie","tôlerie","fonderie","traitement de surface"],
-  "Auto":        ["garage automobile","mécanique auto","carrosserie","contrôle technique","pneumatique","préparateur automobile"],
-  "Esthétique":  ["coiffeur","esthéticienne","nail art","salon de beauté","spa","masseur","institut de beauté"]
-};
-
-const VILLES_74 = [
-  "Annecy","Annemasse","Thonon-les-Bains","Bonneville","Cluses","Sallanches",
-  "Saint-Julien-en-Genevois","Évian-les-Bains","Rumilly","La Roche-sur-Foron",
-  "Chamonix","Megève","Morzine","Seynod","Cran-Gevrier","Gaillard","Archamps","Annecy-le-Vieux"
-];
-
-const WEAK = ['facebook.com','fb.com','wixsite.com','wix.com','jimdo.com','jimdofree.com',
-  'weebly.com','webnode.fr','e-monsite.com','site123.me','free.fr','perso.wanadoo.fr',
-  'wordpress.com','blogspot.com','google.com/maps','instagram.com','pagesjaunes.fr'];
-
-const STATUTS = [
-  { val:'nouveau',     label:'— Nouveau',      css:'s-nouveau' },
-  { val:'a-contacter', label:'📋 À contacter',  css:'s-a-contacter' },
-  { val:'site-cree',   label:'🎨 Site créé',     css:'s-site-cree' },
-  { val:'mail-envoye', label:'📧 Mail envoyé',   css:'s-mail-envoye' },
-  { val:'a-relancer',  label:'🔁 À relancer',    css:'s-a-relancer' },
-  { val:'signe',       label:'✅ Signé',          css:'s-signe' },
-  { val:'archive',     label:'🗄 Archivé',        css:'s-archive' }
-];
-
-// ── MÉMOIRE ───────────────────────────────────────────────────────
-
-const MEM_KEY = 'duval_dvl_v2';
-const memLoad  = () => { try { return JSON.parse(localStorage.getItem(MEM_KEY)||'{}'); } catch(e){ return {}; } };
-const memSave  = db => localStorage.setItem(MEM_KEY, JSON.stringify(db));
-const memGet   = id => memLoad()[id] || null;
-const memSet   = (id, patch) => { const db=memLoad(); db[id]={...db[id],...patch,updatedAt:Date.now()}; memSave(db); };
-const memAll   = () => Object.values(memLoad());
-
-// ── STATE ─────────────────────────────────────────────────────────
-
-let rows = [];            // { placeId, tr }
-let scanning = false, stopReq = false;
-let mapsReady = false, svc = null;
-let activeSector = Object.keys(SECTEURS)[0];
-let activeFilter = 'all';
-
-// ── SCORING ───────────────────────────────────────────────────────
-
-function score(url) {
-  if (!url) return { p:1, label:'🔴 Sans site web' };
-  const u = url.toLowerCase();
-  return WEAK.some(d=>u.includes(d)) ? { p:2, label:'🟡 Site faible' } : { p:3, label:'🟢 Site présent' };
-}
-
-// ── INIT ──────────────────────────────────────────────────────────
-
-function buildSectors() {
-  const c = document.getElementById('sector-tabs');
-  Object.keys(SECTEURS).forEach((s,i) => {
-    const b = document.createElement('button');
-    b.className='sector-tab'+(i===0?' active':'');
-    b.textContent=s;
-    b.onclick=()=>{ activeSector=s; document.querySelectorAll('.sector-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); buildMetiers(); };
-    c.appendChild(b);
-  });
-}
-function buildMetiers() {
-  const c=document.getElementById('metiers-list'); c.innerHTML='';
-  SECTEURS[activeSector].forEach(m=>{ const l=document.createElement('label'); l.className='mcheck'; l.innerHTML=`<input type="checkbox" value="${m}" checked/><span>${m}</span>`; c.appendChild(l); });
-}
-function buildVilles() {
-  const c=document.getElementById('villes-grid');
-  VILLES_74.forEach(v=>{ const l=document.createElement('label'); l.className='vcheck'; l.innerHTML=`<input type="checkbox" value="${v}" checked/><span>${v}</span>`; c.appendChild(l); });
-}
-const getMetiers = ()=>[...document.querySelectorAll('#metiers-list input:checked')].map(i=>i.value);
-const getVilles  = ()=>[...document.querySelectorAll('#villes-grid input:checked')].map(i=>i.value);
-
-// ── GOOGLE MAPS ───────────────────────────────────────────────────
-
-function loadMaps(key) {
-  return new Promise((res,rej)=>{
-    if(mapsReady){res();return;}
-    window.__gm=()=>{ mapsReady=true; svc=new google.maps.places.PlacesService(new google.maps.Map(document.getElementById('map'),{center:{lat:45.9,lng:6.1},zoom:10})); res(); };
-    const old=document.querySelector('script[data-gm]'); if(old)old.remove();
-    const s=document.createElement('script'); s.setAttribute('data-gm','1');
-    s.src=`https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=__gm`;
-    s.onerror=()=>rej(new Error('Clé API invalide ou Maps API non activée.'));
-    document.head.appendChild(s);
-  });
-}
-const txtSearch = q=>new Promise(res=>svc.textSearch({query:`${q} Haute-Savoie`,region:'fr'},(r,st)=>res(st==='OK'?r||[]:[])));
-const getDetails = id=>new Promise(res=>svc.getDetails({placeId:id,fields:['name','website','formatted_phone_number','formatted_address','rating','place_id']},(r,st)=>res(st==='OK'?r:null)));
-const sleep = ms=>new Promise(r=>setTimeout(r,ms));
-
-// ── SCAN ──────────────────────────────────────────────────────────
-
-async function runScan() {
-  const key=document.getElementById('api-key').value.trim();
-  const metiers=getMetiers(), villes=getVilles();
-  const maxR=parseInt(document.getElementById('opt-max').value)||10;
-  const delay=parseInt(document.getElementById('opt-delay').value)||200;
-  if(!key){alert('Renseignez votre clé API.');return;}
-  if(!metiers.length){alert('Sélectionnez au moins un métier.');return;}
-  if(!villes.length){alert('Sélectionnez au moins une ville.');return;}
-
-  scanning=true; stopReq=false; rows=[];
-  document.getElementById('btn-scan').disabled=true;
-  document.getElementById('btn-stop').style.display='block';
-  document.getElementById('progress-wrap').classList.add('visible');
-  document.getElementById('results-table').style.display='none';
-  document.getElementById('empty-state').style.display='none';
-  document.getElementById('btn-export').classList.remove('visible');
-  document.getElementById('results-tbody').innerHTML='';
-  setStatus('running','SCANNING');
-
-  const total=metiers.length*villes.length; let done=0, apiC=0, memC=0;
-
-  try {
-    setProgress('Chargement Google Maps...',0);
-    await loadMaps(key);
-
-    for(const m of metiers) {
-      for(const v of villes) {
-        if(stopReq) break;
-        setProgress(`Recherche : ${m} à ${v}`, Math.round(done/total*100));
-        let places=[];
-        try{ places=await txtSearch(`${m} ${v}`); apiC++; }catch(e){}
-        await sleep(delay);
-
-        for(const pl of places.slice(0,maxR)) {
-          if(stopReq) break;
-          const pid=pl.place_id;
-
-          // Déjà en mémoire ?
-          const cached=memGet(pid);
-          if(cached) {
-            memC++;
-            if(!rows.find(r=>r.placeId===pid)) addRow({...cached,fromMem:true}, rows.length+1);
-            continue;
-          }
-
-          setProgress(`Détails : ${pl.name}...`, Math.round(done/total*100));
-          let det=null;
-          try{ det=await getDetails(pid); apiC++; }catch(e){}
-          await sleep(Math.round(delay*.5));
-
-          if(det) {
-            const s=score(det.website);
-            const p={
-              placeId:pid, nom:det.name||pl.name,
-              adresse:det.formatted_address||'', ville:v,
-              tel:det.formatted_phone_number||'', site:det.website||'',
-              note:det.rating||'', priorite:s.p, prioriteLabel:s.label,
-              metier:m, secteur:activeSector,
-              email:'', statut:'nouveau', notes:'', dateContact:'',
-              createdAt:Date.now()
-            };
-            memSet(pid,p);
-            addRow(p, rows.length+1);
-          }
-        }
-        done++;
-      }
-      if(stopReq) break;
-    }
-  } catch(err) {
-    setStatus('error','ERREUR'); alert('Erreur : '+err.message);
-  } finally {
-    scanning=false;
-    document.getElementById('btn-scan').disabled=false;
-    document.getElementById('btn-stop').style.display='none';
-    document.getElementById('progress-wrap').classList.remove('visible');
-    setStatus(stopReq?'idle':'done', stopReq?'ARRÊTÉ':'TERMINÉ');
-    if(rows.length) document.getElementById('btn-export').classList.add('visible');
-    updateStats();
-    showToast(`${rows.length} prospects · ${memC} depuis mémoire · ${apiC} appels API`);
-  }
-}
-
-// ── LIGNE ─────────────────────────────────────────────────────────
-
-function addRow(p, idx) {
-  document.getElementById('results-table').style.display='table';
-  document.getElementById('empty-state').style.display='none';
-
-  const tr=document.createElement('tr');
-  tr.dataset.priority = p.priorite;
-  tr.dataset.statut   = p.statut || 'nouveau';
-  tr.dataset.search   = `${p.nom} ${p.ville} ${p.metier} ${p.secteur}`.toLowerCase();
-  tr.dataset.secteur  = p.secteur || '';
-  tr.dataset.metier   = p.metier  || '';
-
-  const statOpts=STATUTS.map(s=>`<option value="${s.val}"${s.val===(p.statut||'nouveau')?' selected':''}>${s.label}</option>`).join('');
-  const statCss=STATUTS.find(s=>s.val===(p.statut||'nouveau'))?.css||'s-nouveau';
-  const siteHtml=p.site?`<a href="${p.site}" target="_blank">${p.site.replace(/^https?:\/\//,'').replace(/\/$/,'').slice(0,28)}</a>`:`<span class="no-site">aucun site</span>`;
-  const telHtml=p.tel?`<a href="tel:${p.tel.replace(/\s/g,'')}">${p.tel}</a>`:'—';
-  const memBadge=p.fromMem?'<span class="mem-badge">MEM</span>':'';
-
-  tr.innerHTML=`
-    <td style="font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.2)">${String(idx).padStart(3,'0')}</td>
-    <td><span class="pri pri-${p.priorite}">${p.prioriteLabel}</span></td>
-    <td class="statut-wrap"><select class="statut-select ${statCss}">${statOpts}</select></td>
-    <td class="t-nom">${p.nom}${memBadge}</td>
-    <td class="t-tel">${telHtml}</td>
-    <td class="email-wrap">
-      <div class="email-display">
-        <span class="email-val ${p.email?'has-email':'no-email'}">${p.email||'Ajouter email…'}</span>
-        <span class="email-hint">✎</span>
-      </div>
-      <input type="email" class="email-input-field" value="${p.email||''}" placeholder="email@entreprise.fr"/>
-    </td>
-    <td class="t-site">${siteHtml}</td>
-    <td class="stars">${p.note?'★'.repeat(Math.round(p.note))+` (${p.note})`:'—'}</td>
-    <td class="notes-wrap">
-      <div class="notes-display ${p.notes?'has-note':'no-note'}">${p.notes||'Ajouter une note…'}</div>
-      <textarea class="notes-input" rows="2">${p.notes||''}</textarea>
-    </td>
-    <td class="date-col">${fmtDate(p.dateContact)}</td>
-    <td class="t-meta">${p.metier}</td>
-    <td class="t-meta">${p.ville}</td>`;
-
-  // Statut
-  const sel=tr.querySelector('.statut-select');
-  sel.addEventListener('change',()=>{
-    const v=sel.value, css=STATUTS.find(s=>s.val===v)?.css||'s-nouveau';
-    sel.className=`statut-select ${css}`;
-    tr.dataset.statut=v;
-    const dc=v!=='nouveau'?Date.now():'';
-    memSet(p.placeId,{statut:v,dateContact:dc});
-    tr.querySelector('.date-col').textContent=fmtDate(dc);
-    filterRow(tr); updateCount(); updateStats();
-    showToast(`Statut : ${STATUTS.find(s=>s.val===v)?.label}`);
-  });
-
-  // Email
-  const ed=tr.querySelector('.email-display'), ei=tr.querySelector('.email-input-field');
-  ed.addEventListener('click',()=>{ ed.style.display='none'; ei.style.display='block'; ei.focus(); ei.select(); });
-  const saveEmail=()=>{
-    const v=ei.value.trim(); memSet(p.placeId,{email:v});
-    const ev=tr.querySelector('.email-val'); ev.textContent=v||'Ajouter email…'; ev.className=`email-val ${v?'has-email':'no-email'}`;
-    ei.style.display='none'; ed.style.display='flex';
-    if(v) showToast('Email enregistré ✓');
-  };
-  ei.addEventListener('blur',saveEmail);
-  ei.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();ei.blur();} if(e.key==='Escape'){ei.value=memGet(p.placeId)?.email||'';ei.blur();} });
-
-  // Notes
-  const nd=tr.querySelector('.notes-display'), ni=tr.querySelector('.notes-input');
-  nd.addEventListener('click',()=>{ nd.style.display='none'; ni.style.display='block'; ni.focus(); });
-  const saveNote=()=>{
-    const v=ni.value.trim(); memSet(p.placeId,{notes:v});
-    nd.textContent=v||'Ajouter une note…'; nd.className=`notes-display ${v?'has-note':'no-note'}`;
-    ni.style.display='none'; nd.style.display='block';
-  };
-  ni.addEventListener('blur',saveNote);
-  ni.addEventListener('keydown',e=>{ if(e.key==='Escape')ni.blur(); });
-
-  filterRow(tr);
-  document.getElementById('results-tbody').appendChild(tr);
-  rows.push({placeId:p.placeId,tr});
-  updateCount();
-  refreshFilterDropdowns();
-}
-
-// ── FILTRES ───────────────────────────────────────────────────────
-
-function filterRow(tr) {
-  const pri    = tr.dataset.priority;
-  const stat   = tr.dataset.statut;
-  const search = tr.dataset.search;
-  const secteur = tr.dataset.secteur || '';
-  const metier  = tr.dataset.metier  || '';
-
-  const q        = document.getElementById('search-input').value.toLowerCase().trim();
-  const fSecteur = document.getElementById('filter-secteur').value;
-  const fMetier  = document.getElementById('filter-metier').value;
-
-  let ok = false;
-  if      (activeFilter === 'all')         ok = true;
-  else if (activeFilter === '1')           ok = pri === '1';
-  else if (activeFilter === '2')           ok = pri === '2';
-  else if (activeFilter === '3')           ok = pri === '3';
-  else                                     ok = stat === activeFilter;
-
-  if (fSecteur && ok) ok = secteur === fSecteur;
-  if (fMetier  && ok) ok = metier  === fMetier;
-  if (q        && ok) ok = search.includes(q);
-
-  tr.classList.toggle('hidden', !ok);
-}
-function filterAll() { rows.forEach(r => filterRow(r.tr)); updateCount(); }
-
-// Peuple les dropdowns secteur/métier depuis les lignes actuelles
-function refreshFilterDropdowns() {
-  const secteurs = [...new Set(rows.map(r => r.tr.dataset.secteur).filter(Boolean))].sort();
-  const metiers  = [...new Set(rows.map(r => r.tr.dataset.metier ).filter(Boolean))].sort();
-
-  const selS = document.getElementById('filter-secteur');
-  const curS = selS.value;
-  selS.innerHTML = '<option value="">— Tous secteurs —</option>';
-  secteurs.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; selS.appendChild(o); });
-  if (curS) selS.value = curS;
-
-  const selM = document.getElementById('filter-metier');
-  const curM = selM.value;
-  selM.innerHTML = '<option value="">— Tous métiers —</option>';
-  metiers.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; selM.appendChild(o); });
-  if (curM) selM.value = curM;
-}
-
-function updateCount() {
-  const vis=rows.filter(r=>!r.tr.classList.contains('hidden')).length;
-  document.getElementById('results-count').innerHTML=`<strong>${rows.length}</strong> prospect(s) · <strong>${vis}</strong> affiché(s)`;
-}
-
-// ── STATS ─────────────────────────────────────────────────────────
-
-function updateStats() {
-  const all=memAll();
-  document.getElementById('stat-mem').textContent    =all.length;
-  document.getElementById('stat-nossite').textContent=all.filter(p=>p.priorite===1).length;
-  document.getElementById('stat-signes').textContent =all.filter(p=>p.statut==='signe').length;
-  document.getElementById('ms-total').textContent   =all.length;
-  document.getElementById('ms-nossite').textContent =all.filter(p=>p.priorite===1).length;
-  document.getElementById('ms-envoyes').textContent =all.filter(p=>p.statut==='mail-envoye').length;
-  document.getElementById('ms-signes').textContent  =all.filter(p=>p.statut==='signe').length;
-}
-
-// ── AFFICHER MÉMOIRE ──────────────────────────────────────────────
-
-function showMemory() {
-  const all=memAll(); if(!all.length){showToast('Aucun prospect en mémoire');return;}
-  rows=[]; document.getElementById('results-tbody').innerHTML='';
-  document.getElementById('results-table').style.display='table';
-  document.getElementById('empty-state').style.display='none';
-  document.getElementById('btn-export').classList.add('visible');
-  all.sort((a,b)=>a.priorite-b.priorite||(b.createdAt||0)-(a.createdAt||0));
-  all.forEach((p,i)=>addRow({...p,fromMem:true},i+1));
-  document.querySelector('[data-tab="scan"]').click();
-  showToast(`${all.length} prospects chargés depuis la mémoire`);
-}
-
-// ── EXPORT ────────────────────────────────────────────────────────
-
-function exportCSV(data) {
-  if(!data?.length){showToast('Aucune donnée');return;}
-  const h=['Priorité','Statut','Entreprise','Adresse','Ville','Téléphone','Email','Site web','Note','Notes internes','Dernier contact','Métier','Secteur'];
-  const r=data.map(p=>[p.prioriteLabel,p.statut,p.nom,p.adresse,p.ville,p.tel,p.email,p.site,p.note,p.notes,fmtDate(p.dateContact),p.metier,p.secteur].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
-  const csv='\uFEFF'+[h.join(','),...r].join('\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  a.download=`prospects-74_${new Date().toISOString().slice(0,10)}.csv`; a.click();
-}
-
-// ── HELPERS ───────────────────────────────────────────────────────
-
-const setStatus=(t,x)=>{ const b=document.getElementById('status-badge'); b.className=`badge-${t}`; b.textContent=x; };
-const setProgress=(l,p)=>{ document.getElementById('progress-label').textContent=l; document.getElementById('progress-pct').textContent=p+'%'; document.getElementById('progress-fill').style.width=p+'%'; };
-const fmtDate=ts=>{ if(!ts)return''; const d=new Date(ts); return`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`; };
-let tt; const showToast=m=>{ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),3000); };
-
-// ── EVENTS ────────────────────────────────────────────────────────
-
-document.getElementById('btn-scan').addEventListener('click',runScan);
-document.getElementById('btn-stop').addEventListener('click',()=>stopReq=true);
-document.getElementById('btn-export').addEventListener('click',()=>exportCSV(rows.map(r=>memGet(r.placeId)).filter(Boolean)));
-document.getElementById('btn-export-mem').addEventListener('click',()=>exportCSV(memAll()));
-document.getElementById('btn-show-mem').addEventListener('click',showMemory);
-document.getElementById('toggle-key').addEventListener('click',()=>{ const i=document.getElementById('api-key'); i.type=i.type==='password'?'text':'password'; });
-document.getElementById('btn-all-v').addEventListener('click',()=>document.querySelectorAll('#villes-grid input').forEach(i=>i.checked=true));
-document.getElementById('btn-none-v').addEventListener('click',()=>document.querySelectorAll('#villes-grid input').forEach(i=>i.checked=false));
-document.getElementById('api-key').addEventListener('input',e=>document.getElementById('btn-scan').disabled=e.target.value.trim().length<10);
-document.getElementById('search-input').addEventListener('input',filterAll);
-document.getElementById('filter-secteur').addEventListener('change', () => {
-  // Quand on change de secteur, on réinitialise le filtre métier
-  document.getElementById('filter-metier').value = '';
-  filterAll();
-});
-document.getElementById('filter-metier').addEventListener('change', filterAll);
-document.getElementById('btn-clear-mem').addEventListener('click',()=>{
-  if(confirm('Effacer toute la mémoire ?\n\nAction irréversible — exportez en CSV avant si besoin.')){
-    localStorage.removeItem(MEM_KEY); updateStats(); showToast('Mémoire effacée');
-  }
-});
-// Tous les filter-tabs (priorité + statut) partagent la même logique
-document.querySelectorAll('.filter-tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.filter-tab').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  activeFilter=b.dataset.filter;
-  filterAll();
-}));
-document.querySelectorAll('.sidebar-tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.sidebar-tab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); document.getElementById('tab-'+b.dataset.tab).classList.add('active');
-  if(b.dataset.tab==='memoire') updateStats();
-}));
-
-// ── DÉMARRAGE ─────────────────────────────────────────────────────
-
-buildSectors(); buildMetiers(); buildVilles(); updateStats();
+    document.getElementById('mobile-menu').addEventListener('click', function() {
+        document.getElementById('nav-links').classList.toggle('active');
+    });
 </script>
 </body>
 </html>
