@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/favicon-lab.png">
+<title>Générateur de Mentions Légales pour Artisans & TPE - Duval DVL</title>
+
+<style>
+/* --- CHARTE GRAPHIQUE DUVAL DVL --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #009966;      
+  --primary-dark: #007a52; 
+  --bg: #f8fcf9;           
+  --surface: #ffffff;
+  --border: #e2e8e5;
+  --text: #111111;         
+  --muted: #4a5568;        
+  --radius: 16px;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; padding-bottom: 2rem; }
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+header h1 { font-size: 16px; font-weight: 700; }
+
+.container { max-width: 1300px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 400px 1fr; gap: 2rem; }
+@media(max-width: 950px) { .container { grid-template-columns: 1fr; } header h1 { display: none; } }
+
+/* --- COLONNE GAUCHE (FORMULAIRE) --- */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 2rem; height: max-content; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.card-title { font-size: 16px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text); border-bottom: 1px solid var(--bg); padding-bottom: 1rem; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+.form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: var(--primary); }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.help-text { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* --- COLONNE DROITE (RÉSULTAT) --- */
+.output-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; min-height: 600px; overflow: hidden; }
+.output-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: space-between; }
+.output-title { font-size: 15px; font-weight: 800; }
+.output-actions { display: flex; gap: 10px; }
+.btn { border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { background: var(--bg); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); }
+
+.output-content { padding: 2rem; font-size: 14px; line-height: 1.6; color: var(--text); overflow-y: auto; flex: 1; }
+.output-content h2 { font-size: 18px; font-weight: 800; margin: 1.5rem 0 1rem 0; color: var(--primary-dark); }
+.output-content h3 { font-size: 15px; font-weight: 700; margin: 1.2rem 0 0.5rem 0; }
+.output-content p { margin-bottom: 1rem; }
+.output-content ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+.output-content li { margin-bottom: 0.5rem; }
+
+.cta-box { margin-top: 1.5rem; padding: 1.5rem; background: var(--text); color: #fff; border-radius: var(--radius); text-align: center; }
+.cta-box p { font-size: 14px; margin-bottom: 1rem; opacity: 0.9; }
+.cta-link { color: var(--primary); font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <h1>Générateur de Mentions Légales</h1>
+  <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
+</header>
+
+<div class="container">
+  
+  <aside class="sidebar">
+    <div class="card">
+      <h2 class="card-title">1. Votre Entreprise</h2>
+      
+      <div class="form-group">
+        <label class="form-label" for="c_name">Nom de l'entreprise / Prénom Nom</label>
+        <input type="text" id="c_name" class="form-input" placeholder="Ex: Duval DVL ou Jean Dupont" value="Mon Entreprise">
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label class="form-label" for="c_status">Statut juridique</label>
+          <input type="text" id="c_status" class="form-input" placeholder="Ex: Micro-entreprise, SASU..." value="Micro-entreprise">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="c_capital">Capital social</label>
+          <input type="text" id="c_capital" class="form-input" placeholder="Ex: 1000€ (0 si micro)">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="c_siret">SIRET</label>
+        <input type="text" id="c_siret" class="form-input" placeholder="14 chiffres">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="c_address">Adresse du siège social</label>
+        <input type="text" id="c_address" class="form-input" placeholder="Ex: 123 rue de la Paix, 75000 Paris">
+      </div>
+      
+      <div class="row">
+        <div class="form-group">
+          <label class="form-label" for="c_email">Email de contact</label>
+          <input type="email" id="c_email" class="form-input" placeholder="contact@domaine.fr">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="c_phone">Téléphone</label>
+          <input type="text" id="c_phone" class="form-input" placeholder="06 00 00 00 00">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">2. Édition & Hébergement</h2>
+      
+      <div class="form-group">
+        <label class="form-label" for="c_director">Directeur de la publication</label>
+        <input type="text" id="c_director" class="form-input" placeholder="Ex: Jean Dupont">
+        <div class="help-text">Souvent le dirigeant de l'entreprise.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="c_host_name">Nom de l'hébergeur du site</label>
+        <input type="text" id="c_host_name" class="form-input" placeholder="Ex: O2Switch, Hostinger, GitHub...">
+        <div class="help-text">L'entreprise qui stocke votre site.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="c_host_address">Adresse de l'hébergeur</label>
+        <input type="text" id="c_host_address" class="form-input" placeholder="Ex: Chemin des Pardiaux, 63000 Clermont-Ferrand">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="c_website">URL de votre site internet</label>
+        <input type="text" id="c_website" class="form-input" placeholder="Ex: www.mon-site.fr" value="www.mon-site.fr">
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <p>Besoin d'un site web professionnel, rapide et 100% conforme à la loi française ?</p>
+      <a href="https://duvaldvl.com" class="cta-link">Découvrir les offres Duval DVL →</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="output-card">
+      <div class="output-header">
+        <span class="output-title">Vos textes juridiques générés</span>
+        <div class="output-actions">
+          <button class="btn btn-outline" onclick="copyHTML()" id="btnHtml">Copier le HTML</button>
+          <button class="btn btn-primary" onclick="copyText()" id="btnText">Copier le Texte</button>
+        </div>
+      </div>
+      
+      <div class="output-content" id="legalOutput">
+        </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// Récupérer tous les inputs
+const inputs = document.querySelectorAll('.form-input');
+const outputDiv = document.getElementById('legalOutput');
+
+function generateLegalText() {
+  const data = {
+    name: document.getElementById('c_name').value || "[Nom de l'entreprise]",
+    status: document.getElementById('c_status').value || "[Statut juridique]",
+    capital: document.getElementById('c_capital').value ? `au capital de ${document.getElementById('c_capital').value}` : "",
+    siret: document.getElementById('c_siret').value || "[SIRET]",
+    address: document.getElementById('c_address').value || "[Adresse du siège]",
+    email: document.getElementById('c_email').value || "[Email]",
+    phone: document.getElementById('c_phone').value || "[Téléphone]",
+    director: document.getElementById('c_director').value || "[Nom du directeur]",
+    host_name: document.getElementById('c_host_name').value || "[Nom de l'hébergeur]",
+    host_address: document.getElementById('c_host_address').value || "[Adresse de l'hébergeur]",
+    website: document.getElementById('c_website').value || "https://www.du.edu/"
+  };
+
+  const htmlTemplate = `
+<h2>Mentions Légales</h2>
+<p>Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, il est précisé aux utilisateurs du site <strong>${data.website}</strong> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.</p>
+
+<h3>1. Édition du site</h3>
+<p>Le présent site, accessible à l'URL ${data.website} (le « Site »), est édité par :<br>
+<strong>${data.name}</strong>, ${data.status} ${data.capital}, inscrite sous le SIRET ${data.siret}, dont le siège social est situé au ${data.address}.</p>
+
+<h3>2. Directeur de la publication</h3>
+<p>Le Directeur de la publication du Site est <strong>${data.director}</strong>.</p>
+
+<h3>3. Hébergement</h3>
+<p>Le Site est hébergé par la société <strong>${data.host_name}</strong>, située au ${data.host_address}.</p>
+
+<h3>4. Nous contacter</h3>
+<p>Par téléphone : ${data.phone}<br>
+Par email : ${data.email}<br>
+Par courrier : ${data.address}</p>
+
+<h3>5. Propriété intellectuelle</h3>
+<p>La structure générale du Site, ainsi que les textes, graphiques, images, sons et vidéos la composant, sont la propriété de l'éditeur ou de ses partenaires. Toute représentation et/ou reproduction et/ou exploitation partielle ou totale des contenus et services proposés par le Site, par quelque procédé que ce soit, sans l'autorisation préalable et par écrit de l'éditeur, est strictement interdite et serait susceptible de constituer une contrefaçon au sens des articles L 335-2 et suivants du Code de la propriété intellectuelle.</p>
+
+<hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+
+<h2>Politique de Confidentialité</h2>
+
+<h3>1. Collecte des données personnelles</h3>
+<p>Dans le cadre de l'utilisation du Site, l'Éditeur peut être amené à collecter des données personnelles (noms, prénoms, adresses e-mail, numéros de téléphone) via les formulaires de contact ou de demande de devis. Ces données sont collectées dans le seul but de répondre aux demandes des utilisateurs et d'assurer le suivi commercial de la prestation de service.</p>
+
+<h3>2. Conservation et sécurité</h3>
+<p>Les données personnelles sont conservées uniquement pendant la durée strictement nécessaire à la gestion de la relation commerciale. L'Éditeur s'engage à mettre en œuvre toutes les mesures techniques et organisationnelles appropriées afin de garantir un niveau de sécurité adapté au risque.</p>
+
+<h3>3. Droits des utilisateurs (RGPD)</h3>
+<p>Conformément à la réglementation européenne en vigueur (RGPD), les utilisateurs disposent des droits suivants : droit d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition et de portabilité de leurs données. Pour exercer ces droits, l'utilisateur peut contacter l'Éditeur par e-mail à l'adresse : ${data.email}.</p>
+
+<h3>4. Cookies</h3>
+<p>La navigation sur le Site est susceptible de provoquer l'installation de cookie(s) sur l'ordinateur de l'utilisateur. Un cookie est un fichier de petite taille, qui ne permet pas l'identification de l'utilisateur, mais qui enregistre des informations relatives à la navigation d'un ordinateur sur un site. Les données ainsi obtenues visent à faciliter la navigation ultérieure sur le site, et ont également vocation à permettre diverses mesures de fréquentation. L'utilisateur peut configurer son navigateur pour refuser l'installation des cookies.</p>
+  `;
+
+  outputDiv.innerHTML = htmlTemplate;
+}
+
+// Écouteurs d'événements pour mise à jour en temps réel
+inputs.forEach(input => {
+  input.addEventListener('input', generateLegalText);
+});
+
+// Fonctions de copie
+function copyHTML() {
+  const htmlContent = outputDiv.innerHTML;
+  navigator.clipboard.writeText(htmlContent).then(() => {
+    const btn = document.getElementById('btnHtml');
+    btn.textContent = "HTML Copié !";
+    btn.classList.add('btn-primary');
+    btn.classList.remove('btn-outline');
+    setTimeout(() => {
+      btn.textContent = "Copier le HTML";
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+    }, 2000);
+  });
+}
+
+function copyText() {
+  const textContent = outputDiv.innerText;
+  navigator.clipboard.writeText(textContent).then(() => {
+    const btn = document.getElementById('btnText');
+    const originalText = btn.textContent;
+    btn.textContent = "Texte Copié !";
+    btn.style.background = "#111111";
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = "";
+    }, 2000);
+  });
+}
+
+// Génération initiale
+generateLegalText();
+</script>
+</body>
+</html>
