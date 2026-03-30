@@ -23,8 +23,13 @@
 }
 
 body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; padding-bottom: 2rem; }
-header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* --- HEADER AVEC LIEN RETOUR --- */
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; margin-bottom: 2rem; }
+.header-left { display: flex; align-items: center; gap: 20px; }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; }
+.back-link { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+.back-link:hover { color: var(--primary); }
 header h1 { font-size: 16px; font-weight: 700; }
 
 .page-wrapper { max-width: 1300px; margin: 0 auto; padding: 0 1rem; }
@@ -38,7 +43,8 @@ header h1 { font-size: 16px; font-weight: 700; }
 .container { display: grid; grid-template-columns: 400px 1fr; gap: 2rem; }
 
 /* --- COLONNE GAUCHE (FORMULAIRE) --- */
-.sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 2rem; height: max-content; }
+/* Le top passe à 100px pour ne pas être caché par le header sticky */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 100px; height: max-content; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
 .card-title { font-size: 16px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text); border-bottom: 1px solid var(--bg); padding-bottom: 1rem; }
 
@@ -86,7 +92,13 @@ header h1 { font-size: 16px; font-weight: 700; }
 <body>
 
 <header>
-  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <div class="header-left">
+    <a href="https://duvaldvl.com" class="brand">Duval DVL</a>
+    <a href="/" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Retour au Lab
+    </a>
+  </div>
   <h1>Générateur de Mentions Légales</h1>
   <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
