@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/favicon-lab.png">
+<title>Calculateur ROI : SEO vs Google Ads - Duval DVL</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* --- CHARTE GRAPHIQUE DUVAL DVL --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #009966;      
+  --primary-dark: #007a52; 
+  --bg: #f8fcf9;           
+  --surface: #ffffff;
+  --border: #e2e8e5;
+  --text: #111111;         
+  --muted: #4a5568;        
+  --ads: #e11d48; /* Rouge pour Google Ads (dépense) */
+  
+  --radius: 16px;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; padding-bottom: 2rem; }
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+header h1 { font-size: 16px; font-weight: 700; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
+@media(max-width: 950px) { .container { grid-template-columns: 1fr; } header h1 { display: none; } }
+
+/* --- COLONNE GAUCHE (INPUTS) --- */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 1.5rem; }
+.card-title { font-size: 16px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--bg); padding-bottom: 1rem; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 0.5rem; }
+.form-val { color: var(--primary); font-family: var(--font-mono); font-weight: 800; }
+.form-input { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+/* Styles pour les inputs range personnalisés */
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -8px; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: var(--border); border-radius: 3px; }
+input[type=range]:focus { outline: none; }
+
+/* --- COLONNE DROITE (RÉSULTATS) --- */
+.results-wrapper { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media(max-width: 600px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+.kpi-title { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+.kpi-val { font-size: 28px; font-weight: 800; color: var(--text); font-family: var(--font-mono); letter-spacing: -0.05em; }
+.kpi-val.green { color: var(--primary); }
+
+.chart-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; position: relative; height: 400px; width: 100%; }
+
+.summary-box { background: #e8f7f2; border: 1px solid #b2d8c9; border-radius: 12px; padding: 1.5rem; margin-top: 1rem; }
+.summary-text { font-size: 15px; line-height: 1.6; color: var(--primary-dark); }
+.summary-text strong { font-weight: 800; }
+
+.cta-box { background: var(--text); color: #fff; border-radius: 12px; padding: 2rem; text-align: center; margin-top: 1rem; }
+.cta-box h3 { font-size: 20px; margin-bottom: 1rem; font-weight: 800; }
+.cta-btn { display: inline-block; background: var(--primary); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 15px; transition: background 0.2s; }
+.cta-btn:hover { background: var(--primary-dark); }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <h1>Simulateur d'Investissement : SEO vs Google Ads</h1>
+  <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
+</header>
+
+<div class="container">
+  
+  <aside>
+    <div class="card">
+      <h2 class="card-title">🎯 Vos objectifs</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Trafic mensuel visé <span class="form-val" id="val-traffic">500</span></label>
+        <input type="range" id="in-traffic" class="form-input" min="100" max="5000" step="100" value="500">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Coût par Clic (Google Ads) <span class="form-val" id="val-cpc">2.00 €</span></label>
+        <input type="range" id="in-cpc" class="form-input" min="0.50" max="10.00" step="0.10" value="2.00">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Taux de conversion site <span class="form-val" id="val-conv">3 %</span></label>
+        <input type="range" id="in-conv" class="form-input" min="1" max="10" step="1" value="3">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Valeur d'un client (Panier) <span class="form-val" id="val-basket">400 €</span></label>
+        <input type="range" id="in-basket" class="form-input" min="50" max="5000" step="50" value="400">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">💼 Investissement Duval DVL</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Création / Refonte (Mois 1) <span class="form-val" id="val-seo-upfront">2000 €</span></label>
+        <input type="range" id="in-seo-upfront" class="form-input" min="500" max="10000" step="100" value="2000">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Accompagnement mensuel <span class="form-val" id="val-seo-monthly">300 €</span></label>
+        <input type="range" id="in-seo-monthly" class="form-input" min="0" max="2000" step="50" value="300">
+      </div>
+    </div>
+  </aside>
+
+  <main class="results-wrapper">
+    
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">CA Mensuel Estimé</div>
+        <div class="kpi-val green" id="out-revenue">0 €</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Coût Ads (Mois)</div>
+        <div class="kpi-val" style="color:var(--ads)" id="out-ads-monthly">0 €</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Coût SEO (Mois 2+)</div>
+        <div class="kpi-val" id="out-seo-monthly">0 €</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="roiChart"></canvas>
+    </div>
+
+    <div class="summary-box">
+      <p class="summary-text" id="summary-text">
+        Sur 24 mois, pour générer le même trafic, Google Ads vous coûtera <strong>X €</strong> (à fonds perdus), tandis que votre stratégie SEO vous coûtera <strong>Y €</strong> (vous devenez propriétaire de votre trafic).<br>
+        Une économie nette de <strong style="font-size: 18px;">Z €</strong> tout en construisant un actif durable.
+      </p>
+    </div>
+
+    <div class="cta-box">
+      <h3>Arrêtez de louer votre trafic à Google. Devenez propriétaire.</h3>
+      <a href="https://duvaldvl.com/contact/" class="cta-btn">Réserver une stratégie SEO gratuite</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Format monétaire
+const fmt = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+
+// Inputs
+const inTraffic = document.getElementById('in-traffic');
+const inCpc = document.getElementById('in-cpc');
+const inConv = document.getElementById('in-conv');
+const inBasket = document.getElementById('in-basket');
+const inSeoUpfront = document.getElementById('in-seo-upfront');
+const inSeoMonthly = document.getElementById('in-seo-monthly');
+
+// Labels
+const valTraffic = document.getElementById('val-traffic');
+const valCpc = document.getElementById('val-cpc');
+const valConv = document.getElementById('val-conv');
+const valBasket = document.getElementById('val-basket');
+const valSeoUpfront = document.getElementById('val-seo-upfront');
+const valSeoMonthly = document.getElementById('val-seo-monthly');
+
+// Outputs
+const outRevenue = document.getElementById('out-revenue');
+const outAdsMonthly = document.getElementById('out-ads-monthly');
+const outSeoMonthly = document.getElementById('out-seo-monthly');
+const summaryText = document.getElementById('summary-text');
+
+let roiChart = null;
+
+function calculateAndRender() {
+  // Récupérer valeurs
+  const traffic = parseFloat(inTraffic.value);
+  const cpc = parseFloat(inCpc.value);
+  const convRate = parseFloat(inConv.value) / 100;
+  const basket = parseFloat(inBasket.value);
+  const seoUpfront = parseFloat(inSeoUpfront.value);
+  const seoMonthly = parseFloat(inSeoMonthly.value);
+
+  // MAJ Labels
+  valTraffic.textContent = traffic;
+  valCpc.textContent = cpc.toFixed(2) + ' €';
+  valConv.textContent = inConv.value + ' %';
+  valBasket.textContent = fmt.format(basket);
+  valSeoUpfront.textContent = fmt.format(seoUpfront);
+  valSeoMonthly.textContent = fmt.format(seoMonthly);
+
+  // Calculs KPIs Mensuels
+  const clients = traffic * convRate;
+  const revenue = clients * basket;
+  const adsMonthly = traffic * cpc;
+
+  outRevenue.textContent = fmt.format(revenue);
+  outAdsMonthly.textContent = fmt.format(adsMonthly);
+  outSeoMonthly.textContent = fmt.format(seoMonthly);
+
+  // Tableaux de données sur 24 mois
+  const labels = [];
+  const adsData = [];
+  const seoData = [];
+  
+  let currentAdsCost = 0;
+  let currentSeoCost = 0;
+
+  for (let i = 1; i <= 24; i++) {
+    labels.push('Mois ' + i);
+    
+    // Ads: dépense linéaire
+    currentAdsCost += adsMonthly;
+    adsData.push(currentAdsCost);
+
+    // SEO: Frais initiaux mois 1, puis mensuels
+    if (i === 1) {
+      currentSeoCost += seoUpfront;
+    } else {
+      currentSeoCost += seoMonthly;
+    }
+    seoData.push(currentSeoCost);
+  }
+
+  // MAJ Summary
+  const totalAds = adsData[23];
+  const totalSeo = seoData[23];
+  const diff = totalAds - totalSeo;
+  
+  let summaryHtml = `Sur 24 mois, pour générer <strong>${traffic} clics/mois</strong>, Google Ads vous coûtera <strong>${fmt.format(totalAds)}</strong> (à fonds perdus).<br>`;
+  summaryHtml += `Votre stratégie SEO avec Duval DVL vous coûtera <strong>${fmt.format(totalSeo)}</strong>.<br>`;
+  
+  if (diff > 0) {
+    summaryHtml += `Bénéfice net SEO : <strong style="font-size:18px; color:var(--primary);">${fmt.format(diff)} d'économies</strong> tout en construisant un actif durable.`;
+  } else {
+    summaryHtml += `Le SEO devient très vite plus rentable au-delà de 24 mois !`;
+  }
+  summaryText.innerHTML = summaryHtml;
+
+  // Render Chart
+  renderChart(labels, adsData, seoData);
+}
+
+function renderChart(labels, adsData, seoData) {
+  const ctx = document.getElementById('roiChart').getContext('2d');
+  
+  if (roiChart) { roiChart.destroy(); }
+
+  roiChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Coût Cumulé Google Ads (€)',
+          data: adsData,
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225, 29, 72, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Coût Cumulé SEO Duval DVL (€)',
+          data: seoData,
+          borderColor: '#009966',
+          backgroundColor: 'rgba(0, 153, 102, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { font: { family: 'ui-monospace, monospace', size: 12 } } },
+        tooltip: {
+          callbacks: {
+            label: function(context) { return context.dataset.label + ': ' + fmt.format(context.raw); }
+          }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: function(value) { return value + ' €'; } } }
+      }
+    }
+  });
+}
+
+// Écouteurs d'événements
+[inTraffic, inCpc, inConv, inBasket, inSeoUpfront, inSeoMonthly].forEach(el => {
+  el.addEventListener('input', calculateAndRender);
+});
+
+// Init
+calculateAndRender();
+</script>
+</body>
+</html>
