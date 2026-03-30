@@ -4,280 +4,354 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Audit Google My Business - Duval DVL</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Audit Google My Business - Le Lab Duval DVL</title>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f5f4f0;--surface:#fff;--border:#e2e0d8;--text:#1a1916;--muted:#6b6a65;
-  --accent:#d94f2b;--accent-light:#fdf0ec;
-  --p1-bg:#fdecea;--p1-c:#c93a1a;--p2-bg:#fef8e7;--p2-c:#c97b0a;--p3-bg:#eef7ed;--p3-c:#4a8c3f;
-  --r:12px;
+/* --- CHARTE GRAPHIQUE DUVAL DVL --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #009966;      /* Ton vert principal */
+  --primary-dark: #007a52; /* Ton vert foncé */
+  --bg: #f8fcf9;           /* Ton fond très clair */
+  --surface: #ffffff;
+  --border: #e2e8e5;
+  --text: #111111;         /* Ton noir titre */
+  --muted: #4a5568;        /* Ton gris texte */
+  
+  /* Couleurs de priorité (Adaptées pour s'accorder au vert) */
+  --p1-bg: #fff1f2; --p1-c: #e11d48; /* Rouge (Critique) */
+  --p2-bg: #fffbeb; --p2-c: #d97706; /* Orange (Important) */
+  --p3-bg: #e8f7f2; --p3-c: #009966; /* Vert (Bonus) */
+  
+  --radius: 16px;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-header{background:var(--text);color:#fff;padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.brand{font-size:12px;font-family:'DM Mono',monospace;letter-spacing:.1em;opacity:.5}
-header h1{font-size:15px;font-weight:500}
-.layout{display:grid;grid-template-columns:280px 1fr;max-width:1100px;margin:0 auto}
-.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.5rem;position:sticky;top:0;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;gap:1.5rem}
-.gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
-.gauge-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-family:'DM Mono',monospace}
-.gauge-container{position:relative;width:180px;height:180px}
-svg.gauge{width:100%;height:100%;transform:rotate(-90deg)}
-.gauge-bg{fill:none;stroke:var(--border);stroke-width:10}
-.gauge-fill{fill:none;stroke-width:10;stroke-linecap:round;stroke:var(--accent);stroke-dasharray:471.24;stroke-dashoffset:471.24;transition:stroke-dashoffset .5s ease,stroke .5s ease}
-.gauge-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
-.score-num{font-size:40px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;color:var(--muted);transition:color .5s}
-.score-suffix{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace}
-.score-label{font-size:12px;font-weight:500;margin-top:4px;color:var(--muted);transition:color .5s;text-align:center}
-.section-bars{display:flex;flex-direction:column;gap:8px}
-.sp{display:flex;flex-direction:column;gap:3px}
-.sp-head{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
-.sp-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
-.sp-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .4s ease}
-.cta-block{margin-top:auto;background:var(--text);color:#fff;border-radius:var(--r);padding:1.2rem 1rem;text-align:center}
-.cta-block p{font-size:12px;opacity:.65;line-height:1.5;margin-bottom:.75rem}
-.cta-block a{display:block;background:var(--accent);color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:.55rem 1rem;border-radius:8px;transition:opacity .2s}
-.cta-block a:hover{opacity:.85}
-.main{padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
-.intro h2{font-size:20px;font-weight:600;margin-bottom:.4rem}
-.intro p{font-size:14px;color:var(--muted);line-height:1.6;max-width:580px}
-.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:.75rem}
-.legend-item{display:flex;align-items:center;gap:5px}
-.legend-dot{width:7px;height:7px;border-radius:50%}
-.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.section-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
-.section-head:hover{background:#fafaf8}
-.section-icon{width:26px;height:26px;border-radius:7px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent);flex-shrink:0}
-.section-title{font-size:14px;font-weight:600;flex:1}
-.badge{font-size:11px;font-family:'DM Mono',monospace;background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:20px;color:var(--muted);transition:all .3s}
-.badge.done{background:#eef7ed;color:#3a7a33;border-color:#b5dab2}
-.chevron{font-size:10px;color:var(--muted);transition:transform .2s}
-.section-body{padding:.25rem 0}
-.criterion{display:flex;align-items:flex-start;gap:12px;padding:.6rem 1.2rem;cursor:pointer;transition:background .15s}
-.criterion:hover{background:#fafaf8}
-.criterion input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);margin-top:3px;flex-shrink:0;cursor:pointer}
-.crit-text{flex:1;min-width:0}
-.crit-label{font-size:13px;line-height:1.4}
-.crit-hint{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
-.prio-dot{width:7px;height:7px;border-radius:50%;margin-top:6px;flex-shrink:0}
-.p1-dot{background:var(--p1-c)}.p2-dot{background:var(--p2-c)}.p3-dot{background:var(--p3-c)}
-.reco-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.reco-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.reco-head h3{font-size:14px;font-weight:600;flex:1}
-.reco-count{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)}
-.reco-list{padding:.25rem 0}
-.reco-item{display:flex;align-items:flex-start;gap:10px;padding:.65rem 1.2rem;border-bottom:1px solid var(--border);animation:fi .25s ease}
-.reco-item:last-child{border-bottom:none}
-@keyframes fi{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
-.reco-prio{font-size:10px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;font-weight:500;margin-top:2px;flex-shrink:0;white-space:nowrap}
-.reco-text{font-size:13px;line-height:1.5}
-.reco-empty{padding:2rem;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
-@media(max-width:760px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
-  header .brand:last-child{display:none}
-}
+
+body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+header h1 { font-size: 16px; font-weight: 700; }
+
+.layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1200px; margin: 0 auto; gap: 2rem; padding: 2rem; }
+@media(max-width: 850px) { .layout { grid-template-columns: 1fr; padding: 1rem; } header h1 { display: none; } }
+
+/* --- SIDEBAR --- */
+.sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+
+.gauge-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
+.gauge-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+.gauge-container { position: relative; width: 180px; height: 180px; }
+svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-bg { fill: none; stroke: var(--bg); stroke-width: 12; }
+.gauge-fill { fill: none; stroke-width: 12; stroke-linecap: round; stroke: var(--border); stroke-dasharray: 471.24; stroke-dashoffset: 471.24; transition: stroke-dashoffset 0.8s ease, stroke 0.8s ease; }
+.gauge-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-num { font-size: 48px; font-weight: 800; line-height: 1; color: var(--muted); transition: color 0.5s; letter-spacing: -0.05em; }
+.score-label { font-size: 13px; font-weight: 600; margin-top: 4px; color: var(--muted); transition: color 0.5s; text-align: center; }
+
+/* Progress Bars */
+.section-bars { display: flex; flex-direction: column; gap: 12px; }
+.sp { display: flex; flex-direction: column; gap: 4px; }
+.sp-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--muted); }
+.sp-track { height: 6px; background: var(--bg); border-radius: 10px; overflow: hidden; }
+.sp-fill { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 0.4s ease; }
+
+.cta-block { margin-top: 1rem; background: var(--text); color: #fff; border-radius: var(--radius); padding: 1.5rem; text-align: center; }
+.cta-block p { font-size: 13px; opacity: 0.8; line-height: 1.5; margin-bottom: 1rem; }
+.cta-btn { display: inline-block; background: var(--primary); color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 20px; border-radius: 50px; transition: background 0.2s; }
+.cta-btn:hover { background: var(--primary-dark); }
+
+/* --- MAIN --- */
+.main { display: flex; flex-direction: column; gap: 1.5rem; }
+.intro h2 { font-size: 24px; font-weight: 800; margin-bottom: 0.5rem; }
+.intro p { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 600px; }
+
+/* Sections Audit */
+.section-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+.section-head { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: background 0.2s; }
+.section-head:hover { background: var(--bg); }
+.section-icon { width: 32px; height: 32px; border-radius: 8px; background: #e8f7f2; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
+.section-title { font-size: 15px; font-weight: 700; flex: 1; }
+.badge { font-size: 12px; font-weight: 600; background: var(--bg); padding: 4px 10px; border-radius: 20px; color: var(--muted); transition: all 0.3s; }
+.badge.done { background: var(--primary); color: #fff; }
+.chevron { font-size: 12px; color: var(--muted); transition: transform 0.2s; }
+
+.section-body { padding: 0.5rem 0; display: none; }
+.criterion { display: flex; align-items: flex-start; gap: 14px; padding: 0.8rem 1.5rem; cursor: pointer; transition: background 0.15s; }
+.criterion:hover { background: var(--bg); }
+.criterion input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+.crit-text { flex: 1; }
+.crit-label { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--text); }
+.crit-hint { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+.prio-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+
+/* --- RECOMMANDATIONS (BLOC VERROUILLÉ) --- */
+.reco-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; position: relative; margin-top: 1rem; }
+.reco-head { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.reco-head h3 { font-size: 16px; font-weight: 800; flex: 1; }
+
+/* Le cadenas par dessus */
+.lead-gate { position: absolute; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; z-index: 10; transition: opacity 0.3s; }
+.lead-gate.hidden { opacity: 0; pointer-events: none; }
+.lead-icon { font-size: 2rem; margin-bottom: 1rem; }
+.lead-title { font-size: 18px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.lead-desc { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; max-width: 400px; line-height: 1.5; }
+.lead-form { display: flex; gap: 10px; width: 100%; max-width: 350px; }
+.lead-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
+.lead-input:focus { border-color: var(--primary); }
+.lead-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.lead-btn:hover { background: var(--primary-dark); }
+
+/* Liste des recos */
+.reco-list { padding: 1rem 0; filter: blur(4px); transition: filter 0.3s; pointer-events: none; min-height: 200px; }
+.reco-list.unlocked { filter: blur(0); pointer-events: auto; }
+.reco-item { display: flex; align-items: flex-start; gap: 12px; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--bg); }
+.reco-item:last-child { border-bottom: none; }
+.reco-prio { font-size: 11px; font-family: var(--font-mono); padding: 3px 8px; border-radius: 4px; font-weight: 700; margin-top: 2px; flex-shrink: 0; }
+.reco-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+.reco-empty { padding: 2rem; text-align: center; color: var(--muted); font-size: 14px; font-weight: 600; }
+
 </style>
 </head>
 <body>
 
 <header>
-  <span class="brand">DUVAL DVL</span>
-  <h1>Audit Google My Business</h1>
-  <span class="brand">lab.duvaldvl.com</span>
+  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <h1>Outil d'Audit SEO Local</h1>
+  <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
 
 <div class="layout">
-<aside class="sidebar">
-  <div class="gauge-wrap">
-    <span class="gauge-label">Score global</span>
-    <div class="gauge-container">
-      <svg class="gauge" viewBox="0 0 180 180">
-        <circle class="gauge-bg" cx="90" cy="90" r="75"/>
-        <circle class="gauge-fill" id="gaugeFill" cx="90" cy="90" r="75"/>
-      </svg>
-      <div class="gauge-overlay">
-        <span class="score-num" id="scoreNum">0</span>
-        <span class="score-suffix">/100</span>
-        <span class="score-label" id="scoreLabel">Commencez</span>
+  <aside class="sidebar">
+    <div class="card">
+      <div class="gauge-wrap">
+        <span class="gauge-label">Score GMB</span>
+        <div class="gauge-container">
+          <svg class="gauge" viewBox="0 0 180 180">
+            <circle class="gauge-bg" cx="90" cy="90" r="75"/>
+            <circle class="gauge-fill" id="gaugeFill" cx="90" cy="90" r="75"/>
+          </svg>
+          <div class="gauge-overlay">
+            <span class="score-num" id="scoreNum">0</span>
+            <span class="score-label" id="scoreLabel">À auditer</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-bars" id="sectionBars"></div>
+    </div>
+    
+    <div class="cta-block">
+      <p>Pas le temps de tout faire vous-même ? Laissez-moi propulser votre fiche sur Google.</p>
+      <a href="https://duvaldvl.com/contact/" target="_blank" class="cta-btn">Demander un devis</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="intro">
+      <h2>Estimez la puissance de votre fiche Google</h2>
+      <p>Cochez chaque critère que votre établissement respecte actuellement. Votre score s'ajustera en temps réel et générera un plan d'action priorisé.</p>
+    </div>
+
+    <div id="formSections"></div>
+
+    <div class="reco-panel">
+      <div class="lead-gate" id="leadGate">
+        <div class="lead-icon">🔒</div>
+        <h3 class="lead-title">Débloquez votre plan d'action</h3>
+        <p class="lead-desc">Entrez votre e-mail pour révéler les recommandations prioritaires générées par votre audit.</p>
+        <form class="lead-form" id="leadForm" onsubmit="unlockRecos(event)">
+          <input type="email" class="lead-input" placeholder="votre@email.fr" required>
+          <button type="submit" class="lead-btn">Déverrouiller</button>
+        </form>
+      </div>
+
+      <div class="reco-head">
+        <h3>Recommandations prioritaires</h3>
+      </div>
+      <div class="reco-list" id="recoList">
+        <div class="reco-empty">Cochez des cases ci-dessus pour générer l'audit.</div>
       </div>
     </div>
-  </div>
-  <div class="section-bars" id="sectionBars"></div>
-  <div class="cta-block">
-    <p>Vous voulez qu'on optimise votre fiche ensemble ?</p>
-    <a href="https://duvaldvl.com/#contact" target="_blank">Faire auditer ma fiche par Duval DVL</a>
-  </div>
-</aside>
 
-<main class="main">
-  <div class="intro">
-    <h2>Auditez votre fiche Google My Business</h2>
-    <p>Cochez chaque critere que votre fiche respecte. Votre score se met a jour en temps reel et vous obtenez des recommandations priorisees.</p>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--p1-c)"></div>Critique</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--p2-c)"></div>Important</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--p3-c)"></div>Bonus</div>
-    </div>
-  </div>
-  <div id="formSections"></div>
-  <div class="reco-panel">
-    <div class="reco-head">
-      <h3>Recommandations prioritaires</h3>
-      <span class="reco-count" id="recoCount">-</span>
-    </div>
-    <div class="reco-list" id="recoList">
-      <div class="reco-empty">Completez l'audit ci-dessus pour voir vos recommandations.</div>
-    </div>
-  </div>
-</main>
+  </main>
 </div>
 
 <script>
-const S=[
-  {id:"infos",icon:"I",title:"Informations de base",criteria:[
-    {id:"c1",label:"Nom exact de l'etablissement",hint:"Sans mot-cle ajoute (ex: 'Plombier Paris' = mauvaise pratique)",prio:1,pts:4,reco:"Corrigez le nom de votre fiche pour qu'il corresponde exactement a votre raison sociale - sans mots-cles ajoutes."},
-    {id:"c2",label:"Categorie principale pertinente",hint:"Correspond exactement a votre activite principale",prio:1,pts:4,reco:"Choisissez une categorie principale qui reflete votre coeur de metier - c'est l'un des signaux de classement les plus importants."},
-    {id:"c3",label:"Categories secondaires renseignees (2 minimum)",hint:"Services complementaires = plus de visibilite sur plus de requetes",prio:2,pts:3,reco:"Ajoutez au moins 2 categories secondaires pour couvrir vos services annexes et apparaitre sur plus de recherches."},
-    {id:"c4",label:"Description optimisee (proche de 750 caracteres)",hint:"Inclut mots-cles, zone geographique et services naturellement",prio:2,pts:3,reco:"Redigez une description complete (750 caracteres max) avec vos mots-cles principaux, votre zone geographique et vos services."},
-    {id:"c5",label:"Site web renseigne",hint:"Lien vers votre site officiel",prio:1,pts:4,reco:"Ajoutez votre site web a votre fiche - c'est un signal de confiance essentiel pour Google et pour vos prospects."},
-    {id:"c6",label:"Numero de telephone renseigne",hint:"Numero local de preference",prio:1,pts:4,reco:"Renseignez un numero de telephone local - indispensable pour les appels directs depuis Google Maps."},
-    {id:"c7",label:"Adresse complete et verifiee par Google",hint:"Via carte postale ou verification video",prio:1,pts:4,reco:"Lancez la verification Google - sans cette etape, votre fiche a une portee tres limitee sur Google Maps."},
-    {id:"c8",label:"Zone de service definie (si vous vous deplacez)",hint:"Utile pour les artisans et prestataires itinerants",prio:3,pts:2,reco:"Definissez votre zone de service pour apparaitre dans les recherches locales de toute votre zone d'intervention."},
+// --- DONNÉES DE L'AUDIT ---
+const S = [
+  {id:"infos",icon:"📝",title:"Informations de base",criteria:[
+    {id:"c1",label:"Nom exact de l'établissement",hint:"Sans mots-clés ajoutés (ex: 'Plombier Paris')",prio:1,pts:4,reco:"Corrigez le nom de votre fiche pour qu'il corresponde exactement à votre Kbis - sans mots-clés ajoutés, sous peine de suspension Google."},
+    {id:"c2",label:"Catégorie principale pertinente",hint:"Correspond exactement à votre activité principale",prio:1,pts:4,reco:"Choisissez une catégorie principale ultra-spécifique. C'est le signal de classement n°1 pour Google Local."},
+    {id:"c3",label:"Catégories secondaires (2 minimum)",hint:"Services complémentaires = plus de visibilité",prio:2,pts:3,reco:"Ajoutez des catégories secondaires pour couvrir vos services annexes et apparaître sur plus de requêtes longue traîne."},
+    {id:"c4",label:"Description optimisée (750 caractères)",hint:"Inclut mots-clés, zone et services",prio:2,pts:3,reco:"Rédigez une description complète en utilisant vos mots-clés principaux dans les 250 premiers caractères."},
+    {id:"c5",label:"Site web renseigné",hint:"Lien direct vers votre site officiel",prio:1,pts:4,reco:"Ajoutez le lien de votre site web. C'est un signal d'autorité massif pour rassurer l'algorithme."},
+    {id:"c7",label:"Fiche validée par Google",hint:"Vérification effectuée",prio:1,pts:4,reco:"Lancez la vérification de votre fiche (code par courrier ou vidéo). Sans cela, vous êtes invisible."}
   ]},
-  {id:"horaires",icon:"H",title:"Horaires",criteria:[
-    {id:"c9",label:"Horaires d'ouverture complets et a jour",hint:"Les 7 jours de la semaine renseignes",prio:1,pts:4,reco:"Completez vos horaires pour tous les jours - une fiche sans horaires perd en credibilite et en classement."},
-    {id:"c10",label:"Horaires speciaux / jours feries renseignes",hint:"Evite les avis negatifs injustes",prio:2,pts:3,reco:"Renseignez vos horaires exceptionnels pour les jours feries - Google vous le propose et cela protege votre reputation."},
-    {id:"c11",label:"Periodes de fermeture / conges signalee",hint:"Informer en amont reduit les frustrations clients",prio:3,pts:2,reco:"Signalez vos fermetures exceptionnelles dans GMB pour maintenir la confiance de vos clients pendant vos absences."},
+  {id:"photos",icon:"📸",title:"Photos & Visuels",criteria:[
+    {id:"c12",label:"Logo en bonne qualité",hint:"Format carré recommandé",prio:1,pts:4,reco:"Ajoutez votre logo en haute définition pour renforcer votre image de marque dans les résultats Maps."},
+    {id:"c14",label:"Plus de 10 photos au total",hint:"Google favorise les fiches riches visuellement",prio:2,pts:3,reco:"L'algorithme favorise les fiches visuelles. Ajoutez au moins 10 photos (équipe, locaux, réalisations)."},
+    {id:"c15",label:"Photos récentes (moins de 3 mois)",hint:"La régularité est un signal fort",prio:2,pts:3,reco:"Publiez de nouvelles photos (1 par mois minimum). Les fiches inactives perdent progressivement des places."}
   ]},
-  {id:"photos",icon:"P",title:"Photos & visuels",criteria:[
-    {id:"c12",label:"Logo uploade en bonne qualite",hint:"Format carre recommande",prio:1,pts:4,reco:"Ajoutez votre logo en haute qualite - il apparait dans les resultats Google et renforce votre image de marque."},
-    {id:"c13",label:"Photo de couverture soignee",hint:"Format 16/9, representatif de votre activite",prio:2,pts:3,reco:"Choisissez une photo de couverture professionnelle - c'est la premiere impression visuelle de votre fiche."},
-    {id:"c14",label:"Plus de 10 photos au total",hint:"Google favorise les fiches riches visuellement",prio:2,pts:3,reco:"Ajoutez au moins 10 photos - Google favorise les fiches visuellement actives dans son algorithme de classement."},
-    {id:"c15",label:"Photos ajoutees recemment (moins de 3 mois)",hint:"La regularite est un signal d'activite fort",prio:2,pts:3,reco:"Publiez de nouvelles photos regulierement - au moins 1 par mois pour maintenir un signal d'activite positif."},
-    {id:"c16",label:"Photos variees : interieur, exterieur, equipe",hint:"Humanise et rassure les prospects",prio:3,pts:2,reco:"Diversifiez vos photos : facade, interieur, equipe, realisations - elles rassurent et humanisent votre entreprise."},
+  {id:"avis",icon:"⭐",title:"Avis clients",criteria:[
+    {id:"c17",label:"Note moyenne supérieure à 4.0",hint:"Impact direct sur le taux de clic",prio:1,pts:4,reco:"Sollicitez vos clients satisfaits. En dessous de 4 étoiles, la majorité des prospects passent au concurrent."},
+    {id:"c19",label:"100% de réponses aux avis",hint:"Positifs comme négatifs",prio:1,pts:4,reco:"Répondez à TOUS vos avis. Google adore les propriétaires actifs, et les prospects lisent les réponses aux avis négatifs."},
+    {id:"c20",label:"Réponses personnalisées",hint:"Pas de copié-collé",prio:2,pts:3,reco:"Citez le service rendu et glissez un mot-clé dans vos réponses aux avis. (ex: 'Merci pour ce retour sur notre création de site web...')."}
   ]},
-  {id:"avis",icon:"A",title:"Avis clients",criteria:[
-    {id:"c17",label:"Note moyenne superieure ou egale a 4.0",hint:"En dessous, l'impact sur les conversions est tres fort",prio:1,pts:4,reco:"Travaillez a remonter votre note en sollicitant vos clients satisfaits par SMS ou email juste apres la prestation."},
-    {id:"c18",label:"Plus de 20 avis au total",hint:"Le volume est un facteur de classement direct",prio:1,pts:4,reco:"Augmentez le volume de vos avis - partagez votre lien GMB par SMS ou email apres chaque intervention."},
-    {id:"c19",label:"Taux de reponse aux avis superieur a 80%",hint:"Repondre est crucial, y compris aux negatifs",prio:1,pts:4,reco:"Repondez a TOUS vos avis, positifs comme negatifs - c'est un signal fort de serieux pour Google et vos prospects."},
-    {id:"c20",label:"Reponses personnalisees (pas de templates)",hint:"Google et les lecteurs detectent les reponses generiques",prio:2,pts:3,reco:"Personnalisez chaque reponse en citant le prenom du client et le contexte - les templates nuisent a votre image."},
-    {id:"c21",label:"Avis recents (au moins 1 dans les 3 derniers mois)",hint:"La fraicheur des avis compte dans l'algorithme",prio:2,pts:3,reco:"Entretenez un flux regulier d'avis - un seul avis par mois suffit a maintenir une dynamique positive."},
+  {id:"publications",icon:"📢",title:"Publications",criteria:[
+    {id:"c22",label:"Au moins une publication mensuelle",hint:"Actualité, offre ou événement",prio:2,pts:3,reco:"Utilisez la fonction 'Posts' de Google pour annoncer vos actualités. Cela prend la place de vos concurrents dans les résultats."}
   ]},
-  {id:"publications",icon:"N",title:"Publications",criteria:[
-    {id:"c22",label:"Au moins une publication par mois",hint:"Signal d'activite pour l'algorithme Google",prio:2,pts:3,reco:"Publiez au moins une fois par mois : actualite, offre, evenement ou conseil - la regularite prime sur la frequence."},
-    {id:"c23",label:"Publications avec visuels (photo ou video)",hint:"Les publications illustrees ont beaucoup plus d'impact",prio:3,pts:2,reco:"Ajoutez une image a chaque publication - elles generent significativement plus de vues que le texte seul."},
-    {id:"c24",label:"Publications avec appel a l'action (CTA)",hint:"Bouton 'En savoir plus', 'Appeler', 'Reserver'...",prio:3,pts:2,reco:"Integrez un CTA a vos publications pour transformer les lecteurs en prospects - chaque post doit avoir un objectif."},
-    {id:"c25",label:"Derniere publication datant de moins d'1 mois",hint:"Signal d'activite direct pour l'algorithme",prio:2,pts:3,reco:"Votre derniere publication est trop ancienne - publiez des aujourd'hui pour reactiver le signal d'activite de votre fiche."},
-  ]},
-  {id:"services",icon:"S",title:"Services & produits",criteria:[
-    {id:"c26",label:"Services listes avec descriptions detaillees",hint:"Chaque service = une entree avec titre et texte",prio:2,pts:3,reco:"Detaillez chaque service avec une description - cela aide Google a comprendre votre activite et etend votre visibilite."},
-    {id:"c27",label:"Produits ou catalogue ajoutes (si applicable)",hint:"Pour artisans avec gamme de produits ou realisations",prio:3,pts:2,reco:"Ajoutez vos produits ou realisations dans la section catalogue - tres sous-exploite, c'est un vrai avantage concurrentiel."},
-    {id:"c28",label:"Fourchettes de prix ou tarifs renseignes",hint:"Filtre les demandes non qualifiees et rassure",prio:3,pts:2,reco:"Renseignez des fourchettes de tarifs si possible - cela filtre les prospects et renforce la transparence de votre offre."},
-  ]},
-  {id:"qa",icon:"Q",title:"Questions & reponses",criteria:[
-    {id:"c29",label:"Questions clients avec reponses presentes",hint:"Les Q&A sont visibles par tous vos prospects",prio:2,pts:3,reco:"Verifiez regulierement les questions posees sur votre fiche et repondez rapidement - elles sont lues par tous vos prospects."},
-    {id:"c30",label:"FAQ proactive creee par vous-meme",hint:"Posez et repondez vous-meme aux questions frequentes",prio:3,pts:2,reco:"Creez une FAQ proactive : posez et repondez vous-meme aux questions recurrentes - du contenu utile que vous maitrisez."},
-  ]},
-  {id:"extras",icon:"E",title:"Attributs & fonctionnalites",criteria:[
-    {id:"c31",label:"Attributs coches (accessibilite, paiement, parking...)",hint:"Ils apparaissent dans les filtres de recherche Google",prio:3,pts:2,reco:"Completez les attributs de votre fiche - ils apparaissent dans les filtres Google et peuvent vous apporter des clics supplementaires."},
-    {id:"c32",label:"Messagerie / chat actives (si reponse sous 24h)",hint:"Canal de contact direct peu utilise par la concurrence",prio:3,pts:2,reco:"Activez la messagerie GMB si vous pouvez repondre rapidement - c'est un canal de contact direct et peu exploite."},
-    {id:"c33",label:"Reservations ou RDV en ligne actives (si applicable)",hint:"Fort levier de conversion pour les prestataires",prio:3,pts:2,reco:"Activez la prise de RDV en ligne si votre activite le permet - c'est un levier de conversion fort depuis votre fiche GMB."},
-    {id:"c34",label:"Profil verifie par Google",hint:"Prerequis absolu pour la visibilite locale",prio:1,pts:4,reco:"Sans verification Google, votre fiche a une portee tres limitee - lancez la procedure de verification immediatement."},
-  ]},
+  {id:"extras",icon:"⚡",title:"Fonctionnalités avancées",criteria:[
+    {id:"c26",label:"Services listés avec prix",hint:"Aide Google à comprendre votre activité",prio:2,pts:3,reco:"Détaillez vos services et ajoutez des prix 'à partir de' dans l'onglet Éditer les services."},
+    {id:"c30",label:"Foire Aux Questions (FAQ) remplie",hint:"Questions posées par vous-même",prio:3,pts:2,reco:"Posez vous-même les 3 questions les plus fréquentes de vos clients et répondez-y directement sur la fiche."}
+  ]}
 ];
 
-const MAX=S.reduce((a,s)=>a+s.criteria.reduce((b,c)=>b+c.pts,0),0);
-const ck={};
+// --- LOGIQUE DE L'OUTIL ---
+const MAX = S.reduce((a,s) => a + s.criteria.reduce((b,c) => b+c.pts, 0), 0);
+const ck = {};
+let isUnlocked = false; // Le verrou
 
-function getScore(){
-  let p=0;
-  S.forEach(s=>s.criteria.forEach(c=>{if(ck[c.id])p+=c.pts;}));
+function getScore() {
+  let p = 0;
+  S.forEach(s => s.criteria.forEach(c => { if(ck[c.id]) p+=c.pts; }));
   return Math.round(p/MAX*100);
 }
 
-function getSp(s){
-  let g=0,m=0;
-  s.criteria.forEach(c=>{m+=c.pts;if(ck[c.id])g+=c.pts;});
-  return{got:g,max:m,pct:m?Math.round(g/m*100):0};
+function getSp(s) {
+  let g=0, m=0;
+  s.criteria.forEach(c => { m+=c.pts; if(ck[c.id]) g+=c.pts; });
+  return {got:g, max:m, pct:m?Math.round(g/m*100):0};
 }
 
-function col(s){
-  if(s>=80)return"#3a7a33";
-  if(s>=55)return"#c97b0a";
-  return"#c93a1a";
+function col(s) {
+  if(s===0) return "var(--bg)";
+  if(s>=80) return "var(--primary)"; // Vert
+  if(s>=50) return "#d97706"; // Orange
+  return "#e11d48"; // Rouge
 }
 
-function lbl(s){
-  if(s===0)return"Commencez";
-  if(s<30)return"Fiche incomplete";
-  if(s<55)return"A ameliorer";
-  if(s<80)return"En bonne voie";
-  if(s<95)return"Tres bien optimisee";
-  return"Fiche parfaite !";
+function lbl(s) {
+  if(s===0) return "À auditer";
+  if(s<30) return "Critique";
+  if(s<50) return "Moyen";
+  if(s<80) return "Bon";
+  return "Excellent !";
 }
 
-function render(){
-  const s=getScore();
-  const fill=document.getElementById("gaugeFill");
-  fill.style.strokeDashoffset=471.24-(s/100*471.24);
-  fill.style.stroke=col(s);
-  const num=document.getElementById("scoreNum");
-  num.textContent=s;
-  num.style.color=s===0?"var(--muted)":col(s);
-  const sl=document.getElementById("scoreLabel");
-  sl.textContent=lbl(s);
-  sl.style.color=s===0?"var(--muted)":col(s);
-  S.forEach(sec=>{
-    const{got,max,pct}=getSp(sec);
-    const bar=document.getElementById("bar_"+sec.id);
-    const pe=document.getElementById("pct_"+sec.id);
-    const badge=document.getElementById("badge_"+sec.id);
-    if(bar)bar.style.width=pct+"%";
-    if(pe)pe.textContent=pct+"%";
-    if(badge){badge.textContent=got+"/"+max+" pts";badge.className="badge"+(pct===100?" done":"");}
+function render() {
+  const s = getScore();
+  
+  // Update Jauge
+  const fill = document.getElementById("gaugeFill");
+  fill.style.strokeDashoffset = 471.24 - (s/100 * 471.24);
+  fill.style.stroke = col(s);
+  
+  const num = document.getElementById("scoreNum");
+  num.textContent = s;
+  num.style.color = s===0 ? "var(--muted)" : col(s);
+  
+  const sl = document.getElementById("scoreLabel");
+  sl.textContent = lbl(s);
+  
+  // Update Sidebar Bars
+  S.forEach(sec => {
+    const {got, max, pct} = getSp(sec);
+    const bar = document.getElementById("bar_"+sec.id);
+    const badge = document.getElementById("badge_"+sec.id);
+    if(bar) bar.style.width = pct+"%";
+    if(badge) {
+      badge.textContent = got+"/"+max+" pts";
+      badge.className = "badge" + (pct===100 ? " done" : "");
+    }
   });
+
+  // Ne mettre à jour les recos que si déverrouillé, sinon générer du contenu factice flouté
   renderRecos();
 }
 
-function renderRecos(){
-  const recos=[];
-  S.forEach(s=>s.criteria.forEach(c=>{if(!ck[c.id])recos.push({prio:c.prio,pts:c.pts,reco:c.reco});}));
-  recos.sort((a,b)=>a.prio-b.prio||b.pts-a.pts);
-  document.getElementById("recoCount").textContent=recos.length+" action(s)";
-  const list=document.getElementById("recoList");
-  if(!recos.length){list.innerHTML='<div class="reco-empty">Excellent ! Votre fiche GMB est parfaitement optimisee.</div>';return;}
-  const lb={1:"P1 - Critique",2:"P2 - Important",3:"P3 - Bonus"};
-  const bg={1:"var(--p1-bg)",2:"var(--p2-bg)",3:"var(--p3-bg)"};
-  const cr={1:"var(--p1-c)",2:"var(--p2-c)",3:"var(--p3-c)"};
-  list.innerHTML=recos.map(r=>`<div class="reco-item"><span class="reco-prio" style="background:${bg[r.prio]};color:${cr[r.prio]}">${lb[r.prio]}</span><span class="reco-text">${r.reco}</span></div>`).join("");
+function renderRecos() {
+  const list = document.getElementById("recoList");
+  const recos = [];
+  S.forEach(s => s.criteria.forEach(c => { if(!ck[c.id]) recos.push({prio:c.prio, pts:c.pts, reco:c.reco}); }));
+  
+  if(!recos.length) {
+    list.innerHTML = '<div class="reco-empty">Parfait ! Votre fiche est optimisée à 100%.</div>';
+    return;
+  }
+
+  recos.sort((a,b) => a.prio - b.prio || b.pts - a.pts);
+  const lb = {1:"Priorité 1", 2:"Priorité 2", 3:"Bonus"};
+  const bg = {1:"var(--p1-bg)", 2:"var(--p2-bg)", 3:"var(--p3-bg)"};
+  const cr = {1:"var(--p1-c)", 2:"var(--p2-c)", 3:"var(--p3-c)"};
+  
+  // On injecte les vraies recos, mais elles sont floutées par le CSS tant que isUnlocked est false
+  list.innerHTML = recos.map(r => `<div class="reco-item"><span class="reco-prio" style="background:${bg[r.prio]};color:${cr[r.prio]}">${lb[r.prio]}</span><span class="reco-text">${r.reco}</span></div>`).join("");
 }
 
-function build(){
-  const form=document.getElementById("formSections");
-  const bars=document.getElementById("sectionBars");
-  S.forEach(s=>{
-    bars.insertAdjacentHTML("beforeend",`<div class="sp"><div class="sp-head"><span>${s.title}</span><span id="pct_${s.id}">0%</span></div><div class="sp-track"><div class="sp-fill" id="bar_${s.id}"></div></div></div>`);
-    const mxp=s.criteria.reduce((a,c)=>a+c.pts,0);
-    const crits=s.criteria.map(c=>`<label class="criterion" for="${c.id}"><input type="checkbox" id="${c.id}" data-id="${c.id}"><div class="crit-text"><div class="crit-label">${c.label}</div><div class="crit-hint">${c.hint}</div></div><div class="prio-dot p${c.prio}-dot"></div></label>`).join("");
-    form.insertAdjacentHTML("beforeend",`<div class="section-card"><div class="section-head" onclick="tog('${s.id}')"><div class="section-icon">${s.icon}</div><span class="section-title">${s.title}</span><span class="badge" id="badge_${s.id}">0/${mxp} pts</span><span class="chevron" id="chev_${s.id}">&#9660;</span></div><div class="section-body" id="body_${s.id}">${crits}</div></div>`);
+function build() {
+  const form = document.getElementById("formSections");
+  const bars = document.getElementById("sectionBars");
+  
+  S.forEach((s, i) => {
+    bars.insertAdjacentHTML("beforeend", `<div class="sp"><div class="sp-head"><span>${s.title}</span></div><div class="sp-track"><div class="sp-fill" id="bar_${s.id}"></div></div></div>`);
+    
+    const mxp = s.criteria.reduce((a,c) => a+c.pts, 0);
+    const crits = s.criteria.map(c => `
+      <label class="criterion" for="${c.id}">
+        <input type="checkbox" id="${c.id}" data-id="${c.id}">
+        <div class="crit-text">
+          <div class="crit-label">${c.label}</div>
+          <div class="crit-hint">${c.hint}</div>
+        </div>
+        <div class="prio-dot" style="background:var(--p${c.prio}-c)"></div>
+      </label>
+    `).join("");
+    
+    // Le premier onglet est ouvert par défaut
+    const disp = i === 0 ? "" : "none";
+    const rot = i === 0 ? "rotate(-90deg)" : "";
+
+    form.insertAdjacentHTML("beforeend", `
+      <div class="section-card">
+        <div class="section-head" onclick="tog('${s.id}')">
+          <div class="section-icon">${s.icon}</div>
+          <span class="section-title">${s.title}</span>
+          <span class="badge" id="badge_${s.id}">0/${mxp} pts</span>
+          <span class="chevron" id="chev_${s.id}" style="transform:${rot}">&#9660;</span>
+        </div>
+        <div class="section-body" id="body_${s.id}" style="display:${disp}">${crits}</div>
+      </div>
+    `);
   });
-  document.querySelectorAll('input[type=checkbox]').forEach(el=>{
-    el.addEventListener("change",()=>{ck[el.dataset.id]=el.checked;render();});
+
+  document.querySelectorAll('input[type=checkbox]').forEach(el => {
+    el.addEventListener("change", () => { ck[el.dataset.id] = el.checked; render(); });
   });
 }
 
-function tog(id){
-  const b=document.getElementById("body_"+id);
-  const c=document.getElementById("chev_"+id);
-  const open=b.style.display!=="none"&&b.style.display!=="";
-  b.style.display=open?"none":"";
-  c.style.transform=open?"rotate(-90deg)":"";
+function tog(id) {
+  const b = document.getElementById("body_"+id);
+  const c = document.getElementById("chev_"+id);
+  const open = b.style.display !== "none" && b.style.display !== "";
+  b.style.display = open ? "none" : "";
+  c.style.transform = open ? "rotate(-90deg)" : "";
 }
 
-build();render();
+// Fonction de déverrouillage (Lead Gen)
+function unlockRecos(e) {
+  e.preventDefault();
+  const email = e.target.querySelector('input[type="email"]').value;
+  
+  // ICI : Tu peux rajouter le code pour envoyer l'email vers ton CRM ou Zapier
+  console.log("Email capturé :", email);
+  
+  // Visuel : On enlève le cadenas et on défloute la liste
+  document.getElementById("leadGate").classList.add("hidden");
+  document.getElementById("recoList").classList.add("unlocked");
+  isUnlocked = true;
+}
+
+build(); render();
 </script>
 </body>
 </html>
