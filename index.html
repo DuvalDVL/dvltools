@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez Le Lab Duval DVL : une suite d'outils SEO et webmarketing 100% gratuits pour TPE, PME et artisans. Audit GMB, simulateur ROI, générateur de mentions légales et plus.">
     <link rel="icon" type="image/png" href="/favicon-lab.png">
-    <title>Le Lab - Outils gratuits par Duval DVL</title>
+    <title>Le Lab SEO & Web - Outils gratuits pour TPE/PME | Duval DVL</title>
     <style>
         /* ---CSS GLOBAL --- */
         :root {
@@ -53,28 +54,28 @@
             .menu-toggle { display: block; }
         }
 
+        /* --- STYLES SPÉCIFIQUES LAB --- */
+        .lab-hero { text-align: center; padding: 4rem 0 2rem; }
+        .lab-hero h1 { font-size: 2.5rem; }
+        .lab-hero p { font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
+        
+        .tools-section { margin: 3rem 0 5rem 0; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; } /* Pour H2 invisible mais lu par Google */
+
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .tool-card { background: white; border-radius: var(--radius-card); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
+        .tool-icon { background: #e8f7f2; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .tool-icon svg { width: 28px; height: 28px; }
+        .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .tool-card p { font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        .tool-link-text { color: var(--primary-color); font-weight: 700; display: flex; align-items: center; gap: 5px; }
+
         /* --- FOOTER --- */
         .site-footer { background: #0a0a0a; color: white; padding: 4rem 0 0 0; margin-top: auto; }
         .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
         .footer-links a:hover { color: var(--primary-color) !important; padding-left: 5px; }
-        @media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; gap: 10px; } .hidden-mobile { display: none; } }
-
-        /* --- STYLES SPÉCIFIQUES LAB --- */
-        .lab-hero { text-align: center; padding: 4rem 0 2rem; }
-        .lab-hero h1 { font-size: 2.5rem; }
-        .lab-hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
-        
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin: 3rem 0; }
-        .tool-card { background: white; border-radius: var(--radius-card); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
-        .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
-        .tool-icon { background: #e8f7f2; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .tool-icon svg { width: 30px; height: 30px; }
-        .tool-card h3 { margin-bottom: 0.5rem; }
-        .tool-card p { font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
-        
-        .tool-card.disabled { opacity: 0.6; cursor: not-allowed; }
-        .tool-card.disabled:hover { transform: none; box-shadow: var(--shadow-sm); border-color: rgba(0,0,0,0.05); }
-        .badge-soon { background: #f1f5f9; color: #64748b; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 50px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        @media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; gap: 10px; } }
     </style>
 </head>
 <body>
@@ -95,30 +96,71 @@
 
 <main class="container">
     <div class="lab-hero">
-        <span style="color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Le Lab</span>
+        <span style="color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Le Lab Webmarketing</span>
         <h1>Les outils internes de l'agence,<br>ouverts à tous.</h1>
-        <p>J'ai développé ces petits utilitaires pour accélérer mon quotidien d'artisan du web. Servez-vous, c'est gratuit.</p>
+        <p>Développés initialement pour accélérer mon quotidien d'expert SEO, ces utilitaires sont désormais en libre accès. Optimisez votre visibilité locale, générez vos documents légaux ou redimensionnez vos images gratuitement.</p>
     </div>
 
-    <div class="tools-grid">
-        <a href="./mockup-generator/" class="tool-card">
-            <div class="tool-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            </div>
-            <h3>Générateur de Mockup</h3>
-            <p>Transforme de simples captures d'écran en superbes mockups (navigateur, ombres portées) pour tes présentations ou ton portfolio.</p>
-            <span style="color: var(--primary-color); font-weight: 700; display: flex; align-items: center; gap: 5px;">Lancer l'outil →</span>
-        </a>
+    <section class="tools-section">
+        <h2 class="sr-only">Tous nos outils gratuits pour votre présence en ligne</h2>
+        <div class="tools-grid">
+            
+            <a href="./audit-gmb/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <h3>Audit Google My Business</h3>
+                <p>Évaluez la puissance de votre fiche Google. Obtenez un score de visibilité locale en temps réel et un plan d'action priorisé pour dépasser vos concurrents.</p>
+                <span class="tool-link-text">Lancer l'audit →</span>
+            </a>
 
-        <div class="tool-card disabled">
-            <span class="badge-soon">En cours de dev</span>
-            <div class="tool-icon" style="background: #f1f5f9; color: #94a3b8;">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-            </div>
-            <h3 style="color: #64748b;">Générateur de Schema SEO</h3>
-            <p>Un outil pour générer facilement les données structurées (JSON-LD) de ton entreprise locale pour Google.</p>
+            <a href="./calculateur-roi/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                </div>
+                <h3>Simulateur ROI : SEO vs Ads</h3>
+                <p>Combien coûte vraiment Google Ads par rapport au SEO naturel ? Calculez votre retour sur investissement sur 24 mois et découvrez comment économiser.</p>
+                <span class="tool-link-text">Calculer mon ROI →</span>
+            </a>
+
+            <a href="./generateur-mentions-legales/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <h3>Générateur de Mentions Légales</h3>
+                <p>Spécialement conçu pour les artisans et TPE. Générez des mentions légales et une politique de confidentialité RGPD conformes en 2 minutes chrono.</p>
+                <span class="tool-link-text">Générer mes textes →</span>
+            </a>
+
+            <a href="./convertisseur-images/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                </div>
+                <h3>Convertisseur d'Images WebP</h3>
+                <p>Redimensionnez et convertissez vos images en masse (WebP, JPG, PNG). Optimisez le poids de vos photos pour booster la vitesse de votre site internet.</p>
+                <span class="tool-link-text">Optimiser mes images →</span>
+            </a>
+
+            <a href="./generateur-schema-jsonld/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h3>Générateur Schema JSON-LD</h3>
+                <p>Outil technique SEO. Créez facilement le code des données structurées "LocalBusiness" pour aider l'algorithme de Google à mieux vous référencer.</p>
+                <span class="tool-link-text">Générer le code →</span>
+            </a>
+
+            <a href="./mockup-generator/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3>Générateur de Mockup Web</h3>
+                <p>Transformez de simples captures d'écran en superbes présentations professionnelles intégrées dans un navigateur avec ombres portées et fonds élégants.</p>
+                <span class="tool-link-text">Créer un mockup →</span>
+            </a>
+
         </div>
-    </div>
+    </section>
 </main>
 
 <footer class="site-footer">
@@ -130,7 +172,7 @@
                     Webdesigner & Expert SEO en Haute-Savoie.<br>
                     J'accompagne les artisans, commerçants et PME vers la réussite digitale.
                 </p>
-                </div>
+            </div>
             <div class="footer-col">
                 <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 1.5rem;">Mes Services</h4>
                 <ul class="footer-links" style="list-style: none; padding: 0;">
