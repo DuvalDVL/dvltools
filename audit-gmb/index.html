@@ -27,15 +27,23 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
-header h1 { font-size: 16px; font-weight: 700; }
+body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
 
-.layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1200px; margin: 0 auto; gap: 2rem; padding: 2rem; }
+/* --- HEADER AVEC LIEN RETOUR --- */
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+.header-left { display: flex; align-items: center; gap: 20px; }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; }
+.back-link { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+.back-link:hover { color: var(--primary); }
+header h1 { font-size: 16px; font-weight: 700; margin: 0; }
+.btn-nav { background: var(--primary); color: white !important; padding: 10px 24px; border-radius: 50px; font-weight: 600; font-size: 13px; text-decoration: none; transition: background 0.2s; }
+.btn-nav:hover { background: var(--primary-dark); }
+
+/* --- LAYOUT PRINCIPAL --- */
+.layout { display: grid; grid-template-columns: 320px 1fr; max-width: 1200px; margin: 0 auto; gap: 2rem; padding: 120px 2rem 3rem; flex-grow: 1; }
 
 /* --- SIDEBAR --- */
-.sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; height: max-content; }
+.sidebar { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 1.5rem; height: max-content; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
 
 .gauge-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
@@ -106,20 +114,19 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .reco-text { font-size: 14px; line-height: 1.5; color: var(--text); }
 .reco-empty { padding: 2rem; text-align: center; color: var(--muted); font-size: 14px; font-weight: 600; }
 
+/* --- FOOTER UNIFORMISÉ --- */
+.site-footer { background: #0a0a0a; color: #666; padding: 2rem 0; text-align: center; font-size: 13px; margin-top: auto; }
+
 /* --- CORRECTIONS MOBILE --- */
 @media(max-width: 850px) { 
   header h1 { display: none; } 
-  .layout { display: flex; flex-direction: column; padding: 1rem; gap: 1rem; }
+  .layout { display: flex; flex-direction: column; padding: 100px 1rem 2rem; gap: 1rem; }
   
-  /* Astuce pour séparer les éléments de la sidebar sur mobile */
   .sidebar { position: static; display: contents; } 
-  
-  /* Ordre d'affichage sur mobile */
   .card { order: 1; padding: 1.5rem; margin-bottom: 0; }
   .main { order: 2; }
   .cta-block { order: 3; margin-top: 1rem; padding: 1.5rem 1rem; }
 
-  /* Jauge plus petite et barres masquées */
   .section-bars { display: none; }
   .gauge-container { width: 130px; height: 130px; }
   .score-num { font-size: 38px; }
@@ -130,9 +137,15 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 <body>
 
 <header>
-  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <div class="header-left">
+    <a href="https://duvaldvl.com" class="brand">Duval DVL</a>
+    <a href="../" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Retour au Lab
+    </a>
+  </div>
   <h1>Audit Fiche Google My Business</h1>
-  <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
+  <a href="https://duvaldvl.com/contact" class="btn-nav">Créer mon site</a>
 </header>
 
 <div class="layout">
@@ -196,6 +209,10 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
     </div>
   </main>
 </div>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Duval DVL - Outil d'optimisation SEO Local.</p>
+</footer>
 
 <script>
 // --- DONNÉES DE L'AUDIT (AVEC ICNONES SVG) ---
