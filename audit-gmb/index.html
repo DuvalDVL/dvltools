@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Testez et auditez gratuitement votre fiche Google My Business. Obtenez votre score d'optimisation SEO local et un plan d'action priorisé pour attirer plus de clients.">
 <link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Audit Google My Business - Le Lab Duval DVL</title>
+<title>Audit Gratuit Fiche Google My Business (SEO Local) | Duval DVL</title>
 <style>
 /* --- CHARTE GRAPHIQUE DUVAL DVL --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -73,7 +74,6 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .badge.done { background: var(--primary); color: #fff; }
 .chevron { font-size: 12px; color: var(--muted); transition: transform 0.2s; }
 
-/* CORRECTION ACCORDÉONS : On supprime le display:none statique */
 .section-body { padding: 0.5rem 0; }
 .criterion { display: flex; align-items: flex-start; gap: 14px; padding: 0.8rem 1.5rem; cursor: pointer; transition: background 0.15s; }
 .criterion:hover { background: var(--bg); }
@@ -93,7 +93,8 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .lead-icon { color: var(--primary); margin-bottom: 1rem; }
 .lead-title { font-size: 18px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
 .lead-desc { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; max-width: 400px; line-height: 1.5; }
-.lead-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 350px; }.lead-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
+.lead-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 350px; }
+.lead-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
 .lead-input:focus { border-color: var(--primary); }
 .lead-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
 .lead-btn:hover { background: var(--primary-dark); }
@@ -111,7 +112,7 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 
 <header>
   <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
-  <h1>Outil d'Audit SEO Local</h1>
+  <h1>Audit Fiche Google My Business</h1>
   <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
 
@@ -142,8 +143,8 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 
   <main class="main">
     <div class="intro">
-      <h2>Estimez la puissance de votre fiche Google</h2>
-      <p>Cochez chaque critère que votre établissement respecte actuellement. Votre score s'ajustera en temps réel et générera un plan d'action priorisé.</p>
+      <h2>Testez l'optimisation de votre fiche Google</h2>
+      <p>Cochez chaque critère que votre établissement (artisan, commerce, PME) respecte actuellement. Votre score SEO local s'ajustera en temps réel et générera un plan d'action priorisé.</p>
     </div>
 
     <div id="formSections"></div>
@@ -302,7 +303,6 @@ function build() {
       </label>
     `).join("");
     
-    // CORRECTION ACCORDÉONS : Le JS gère correctement le display 'block' et 'none'
     const disp = i === 0 ? "block" : "none";
     const rot = i === 0 ? "rotate(0deg)" : "rotate(-90deg)";
 
@@ -327,14 +327,12 @@ function build() {
 function tog(id) {
   const b = document.getElementById("body_"+id);
   const c = document.getElementById("chev_"+id);
-  // Logique corrigée pour les accordéons
   const open = b.style.display === "block";
   b.style.display = open ? "none" : "block";
   c.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
 }
 
 function unlockRecos() {
-  // On laisse le formulaire s'envoyer via l'iframe, et on débloque visuellement
   document.getElementById("leadGate").classList.add("hidden");
   document.getElementById("recoList").classList.add("unlocked");
   isUnlocked = true;
