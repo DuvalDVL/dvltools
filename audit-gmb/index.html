@@ -93,8 +93,7 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .lead-icon { color: var(--primary); margin-bottom: 1rem; }
 .lead-title { font-size: 18px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
 .lead-desc { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; max-width: 400px; line-height: 1.5; }
-.lead-form { display: flex; gap: 10px; width: 100%; max-width: 350px; }
-.lead-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
+.lead-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 350px; }.lead-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
 .lead-input:focus { border-color: var(--primary); }
 .lead-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
 .lead-btn:hover { background: var(--primary-dark); }
@@ -156,9 +155,14 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
         <p class="lead-desc">Entrez votre e-mail pour révéler les recommandations prioritaires générées par votre audit.</p>
         
        <form class="lead-form" id="leadForm" action="https://317bb498.sibforms.com/serve/MUIFACEr6xsKhJjORO7l_WdW7OLXhAiEguEHu2rOTc79uUhfUAxWHdkyGAbXGzC3CaVZlDcUNUo4SfQMAVZ4yxNXL-nFgLh-FARieXnYqZfKQyYfmtEPhiyr25ghIcyG2yzWIz1JhR_WqD4yjor4FSK6Hlx6wV-aILTper7cktCul9KplJLUuWO1ukKXmir_4hXz26OPbWLok2ulHg==" method="POST" target="hidden_iframe" onsubmit="unlockRecos()">
-          <input type="email" name="EMAIL" class="lead-input" placeholder="votre@email.fr" required>
-          <button type="submit" class="lead-btn">Déverrouiller</button>
-        </form>
+  
+        <input type="text" name="PRENOM" class="lead-input" placeholder="Votre prénom" required>
+        <input type="text" name="JOB_TITLE" class="lead-input" placeholder="Nom de l'entreprise" required>
+  
+        <input type="email" name="EMAIL" class="lead-input" placeholder="votre@email.fr" required>
+  
+        <button type="submit" class="lead-btn">Déverrouiller mon plan d'action</button>
+      </form>
         
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
       </div>
