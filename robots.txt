@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /scanner/
+
+Sitemap: https://lab.duvaldvl.com/sitemap.xml
