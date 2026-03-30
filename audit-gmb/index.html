@@ -9,18 +9,17 @@
 /* --- CHARTE GRAPHIQUE DUVAL DVL --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --primary: #009966;      /* Ton vert principal */
-  --primary-dark: #007a52; /* Ton vert foncé */
-  --bg: #f8fcf9;           /* Ton fond très clair */
+  --primary: #009966;      
+  --primary-dark: #007a52; 
+  --bg: #f8fcf9;           
   --surface: #ffffff;
   --border: #e2e8e5;
-  --text: #111111;         /* Ton noir titre */
-  --muted: #4a5568;        /* Ton gris texte */
+  --text: #111111;         
+  --muted: #4a5568;        
   
-  /* Couleurs de priorité (Adaptées pour s'accorder au vert) */
-  --p1-bg: #fff1f2; --p1-c: #e11d48; /* Rouge (Critique) */
-  --p2-bg: #fffbeb; --p2-c: #d97706; /* Orange (Important) */
-  --p3-bg: #e8f7f2; --p3-c: #009966; /* Vert (Bonus) */
+  --p1-bg: #fff1f2; --p1-c: #e11d48; 
+  --p2-bg: #fffbeb; --p2-c: #d97706; 
+  --p3-bg: #e8f7f2; --p3-c: #009966; 
   
   --radius: 16px;
   --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -49,7 +48,6 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .score-num { font-size: 48px; font-weight: 800; line-height: 1; color: var(--muted); transition: color 0.5s; letter-spacing: -0.05em; }
 .score-label { font-size: 13px; font-weight: 600; margin-top: 4px; color: var(--muted); transition: color 0.5s; text-align: center; }
 
-/* Progress Bars */
 .section-bars { display: flex; flex-direction: column; gap: 12px; }
 .sp { display: flex; flex-direction: column; gap: 4px; }
 .sp-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--muted); }
@@ -66,17 +64,17 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .intro h2 { font-size: 24px; font-weight: 800; margin-bottom: 0.5rem; }
 .intro p { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 600px; }
 
-/* Sections Audit */
 .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
 .section-head { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: background 0.2s; }
 .section-head:hover { background: var(--bg); }
-.section-icon { width: 32px; height: 32px; border-radius: 8px; background: #e8f7f2; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
+.section-icon { width: 32px; height: 32px; border-radius: 8px; background: #e8f7f2; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
 .section-title { font-size: 15px; font-weight: 700; flex: 1; }
 .badge { font-size: 12px; font-weight: 600; background: var(--bg); padding: 4px 10px; border-radius: 20px; color: var(--muted); transition: all 0.3s; }
 .badge.done { background: var(--primary); color: #fff; }
 .chevron { font-size: 12px; color: var(--muted); transition: transform 0.2s; }
 
-.section-body { padding: 0.5rem 0; display: none; }
+/* CORRECTION ACCORDÉONS : On supprime le display:none statique */
+.section-body { padding: 0.5rem 0; }
 .criterion { display: flex; align-items: flex-start; gap: 14px; padding: 0.8rem 1.5rem; cursor: pointer; transition: background 0.15s; }
 .criterion:hover { background: var(--bg); }
 .criterion input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 2px; flex-shrink: 0; cursor: pointer; }
@@ -85,15 +83,14 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .crit-hint { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
 .prio-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
 
-/* --- RECOMMANDATIONS (BLOC VERROUILLÉ) --- */
+/* --- RECOMMANDATIONS --- */
 .reco-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; position: relative; margin-top: 1rem; }
 .reco-head { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
 .reco-head h3 { font-size: 16px; font-weight: 800; flex: 1; }
 
-/* Le cadenas par dessus */
 .lead-gate { position: absolute; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; z-index: 10; transition: opacity 0.3s; }
 .lead-gate.hidden { opacity: 0; pointer-events: none; }
-.lead-icon { font-size: 2rem; margin-bottom: 1rem; }
+.lead-icon { color: var(--primary); margin-bottom: 1rem; }
 .lead-title { font-size: 18px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
 .lead-desc { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; max-width: 400px; line-height: 1.5; }
 .lead-form { display: flex; gap: 10px; width: 100%; max-width: 350px; }
@@ -102,7 +99,6 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .lead-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
 .lead-btn:hover { background: var(--primary-dark); }
 
-/* Liste des recos */
 .reco-list { padding: 1rem 0; filter: blur(4px); transition: filter 0.3s; pointer-events: none; min-height: 200px; }
 .reco-list.unlocked { filter: blur(0); pointer-events: auto; }
 .reco-item { display: flex; align-items: flex-start; gap: 12px; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--bg); }
@@ -110,7 +106,6 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 .reco-prio { font-size: 11px; font-family: var(--font-mono); padding: 3px 8px; border-radius: 4px; font-weight: 700; margin-top: 2px; flex-shrink: 0; }
 .reco-text { font-size: 14px; line-height: 1.5; color: var(--text); }
 .reco-empty { padding: 2rem; text-align: center; color: var(--muted); font-size: 14px; font-weight: 600; }
-
 </style>
 </head>
 <body>
@@ -156,13 +151,16 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 
     <div class="reco-panel">
       <div class="lead-gate" id="leadGate">
-        <div class="lead-icon">🔒</div>
+        <svg class="lead-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
         <h3 class="lead-title">Débloquez votre plan d'action</h3>
         <p class="lead-desc">Entrez votre e-mail pour révéler les recommandations prioritaires générées par votre audit.</p>
-        <form class="lead-form" id="leadForm" onsubmit="unlockRecos(event)">
-          <input type="email" class="lead-input" placeholder="votre@email.fr" required>
+        
+       <form class="lead-form" id="leadForm" action="https://317bb498.sibforms.com/serve/MUIFACEr6xsKhJjORO7l_WdW7OLXhAiEguEHu2rOTc79uUhfUAxWHdkyGAbXGzC3CaVZlDcUNUo4SfQMAVZ4yxNXL-nFgLh-FARieXnYqZfKQyYfmtEPhiyr25ghIcyG2yzWIz1JhR_WqD4yjor4FSK6Hlx6wV-aILTper7cktCul9KplJLUuWO1ukKXmir_4hXz26OPbWLok2ulHg==" method="POST" target="hidden_iframe" onsubmit="unlockRecos()">
+          <input type="email" name="EMAIL" class="lead-input" placeholder="votre@email.fr" required>
           <button type="submit" class="lead-btn">Déverrouiller</button>
         </form>
+        
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
       </div>
 
       <div class="reco-head">
@@ -172,14 +170,13 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
         <div class="reco-empty">Cochez des cases ci-dessus pour générer l'audit.</div>
       </div>
     </div>
-
   </main>
 </div>
 
 <script>
-// --- DONNÉES DE L'AUDIT ---
+// --- DONNÉES DE L'AUDIT (AVEC ICNONES SVG) ---
 const S = [
-  {id:"infos",icon:"📝",title:"Informations de base",criteria:[
+  {id:"infos",icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,title:"Informations de base",criteria:[
     {id:"c1",label:"Nom exact de l'établissement",hint:"Sans mots-clés ajoutés (ex: 'Plombier Paris')",prio:1,pts:4,reco:"Corrigez le nom de votre fiche pour qu'il corresponde exactement à votre Kbis - sans mots-clés ajoutés, sous peine de suspension Google."},
     {id:"c2",label:"Catégorie principale pertinente",hint:"Correspond exactement à votre activité principale",prio:1,pts:4,reco:"Choisissez une catégorie principale ultra-spécifique. C'est le signal de classement n°1 pour Google Local."},
     {id:"c3",label:"Catégories secondaires (2 minimum)",hint:"Services complémentaires = plus de visibilité",prio:2,pts:3,reco:"Ajoutez des catégories secondaires pour couvrir vos services annexes et apparaître sur plus de requêtes longue traîne."},
@@ -187,29 +184,28 @@ const S = [
     {id:"c5",label:"Site web renseigné",hint:"Lien direct vers votre site officiel",prio:1,pts:4,reco:"Ajoutez le lien de votre site web. C'est un signal d'autorité massif pour rassurer l'algorithme."},
     {id:"c7",label:"Fiche validée par Google",hint:"Vérification effectuée",prio:1,pts:4,reco:"Lancez la vérification de votre fiche (code par courrier ou vidéo). Sans cela, vous êtes invisible."}
   ]},
-  {id:"photos",icon:"📸",title:"Photos & Visuels",criteria:[
+  {id:"photos",icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`,title:"Photos & Visuels",criteria:[
     {id:"c12",label:"Logo en bonne qualité",hint:"Format carré recommandé",prio:1,pts:4,reco:"Ajoutez votre logo en haute définition pour renforcer votre image de marque dans les résultats Maps."},
     {id:"c14",label:"Plus de 10 photos au total",hint:"Google favorise les fiches riches visuellement",prio:2,pts:3,reco:"L'algorithme favorise les fiches visuelles. Ajoutez au moins 10 photos (équipe, locaux, réalisations)."},
     {id:"c15",label:"Photos récentes (moins de 3 mois)",hint:"La régularité est un signal fort",prio:2,pts:3,reco:"Publiez de nouvelles photos (1 par mois minimum). Les fiches inactives perdent progressivement des places."}
   ]},
-  {id:"avis",icon:"⭐",title:"Avis clients",criteria:[
+  {id:"avis",icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`,title:"Avis clients",criteria:[
     {id:"c17",label:"Note moyenne supérieure à 4.0",hint:"Impact direct sur le taux de clic",prio:1,pts:4,reco:"Sollicitez vos clients satisfaits. En dessous de 4 étoiles, la majorité des prospects passent au concurrent."},
     {id:"c19",label:"100% de réponses aux avis",hint:"Positifs comme négatifs",prio:1,pts:4,reco:"Répondez à TOUS vos avis. Google adore les propriétaires actifs, et les prospects lisent les réponses aux avis négatifs."},
     {id:"c20",label:"Réponses personnalisées",hint:"Pas de copié-collé",prio:2,pts:3,reco:"Citez le service rendu et glissez un mot-clé dans vos réponses aux avis. (ex: 'Merci pour ce retour sur notre création de site web...')."}
   ]},
-  {id:"publications",icon:"📢",title:"Publications",criteria:[
+  {id:"publications",icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>`,title:"Publications",criteria:[
     {id:"c22",label:"Au moins une publication mensuelle",hint:"Actualité, offre ou événement",prio:2,pts:3,reco:"Utilisez la fonction 'Posts' de Google pour annoncer vos actualités. Cela prend la place de vos concurrents dans les résultats."}
   ]},
-  {id:"extras",icon:"⚡",title:"Fonctionnalités avancées",criteria:[
+  {id:"extras",icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,title:"Fonctionnalités avancées",criteria:[
     {id:"c26",label:"Services listés avec prix",hint:"Aide Google à comprendre votre activité",prio:2,pts:3,reco:"Détaillez vos services et ajoutez des prix 'à partir de' dans l'onglet Éditer les services."},
     {id:"c30",label:"Foire Aux Questions (FAQ) remplie",hint:"Questions posées par vous-même",prio:3,pts:2,reco:"Posez vous-même les 3 questions les plus fréquentes de vos clients et répondez-y directement sur la fiche."}
   ]}
 ];
 
-// --- LOGIQUE DE L'OUTIL ---
 const MAX = S.reduce((a,s) => a + s.criteria.reduce((b,c) => b+c.pts, 0), 0);
 const ck = {};
-let isUnlocked = false; // Le verrou
+let isUnlocked = false; 
 
 function getScore() {
   let p = 0;
@@ -225,9 +221,9 @@ function getSp(s) {
 
 function col(s) {
   if(s===0) return "var(--bg)";
-  if(s>=80) return "var(--primary)"; // Vert
-  if(s>=50) return "#d97706"; // Orange
-  return "#e11d48"; // Rouge
+  if(s>=80) return "var(--primary)"; 
+  if(s>=50) return "#d97706"; 
+  return "#e11d48"; 
 }
 
 function lbl(s) {
@@ -240,8 +236,6 @@ function lbl(s) {
 
 function render() {
   const s = getScore();
-  
-  // Update Jauge
   const fill = document.getElementById("gaugeFill");
   fill.style.strokeDashoffset = 471.24 - (s/100 * 471.24);
   fill.style.stroke = col(s);
@@ -253,7 +247,6 @@ function render() {
   const sl = document.getElementById("scoreLabel");
   sl.textContent = lbl(s);
   
-  // Update Sidebar Bars
   S.forEach(sec => {
     const {got, max, pct} = getSp(sec);
     const bar = document.getElementById("bar_"+sec.id);
@@ -265,7 +258,6 @@ function render() {
     }
   });
 
-  // Ne mettre à jour les recos que si déverrouillé, sinon générer du contenu factice flouté
   renderRecos();
 }
 
@@ -284,7 +276,6 @@ function renderRecos() {
   const bg = {1:"var(--p1-bg)", 2:"var(--p2-bg)", 3:"var(--p3-bg)"};
   const cr = {1:"var(--p1-c)", 2:"var(--p2-c)", 3:"var(--p3-c)"};
   
-  // On injecte les vraies recos, mais elles sont floutées par le CSS tant que isUnlocked est false
   list.innerHTML = recos.map(r => `<div class="reco-item"><span class="reco-prio" style="background:${bg[r.prio]};color:${cr[r.prio]}">${lb[r.prio]}</span><span class="reco-text">${r.reco}</span></div>`).join("");
 }
 
@@ -307,9 +298,9 @@ function build() {
       </label>
     `).join("");
     
-    // Le premier onglet est ouvert par défaut
-    const disp = i === 0 ? "" : "none";
-    const rot = i === 0 ? "rotate(-90deg)" : "";
+    // CORRECTION ACCORDÉONS : Le JS gère correctement le display 'block' et 'none'
+    const disp = i === 0 ? "block" : "none";
+    const rot = i === 0 ? "rotate(0deg)" : "rotate(-90deg)";
 
     form.insertAdjacentHTML("beforeend", `
       <div class="section-card">
@@ -332,20 +323,14 @@ function build() {
 function tog(id) {
   const b = document.getElementById("body_"+id);
   const c = document.getElementById("chev_"+id);
-  const open = b.style.display !== "none" && b.style.display !== "";
-  b.style.display = open ? "none" : "";
-  c.style.transform = open ? "rotate(-90deg)" : "";
+  // Logique corrigée pour les accordéons
+  const open = b.style.display === "block";
+  b.style.display = open ? "none" : "block";
+  c.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
 }
 
-// Fonction de déverrouillage (Lead Gen)
-function unlockRecos(e) {
-  e.preventDefault();
-  const email = e.target.querySelector('input[type="email"]').value;
-  
-  // ICI : Tu peux rajouter le code pour envoyer l'email vers ton CRM ou Zapier
-  console.log("Email capturé :", email);
-  
-  // Visuel : On enlève le cadenas et on défloute la liste
+function unlockRecos() {
+  // On laisse le formulaire s'envoyer via l'iframe, et on débloque visuellement
   document.getElementById("leadGate").classList.add("hidden");
   document.getElementById("recoList").classList.add("unlocked");
   isUnlocked = true;
