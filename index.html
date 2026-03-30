@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,33 +36,14 @@
         
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
         .section { padding: 5rem 0; }
-        
-        .btn { display: inline-flex; align-items: center; justify-content: center; background: var(--primary-color); color: white !important; padding: 14px 32px; border-radius: var(--radius-btn); font-weight: 600; font-size: 1.05rem; border: 2px solid var(--primary-color); box-shadow: 0 4px 15px rgba(0, 153, 102, 0.3); cursor: pointer; }
-        .btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 153, 102, 0.4); }
 
-        /* --- HEADER --- */
-        .site-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); height: var(--header-height); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-size: 1.6rem; font-weight: 900; color: var(--accent-color); letter-spacing: -0.05em; }
-        .logo span { color: var(--primary-color); }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { font-weight: 600; font-size: 0.95rem; color: var(--accent-color); }
-        .nav-links a:hover { color: var(--primary-color); }
-        .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--accent-color); }
-        
-        @media (max-width: 900px) {
-            .nav-links { position: absolute; top: var(--header-height); left: 0; right: 0; background: white; flex-direction: column; padding: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: translateY(-150%); transition: transform 0.3s ease; }
-            .nav-links.active { transform: translateY(0); }
-            .menu-toggle { display: block; }
-        }
-
-        /* --- STYLES SPÉCIFIQUES LAB --- */
+        /* --- STYLES SPÉCIFIQUES LAB (ACCUEIL) --- */
         .lab-hero { text-align: center; padding: 4rem 0 2rem; }
         .lab-hero h1 { font-size: 2.5rem; }
         .lab-hero p { font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
         
         .tools-section { margin: 3rem 0 5rem 0; }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; } /* Pour H2 invisible mais lu par Google */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 
         .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         .tool-card { background: white; border-radius: var(--radius-card); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
@@ -70,29 +53,11 @@
         .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
         .tool-card p { font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
         .tool-link-text { color: var(--primary-color); font-weight: 700; display: flex; align-items: center; gap: 5px; }
-
-        /* --- FOOTER --- */
-        .site-footer { background: #0a0a0a; color: white; padding: 4rem 0 0 0; margin-top: auto; }
-        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-        .footer-links a:hover { color: var(--primary-color) !important; padding-left: 5px; }
-        @media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; gap: 10px; } }
     </style>
 </head>
 <body>
 
-<header class="site-header">
-    <div class="container navbar">
-        <a href="https://duvaldvl.com/" class="logo">Duval <span>DVL.</span></a>
-        <div class="menu-toggle" id="mobile-menu">☰</div>
-        <nav class="nav-links" id="nav-links">
-            <a href="https://duvaldvl.com/">Accueil Agence</a>
-            <a href="https://duvaldvl.com/creation-sites-internet">Site Internet</a>
-            <a href="https://duvaldvl.com/referencement-local">SEO Local</a>
-            <a href="https://duvaldvl.com/nos-realisations">Réalisations</a>
-            <a href="https://duvaldvl.com/contact" class="btn" style="padding: 10px 24px; font-size: 0.95rem;">Contact</a>
-        </nav>
-    </div>
-</header>
+{% include header.html %}
 
 <main class="container">
     <div class="lab-hero">
@@ -163,37 +128,7 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <span style="font-weight: 700; font-size: 1.5rem; color: #fff; display: block; margin-bottom: 1rem;">Duval DVL</span>
-                <p style="color: #ccc; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                    Webdesigner & Expert SEO en Haute-Savoie.<br>
-                    J'accompagne les artisans, commerçants et PME vers la réussite digitale.
-                </p>
-            </div>
-            <div class="footer-col">
-                <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 1.5rem;">Mes Services</h4>
-                <ul class="footer-links" style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 10px;"><a href="https://duvaldvl.com/" style="color: #ccc; text-decoration: none; transition: 0.3s;">Accueil Agence</a></li>
-                    <li style="margin-bottom: 10px;"><a href="https://duvaldvl.com/creation-sites-internet/" style="color: #ccc; text-decoration: none; transition: 0.3s;">Création Site Internet</a></li>
-                    <li style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-                        <a href="https://duvaldvl.com/contact/" style="color: #fff; text-decoration: underline; font-weight: bold;">Travailler avec moi</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom" style="border-top: 1px solid #333; margin-top: 3rem; padding: 1.5rem 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
-            <div style="margin-bottom: 10px;">&copy; 2026 Duval DVL - Le Lab</div>
-        </div>
-    </div>
-</footer>
+{% include footer.html %}
 
-<script>
-    document.getElementById('mobile-menu').addEventListener('click', function() {
-        document.getElementById('nav-links').classList.toggle('active');
-    });
-</script>
 </body>
 </html>
