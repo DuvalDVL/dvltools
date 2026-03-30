@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Générateur gratuit de schéma JSON-LD LocalBusiness. Créez vos données structurées Schema.org pour booster votre SEO local et votre visibilité sur Google.">
 <link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Générateur JSON-LD LocalBusiness - Le Lab Duval DVL</title>
+<title>Générateur JSON-LD LocalBusiness (Schema SEO) | Duval DVL</title>
 <style>
 /* --- CHARTE GRAPHIQUE DUVAL DVL --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,13 +25,25 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; padding-bottom: 2rem; }
+
+/* --- HEADER AVEC LIEN RETOUR --- */
+header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; margin-bottom: 2rem; }
+.header-left { display: flex; align-items: center; gap: 20px; }
+.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; }
+.back-link { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+.back-link:hover { color: var(--primary); }
 header h1 { font-size: 16px; font-weight: 700; }
 
-.layout { display: grid; grid-template-columns: 1fr 1fr; max-width: 1300px; margin: 0 auto; gap: 2rem; padding: 2rem; }
-@media(max-width: 950px) { .layout { grid-template-columns: 1fr; padding: 1rem; } header h1 { display: none; } }
+.page-wrapper { max-width: 1300px; margin: 0 auto; padding: 0 1rem; }
+
+/* --- INTRO SEO --- */
+.intro { margin-bottom: 2rem; }
+.intro h2 { font-size: 24px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.intro p { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 800px; }
+
+/* --- LAYOUT --- */
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 
 /* --- FORMULAIRE (GAUCHE) --- */
 .form-section { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -46,11 +59,10 @@ header h1 { font-size: 16px; font-weight: 700; }
 .form-help { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
 
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-@media(max-width: 500px) { .row { grid-template-columns: 1fr; } }
 
 /* --- OUTPUT (DROITE) --- */
-.output-section { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 2rem; height: calc(100vh - 100px); }
-@media(max-width: 950px) { .output-section { position: static; height: auto; } }
+/* Top à 100px pour éviter de passer sous le header sticky */
+.output-section { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 100px; height: calc(100vh - 120px); }
 
 .code-card { background: var(--code-bg); color: var(--code-text); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; flex: 1; min-height: 300px;}
 .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
@@ -67,101 +79,123 @@ header h1 { font-size: 16px; font-weight: 700; }
 .cta-link { color: var(--primary); font-weight: 700; text-decoration: none; }
 .cta-link:hover { text-decoration: underline; }
 
+/* --- RESPONSIVE --- */
+@media(max-width: 950px) { 
+  header h1 { display: none; }
+  .layout { grid-template-columns: 1fr; } 
+  .output-section { position: static; height: auto; }
+}
+@media(max-width: 500px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
+  <div class="header-left">
+    <a href="https://duvaldvl.com" class="brand">Duval DVL</a>
+    <a href="/" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Retour au Lab
+    </a>
+  </div>
   <h1>Générateur de Schéma JSON-LD</h1>
   <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
 
-<div class="layout">
-  <aside class="form-section">
-    <div class="card">
-      <h2 class="card-title">
-        <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        Identité de l'entreprise
-      </h2>
-      
-      <div class="form-group">
-        <label class="form-label" for="name">Nom de l'établissement *</label>
-        <input type="text" id="name" class="form-input" placeholder="ex: Duval DVL" required>
-        <p class="form-help">Utilisez le nom exact affiché sur votre enseigne et Kbis.</p>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="image">URL de l'image / Logo *</label>
-        <input type="url" id="image" class="form-input" placeholder="https://votre-site.com/logo.png">
-        <p class="form-help">Lien absolu vers votre logo ou une photo de la façade (format 1:1 recommandé).</p>
-      </div>
+<div class="page-wrapper">
 
-      <div class="form-group">
-        <label class="form-label" for="description">Description courte</label>
-        <textarea id="description" class="form-input" rows="3" placeholder="Présentez votre activité en 2-3 phrases..."></textarea>
-      </div>
-    </div>
+  <div class="intro">
+    <h2>Optimisez votre référencement local avec les données structurées</h2>
+    <p>Le schéma <strong>LocalBusiness</strong> aide Google à comprendre précisément qui vous êtes et où vous vous situez. Complétez le formulaire ci-dessous pour générer instantanément votre code <strong>Schema.org</strong> au format JSON-LD pour votre entreprise ou celle de vos clients.</p>
+  </div>
 
-    <div class="card">
-      <h2 class="card-title">
-        <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        Coordonnées & Localisation
-      </h2>
-      
-      <div class="form-group">
-        <label class="form-label" for="street">Adresse (Rue et numéro) *</label>
-        <input type="text" id="street" class="form-input" placeholder="ex: 540 rue Charles Viard">
-      </div>
-
-      <div class="row">
+  <div class="layout">
+    
+    <aside class="form-section">
+      <div class="card">
+        <h2 class="card-title">
+          <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Identité de l'entreprise
+        </h2>
+        
         <div class="form-group">
-          <label class="form-label" for="zip">Code Postal *</label>
-          <input type="text" id="zip" class="form-input" placeholder="ex: 74700">
+          <label class="form-label" for="name">Nom de l'établissement *</label>
+          <input type="text" id="name" class="form-input" placeholder="ex: Duval DVL" required>
+          <p class="form-help">Utilisez le nom exact affiché sur votre enseigne et Kbis.</p>
         </div>
+        
         <div class="form-group">
-          <label class="form-label" for="city">Ville *</label>
-          <input type="text" id="city" class="form-input" placeholder="ex: Sallanches">
+          <label class="form-label" for="image">URL de l'image / Logo *</label>
+          <input type="url" id="image" class="form-input" placeholder="https://votre-site.com/logo.png">
+          <p class="form-help">Lien absolu vers votre logo ou une photo de la façade (format 1:1 recommandé).</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="description">Description courte</label>
+          <textarea id="description" class="form-input" rows="3" placeholder="Présentez votre activité en 2-3 phrases..."></textarea>
         </div>
       </div>
 
-      <div class="row">
+      <div class="card">
+        <h2 class="card-title">
+          <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          Coordonnées & Localisation
+        </h2>
+        
         <div class="form-group">
-          <label class="form-label" for="telephone">Téléphone *</label>
-          <input type="tel" id="telephone" class="form-input" placeholder="ex: +33760166136">
-          <p class="form-help">Format international recommandé (ex: +33...).</p>
+          <label class="form-label" for="street">Adresse (Rue et numéro) *</label>
+          <input type="text" id="street" class="form-input" placeholder="ex: 540 rue Charles Viard">
         </div>
-        <div class="form-group">
-          <label class="form-label" for="url">URL du site web *</label>
-          <input type="url" id="url" class="form-input" placeholder="https://duvaldvl.com">
+
+        <div class="row">
+          <div class="form-group">
+            <label class="form-label" for="zip">Code Postal *</label>
+            <input type="text" id="zip" class="form-input" placeholder="ex: 74700">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="city">Ville *</label>
+            <input type="text" id="city" class="form-input" placeholder="ex: Sallanches">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="form-label" for="telephone">Téléphone *</label>
+            <input type="tel" id="telephone" class="form-input" placeholder="ex: +33760166136">
+            <p class="form-help">Format international recommandé (ex: +33...).</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="url">URL du site web *</label>
+            <input type="url" id="url" class="form-input" placeholder="https://duvaldvl.com">
+          </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </aside>
 
-  <section class="output-section">
-    <div class="code-card">
-      <div class="code-header">
-        <span class="code-title">Code JSON-LD généré</span>
-        <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copier le code</button>
+    <section class="output-section">
+      <div class="code-card">
+        <div class="code-header">
+          <span class="code-title">Code JSON-LD généré</span>
+          <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copier le code</button>
+        </div>
+        <textarea class="code-block" id="jsonOutput" readonly></textarea>
       </div>
-      <textarea class="code-block" id="jsonOutput" readonly></textarea>
-    </div>
 
-    <div class="explain-card">
-      <h3 class="explain-title">Comment utiliser ce code ?</h3>
-      <p class="explain-text">
-        Ce code permet à Google de comprendre que vous êtes une entreprise locale. Intégrez-le dans la balise <strong>&lt;head&gt;</strong> de votre page d'accueil ou de votre page contact.
-      </p>
-      <p class="explain-text">
-        Vous ne savez pas comment faire ? <a href="https://duvaldvl.com/contact/" target="_blank" class="cta-link">Confiez-moi l'intégration technique de votre SEO Local</a>.
-      </p>
-    </div>
-  </section>
+      <div class="explain-card">
+        <h3 class="explain-title">Comment utiliser ce code ?</h3>
+        <p class="explain-text">
+          Ce code permet à Google de comprendre que vous êtes une entreprise locale. Intégrez-le dans la balise <strong>&lt;head&gt;</strong> de votre page d'accueil ou de votre page contact.
+        </p>
+        <p class="explain-text">
+          Vous ne savez pas comment faire ? <a href="https://duvaldvl.com/contact/" target="_blank" class="cta-link">Confiez-moi l'intégration technique de votre SEO Local</a>.
+        </p>
+      </div>
+    </section>
+    
+  </div>
 </div>
 
 <script>
-// --- LOGIQUE DU GÉNÉRATEUR ---
 const inputs = ['name', 'image', 'description', 'street', 'zip', 'city', 'telephone', 'url'];
 
 function updateCode() {
@@ -170,7 +204,6 @@ function updateCode() {
     data[id] = document.getElementById(id).value.trim();
   });
 
-  // Construction du JSON propre
   const jsonLD = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -179,7 +212,7 @@ function updateCode() {
     "@id": data.url || "https://votre-site.com",
     "url": data.url || "https://votre-site.com",
     "telephone": data.telephone || "+33000000000",
-    "priceRange": "€€", // Par défaut, modifiable si besoin
+    "priceRange": "€€", 
     "address": {
       "@type": "PostalAddress",
       "streetAddress": data.street || "Adresse",
@@ -189,12 +222,10 @@ function updateCode() {
     }
   };
 
-  // Ajout de la description seulement si remplie
   if (data.description) {
     jsonLD["description"] = data.description;
   }
 
-  // Formatage du code final
   const output = `<script type="application/ld+json">\n${JSON.stringify(jsonLD, null, 2)}\n<\/script>`;
   
   document.getElementById('jsonOutput').value = output;
@@ -203,12 +234,12 @@ function updateCode() {
 function copyCode() {
   const copyText = document.getElementById("jsonOutput");
   copyText.select();
-  copyText.setSelectionRange(0, 99999); // Pour mobile
+  copyText.setSelectionRange(0, 99999); 
   navigator.clipboard.writeText(copyText.value);
   
   const btn = document.getElementById('copyBtn');
   btn.textContent = "Copié !";
-  btn.style.background = "#111111"; // Noir Duval DVL
+  btn.style.background = "#111111"; 
   
   setTimeout(() => {
     btn.textContent = "Copier le code";
@@ -216,12 +247,10 @@ function copyCode() {
   }, 2000);
 }
 
-// Écouteurs d'événements sur tous les inputs
 inputs.forEach(id => {
   document.getElementById(id).addEventListener('input', updateCode);
 });
 
-// Initialisation au chargement
 updateCode();
 </script>
 </body>
