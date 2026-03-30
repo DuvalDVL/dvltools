@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,14 +26,6 @@
 
 body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; }
 
-/* --- HEADER UNIFORMISÉ --- */
-header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
-.header-left { display: flex; align-items: center; gap: 20px; }
-.brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; }
-.back-link { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
-.back-link:hover { color: var(--primary); }
-header h1 { font-size: 16px; font-weight: 700; color: var(--text); }
-
 /* --- CONTENU 404 --- */
 .page-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 120px 1rem 3rem; }
 .error-container { text-align: center; max-width: 600px; padding: 2rem; }
@@ -52,27 +46,13 @@ header h1 { font-size: 16px; font-weight: 700; color: var(--text); }
 .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
 .btn-outline:hover { background: var(--surface); border-color: var(--text); }
 
-/* --- FOOTER UNIFORMISÉ --- */
-.site-footer { background: #0a0a0a; color: #666; padding: 2rem 0; text-align: center; font-size: 13px; margin-top: auto; }
-
 /* --- RESPONSIVE --- */
-@media(max-width: 850px) { header h1 { display: none; } }
 @media(max-width: 500px) { .error-title { font-size: 22px; } .error-desc { font-size: 14px; } }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <a href="https://duvaldvl.com" class="brand">Duval DVL</a>
-    <a href="/" class="back-link">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Retour au Lab
-    </a>
-  </div>
-  <h1>Erreur de routage</h1>
-  <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
-</header>
+{% include header.html %}
 
 <main class="page-wrapper">
   <div class="error-container">
@@ -94,9 +74,7 @@ header h1 { font-size: 16px; font-weight: 700; color: var(--text); }
   </div>
 </main>
 
-<footer class="site-footer">
-    <p>&copy; 2026 Duval DVL - Le Lab d'expérimentation SEO & Performance Web.</p>
-</footer>
+{% include footer.html %}
 
 </body>
 </html>
