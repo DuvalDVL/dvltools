@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Simulateur gratuit pour comparer la rentabilité (ROI) du référencement naturel (SEO) face aux campagnes Google Ads. Calculez vos coûts d'acquisition sur 24 mois.">
 <link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Calculateur ROI : SEO vs Google Ads - Duval DVL</title>
+<title>Simulateur ROI : Comparatif SEO vs Google Ads | Duval DVL</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -31,7 +32,15 @@ header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; d
 .brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
 header h1 { font-size: 16px; font-weight: 700; }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
+.page-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+/* --- INTRO SEO --- */
+.intro { margin-bottom: 2rem; }
+.intro h2 { font-size: 24px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.intro p { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 700px; }
+
+/* --- LAYOUT CALCULATEUR --- */
+.container { display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
 @media(max-width: 950px) { .container { grid-template-columns: 1fr; } header h1 { display: none; } }
 
 /* --- COLONNE GAUCHE (INPUTS) --- */
@@ -76,86 +85,94 @@ input[type=range]:focus { outline: none; }
 
 <header>
   <a href="https://duvaldvl.com" class="brand" style="text-decoration:none;">Duval DVL</a>
-  <h1>Simulateur d'Investissement : SEO vs Google Ads</h1>
+  <h1>Calculateur de Rentabilité : SEO vs Google Ads</h1>
   <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
 
-<div class="container">
-  
-  <aside>
-    <div class="card">
-      <h2 class="card-title">🎯 Vos objectifs</h2>
-      
-      <div class="form-group">
-        <label class="form-label">Trafic mensuel visé <span class="form-val" id="val-traffic">500</span></label>
-        <input type="range" id="in-traffic" class="form-input" min="100" max="5000" step="100" value="500">
-      </div>
+<div class="page-wrapper">
 
-      <div class="form-group">
-        <label class="form-label">Coût par Clic (Google Ads) <span class="form-val" id="val-cpc">2.00 €</span></label>
-        <input type="range" id="in-cpc" class="form-input" min="0.50" max="10.00" step="0.10" value="2.00">
-      </div>
+  <div class="intro">
+    <h2>Estimez la rentabilité de votre stratégie d'acquisition</h2>
+    <p>Utilisez notre simulateur de retour sur investissement (ROI) gratuit pour comparer le coût d'une campagne de liens sponsorisés (Google Ads) face à une stratégie de référencement naturel (SEO local). Découvrez à quel moment le SEO devient votre canal d'acquisition le plus rentable.</p>
+  </div>
 
-      <div class="form-group">
-        <label class="form-label">Taux de conversion site <span class="form-val" id="val-conv">3 %</span></label>
-        <input type="range" id="in-conv" class="form-input" min="1" max="10" step="1" value="3">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Valeur d'un client (Panier) <span class="form-val" id="val-basket">400 €</span></label>
-        <input type="range" id="in-basket" class="form-input" min="50" max="5000" step="50" value="400">
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 class="card-title">💼 Investissement Duval DVL</h2>
-      
-      <div class="form-group">
-        <label class="form-label">Création / Refonte (Mois 1) <span class="form-val" id="val-seo-upfront">2000 €</span></label>
-        <input type="range" id="in-seo-upfront" class="form-input" min="500" max="10000" step="100" value="2000">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Accompagnement mensuel <span class="form-val" id="val-seo-monthly">300 €</span></label>
-        <input type="range" id="in-seo-monthly" class="form-input" min="0" max="2000" step="50" value="300">
-      </div>
-    </div>
-  </aside>
-
-  <main class="results-wrapper">
+  <div class="container">
     
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-title">CA Mensuel Estimé</div>
-        <div class="kpi-val green" id="out-revenue">0 €</div>
+    <aside>
+      <div class="card">
+        <h2 class="card-title">🎯 Vos objectifs commerciaux</h2>
+        
+        <div class="form-group">
+          <label class="form-label" for="in-traffic">Trafic mensuel visé <span class="form-val" id="val-traffic">500</span></label>
+          <input type="range" id="in-traffic" class="form-input" min="100" max="5000" step="100" value="500" aria-label="Trafic mensuel visé">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="in-cpc">Coût par Clic (Google Ads) <span class="form-val" id="val-cpc">2.00 €</span></label>
+          <input type="range" id="in-cpc" class="form-input" min="0.50" max="10.00" step="0.10" value="2.00" aria-label="Coût par clic estimé">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="in-conv">Taux de conversion du site <span class="form-val" id="val-conv">3 %</span></label>
+          <input type="range" id="in-conv" class="form-input" min="1" max="10" step="1" value="3" aria-label="Taux de conversion">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="in-basket">Valeur d'un client (Panier) <span class="form-val" id="val-basket">400 €</span></label>
+          <input type="range" id="in-basket" class="form-input" min="50" max="5000" step="50" value="400" aria-label="Valeur moyenne d'un client">
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-title">Coût Ads (Mois)</div>
-        <div class="kpi-val" style="color:var(--ads)" id="out-ads-monthly">0 €</div>
+
+      <div class="card">
+        <h2 class="card-title">💼 Investissement SEO Duval DVL</h2>
+        
+        <div class="form-group">
+          <label class="form-label" for="in-seo-upfront">Création / Refonte (Mois 1) <span class="form-val" id="val-seo-upfront">2000 €</span></label>
+          <input type="range" id="in-seo-upfront" class="form-input" min="500" max="10000" step="100" value="2000" aria-label="Coût initial de création du site">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="in-seo-monthly">Accompagnement mensuel <span class="form-val" id="val-seo-monthly">300 €</span></label>
+          <input type="range" id="in-seo-monthly" class="form-input" min="0" max="2000" step="50" value="300" aria-label="Coût mensuel du référencement naturel">
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-title">Coût SEO (Mois 2+)</div>
-        <div class="kpi-val" id="out-seo-monthly">0 €</div>
+    </aside>
+
+    <main class="results-wrapper">
+      
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">CA Mensuel Estimé</div>
+          <div class="kpi-val green" id="out-revenue">0 €</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Coût Ads (Mois)</div>
+          <div class="kpi-val" style="color:var(--ads)" id="out-ads-monthly">0 €</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Coût SEO (Mois 2+)</div>
+          <div class="kpi-val" id="out-seo-monthly">0 €</div>
+        </div>
       </div>
-    </div>
 
-    <div class="chart-container">
-      <canvas id="roiChart"></canvas>
-    </div>
+      <div class="chart-container">
+        <canvas id="roiChart" aria-label="Graphique de comparaison entre le SEO et Google Ads" role="img"></canvas>
+      </div>
 
-    <div class="summary-box">
-      <p class="summary-text" id="summary-text">
-        Sur 24 mois, pour générer le même trafic, Google Ads vous coûtera <strong>X €</strong> (à fonds perdus), tandis que votre stratégie SEO vous coûtera <strong>Y €</strong> (vous devenez propriétaire de votre trafic).<br>
-        Une économie nette de <strong style="font-size: 18px;">Z €</strong> tout en construisant un actif durable.
-      </p>
-    </div>
+      <div class="summary-box">
+        <p class="summary-text" id="summary-text">
+          Sur 24 mois, pour générer le même trafic, Google Ads vous coûtera <strong>X €</strong> (à fonds perdus), tandis que votre stratégie SEO vous coûtera <strong>Y €</strong> (vous devenez propriétaire de votre trafic).<br>
+          Une économie nette de <strong style="font-size: 18px;">Z €</strong> tout en construisant un actif durable.
+        </p>
+      </div>
 
-    <div class="cta-box">
-      <h3>Arrêtez de louer votre trafic à Google. Devenez propriétaire.</h3>
-      <a href="https://duvaldvl.com/contact/" class="cta-btn">Réserver une stratégie SEO gratuite</a>
-    </div>
+      <div class="cta-box">
+        <h3>Arrêtez de louer votre trafic à Google. Devenez propriétaire.</h3>
+        <a href="https://duvaldvl.com/contact/" class="cta-btn">Réserver une stratégie SEO gratuite</a>
+      </div>
 
-  </main>
+    </main>
+  </div>
 </div>
 
 <script>
