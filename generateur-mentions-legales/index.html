@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Générez gratuitement vos mentions légales et politique de confidentialité (RGPD) conformes pour votre site vitrine. Outil simple pour artisans, commerçants et PME.">
 <link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Générateur de Mentions Légales pour Artisans & TPE - Duval DVL</title>
+<title>Générateur de Mentions Légales Gratuit (Artisan & TPE) | Duval DVL</title>
 
 <style>
 /* --- CHARTE GRAPHIQUE DUVAL DVL --- */
@@ -26,8 +27,15 @@ header { background: var(--surface); color: var(--text); padding: 1.2rem 2rem; d
 .brand { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
 header h1 { font-size: 16px; font-weight: 700; }
 
-.container { max-width: 1300px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 400px 1fr; gap: 2rem; }
-@media(max-width: 950px) { .container { grid-template-columns: 1fr; } header h1 { display: none; } }
+.page-wrapper { max-width: 1300px; margin: 0 auto; padding: 0 1rem; }
+
+/* --- INTRO SEO --- */
+.intro { margin-bottom: 2rem; }
+.intro h2 { font-size: 24px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.intro p { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 800px; }
+
+/* --- LAYOUT --- */
+.container { display: grid; grid-template-columns: 400px 1fr; gap: 2rem; }
 
 /* --- COLONNE GAUCHE (FORMULAIRE) --- */
 .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 2rem; height: max-content; }
@@ -63,6 +71,16 @@ header h1 { font-size: 16px; font-weight: 700; }
 .cta-box { margin-top: 1.5rem; padding: 1.5rem; background: var(--text); color: #fff; border-radius: var(--radius); text-align: center; }
 .cta-box p { font-size: 14px; margin-bottom: 1rem; opacity: 0.9; }
 .cta-link { color: var(--primary); font-weight: 700; text-decoration: none; }
+
+/* --- CORRECTIONS MOBILE --- */
+@media(max-width: 950px) { 
+  header h1 { display: none; } 
+  .container { display: flex; flex-direction: column; }
+  .sidebar { position: static; display: contents; }
+  .card { order: 1; margin-bottom: 1rem; }
+  main { order: 2; }
+  .cta-box { order: 3; }
+}
 </style>
 </head>
 <body>
@@ -73,100 +91,107 @@ header h1 { font-size: 16px; font-weight: 700; }
   <span class="brand" style="color:var(--muted); font-weight:500;">Le Lab</span>
 </header>
 
-<div class="container">
-  
-  <aside class="sidebar">
-    <div class="card">
-      <h2 class="card-title">1. Votre Entreprise</h2>
-      
-      <div class="form-group">
-        <label class="form-label" for="c_name">Nom de l'entreprise / Prénom Nom</label>
-        <input type="text" id="c_name" class="form-input" placeholder="Ex: Duval DVL ou Jean Dupont" value="Mon Entreprise">
-      </div>
+<div class="page-wrapper">
 
-      <div class="row">
+  <div class="intro">
+    <h2>Créez vos mentions légales et politique RGPD gratuitement</h2>
+    <p>Tout site internet professionnel doit obligatoirement afficher des mentions légales (Loi LCEN). Utilisez notre générateur gratuit pour créer des textes juridiques adaptés aux sites vitrines des <strong>artisans, commerçants et TPE</strong>. Remplissez le formulaire à gauche pour voir vos textes s'afficher en temps réel à droite.</p>
+  </div>
+
+  <div class="container">
+    
+    <aside class="sidebar">
+      <div class="card">
+        <h2 class="card-title">1. Votre Entreprise</h2>
+        
         <div class="form-group">
-          <label class="form-label" for="c_status">Statut juridique</label>
-          <input type="text" id="c_status" class="form-input" placeholder="Ex: Micro-entreprise, SASU..." value="Micro-entreprise">
+          <label class="form-label" for="c_name">Nom de l'entreprise / Prénom Nom</label>
+          <input type="text" id="c_name" class="form-input" placeholder="Ex: Duval DVL ou Jean Dupont" value="Mon Entreprise">
         </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="form-label" for="c_status">Statut juridique</label>
+            <input type="text" id="c_status" class="form-input" placeholder="Ex: Micro-entreprise, SASU..." value="Micro-entreprise">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="c_capital">Capital social</label>
+            <input type="text" id="c_capital" class="form-input" placeholder="Ex: 1000€ (0 si micro)">
+          </div>
+        </div>
+
         <div class="form-group">
-          <label class="form-label" for="c_capital">Capital social</label>
-          <input type="text" id="c_capital" class="form-input" placeholder="Ex: 1000€ (0 si micro)">
+          <label class="form-label" for="c_siret">SIRET</label>
+          <input type="text" id="c_siret" class="form-input" placeholder="14 chiffres">
         </div>
-      </div>
 
-      <div class="form-group">
-        <label class="form-label" for="c_siret">SIRET</label>
-        <input type="text" id="c_siret" class="form-input" placeholder="14 chiffres">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="c_address">Adresse du siège social</label>
-        <input type="text" id="c_address" class="form-input" placeholder="Ex: 123 rue de la Paix, 75000 Paris">
-      </div>
-      
-      <div class="row">
         <div class="form-group">
-          <label class="form-label" for="c_email">Email de contact</label>
-          <input type="email" id="c_email" class="form-input" placeholder="contact@domaine.fr">
+          <label class="form-label" for="c_address">Adresse du siège social</label>
+          <input type="text" id="c_address" class="form-input" placeholder="Ex: 123 rue de la Paix, 75000 Paris">
         </div>
+        
+        <div class="row">
+          <div class="form-group">
+            <label class="form-label" for="c_email">Email de contact</label>
+            <input type="email" id="c_email" class="form-input" placeholder="contact@domaine.fr">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="c_phone">Téléphone</label>
+            <input type="text" id="c_phone" class="form-input" placeholder="06 00 00 00 00">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">2. Édition & Hébergement</h2>
+        
         <div class="form-group">
-          <label class="form-label" for="c_phone">Téléphone</label>
-          <input type="text" id="c_phone" class="form-input" placeholder="06 00 00 00 00">
+          <label class="form-label" for="c_director">Directeur de la publication</label>
+          <input type="text" id="c_director" class="form-input" placeholder="Ex: Jean Dupont">
+          <div class="help-text">Souvent le dirigeant de l'entreprise.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="c_host_name">Nom de l'hébergeur du site</label>
+          <input type="text" id="c_host_name" class="form-input" placeholder="Ex: O2Switch, Hostinger, GitHub...">
+          <div class="help-text">L'entreprise qui stocke votre site.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="c_host_address">Adresse de l'hébergeur</label>
+          <input type="text" id="c_host_address" class="form-input" placeholder="Ex: Chemin des Pardiaux, 63000 Clermont-Ferrand">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="c_website">URL de votre site internet</label>
+          <input type="text" id="c_website" class="form-input" placeholder="Ex: www.mon-site.fr" value="www.mon-site.fr">
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <h2 class="card-title">2. Édition & Hébergement</h2>
-      
-      <div class="form-group">
-        <label class="form-label" for="c_director">Directeur de la publication</label>
-        <input type="text" id="c_director" class="form-input" placeholder="Ex: Jean Dupont">
-        <div class="help-text">Souvent le dirigeant de l'entreprise.</div>
+      <div class="cta-box">
+        <p>Besoin d'un site web professionnel, rapide et 100% conforme à la loi française ?</p>
+        <a href="https://duvaldvl.com" class="cta-link">Découvrir les offres Duval DVL →</a>
       </div>
+    </aside>
 
-      <div class="form-group">
-        <label class="form-label" for="c_host_name">Nom de l'hébergeur du site</label>
-        <input type="text" id="c_host_name" class="form-input" placeholder="Ex: O2Switch, Hostinger, GitHub...">
-        <div class="help-text">L'entreprise qui stocke votre site.</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="c_host_address">Adresse de l'hébergeur</label>
-        <input type="text" id="c_host_address" class="form-input" placeholder="Ex: Chemin des Pardiaux, 63000 Clermont-Ferrand">
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" for="c_website">URL de votre site internet</label>
-        <input type="text" id="c_website" class="form-input" placeholder="Ex: www.mon-site.fr" value="www.mon-site.fr">
-      </div>
-    </div>
-
-    <div class="cta-box">
-      <p>Besoin d'un site web professionnel, rapide et 100% conforme à la loi française ?</p>
-      <a href="https://duvaldvl.com" class="cta-link">Découvrir les offres Duval DVL →</a>
-    </div>
-  </aside>
-
-  <main>
-    <div class="output-card">
-      <div class="output-header">
-        <span class="output-title">Vos textes juridiques générés</span>
-        <div class="output-actions">
-          <button class="btn btn-outline" onclick="copyHTML()" id="btnHtml">Copier le HTML</button>
-          <button class="btn btn-primary" onclick="copyText()" id="btnText">Copier le Texte</button>
+    <main>
+      <div class="output-card">
+        <div class="output-header">
+          <span class="output-title">Vos textes juridiques générés</span>
+          <div class="output-actions">
+            <button class="btn btn-outline" onclick="copyHTML()" id="btnHtml">Copier le HTML</button>
+            <button class="btn btn-primary" onclick="copyText()" id="btnText">Copier le Texte</button>
+          </div>
         </div>
+        
+        <div class="output-content" id="legalOutput">
+          </div>
       </div>
-      
-      <div class="output-content" id="legalOutput">
-        </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </div>
 
 <script>
-// Récupérer tous les inputs
 const inputs = document.querySelectorAll('.form-input');
 const outputDiv = document.getElementById('legalOutput');
 
@@ -227,12 +252,10 @@ Par courrier : ${data.address}</p>
   outputDiv.innerHTML = htmlTemplate;
 }
 
-// Écouteurs d'événements pour mise à jour en temps réel
 inputs.forEach(input => {
   input.addEventListener('input', generateLegalText);
 });
 
-// Fonctions de copie
 function copyHTML() {
   const htmlContent = outputDiv.innerHTML;
   navigator.clipboard.writeText(htmlContent).then(() => {
@@ -262,7 +285,6 @@ function copyText() {
   });
 }
 
-// Génération initiale
 generateLegalText();
 </script>
 </body>
