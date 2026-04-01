@@ -1,0 +1,10 @@
+title: Le Lab Duval DVL
+url: "https://lab.duvaldvl.com"
+baseurl: ""
+lang: fr
+
+exclude:
+  - scanner/
+  - README.md
+  - Gemfile
+  - Gemfile.lock
