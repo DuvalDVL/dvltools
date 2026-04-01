@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Générateur gratuit de mentions légales, CGU, CGV| Le Lab Duval DVL">
-<meta property="og:description" content="Générez gratuitement les pages légales de votre site internet (mentions légales, CGU, CGV)">
-<meta property="og:url" content="https://lab.duvaldvl.com/generateur-mentions-legales/">
-<meta property="og:image" content="https://duvaldvl.com/assets/img/social-preview-generateur-legal.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Générez gratuitement vos mentions légales et politique de confidentialité (RGPD) conformes pour votre site vitrine. Outil simple pour artisans, commerçants et PME.">
-<link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Générateur de Mentions Légales Gratuit (Artisan & TPE) | Duval DVL</title>
-
-</head>
-<body>
+---
+layout: default
+title: "Générateur de Mentions Légales Gratuit (Artisan & TPE) | Duval DVL"
+description: "Générez gratuitement vos mentions légales et politique de confidentialité (RGPD) conformes pour votre site vitrine. Outil simple pour artisans, commerçants et PME."
+---
 
 <header>
   <div class="header-left">
@@ -35,7 +23,7 @@
     <p>Tout site internet professionnel doit obligatoirement afficher des mentions légales (Loi LCEN). Utilisez notre générateur gratuit pour créer des textes juridiques adaptés aux sites vitrines des <strong>artisans, commerçants et TPE</strong>. Remplissez le formulaire à gauche pour voir vos textes s'afficher en temps réel à droite.</p>
   </div>
   <div style="background: #fffbeb; border-left: 4px solid #d97706; padding: 1rem; border-radius: 4px; margin-bottom: 2rem; font-size: 13px; color: #92400e;">
-    <strong>⚠️ Avertissement :</strong> Les textes générés par cet outil sont des modèles de base fournis à titre indicatif. Ils ne sauraient remplacer les conseils personnalisés d'un professionnel du droit. Duval DVL décline toute responsabilité quant aux conséquences de leur utilisation.
+    <strong>Avertissement :</strong> Les textes générés par cet outil sont des modèles de base fournis à titre indicatif. Ils ne sauraient remplacer les conseils personnalisés d'un professionnel du droit. Duval DVL décline toute responsabilité quant aux conséquences de leur utilisation.
   </div>
 
   <div class="container">
@@ -56,7 +44,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="c_capital">Capital social</label>
-            <input type="text" id="c_capital" class="form-input" placeholder="Ex: 1000€ (0 si micro)">
+            <input type="text" id="c_capital" class="form-input" placeholder="Ex: 1000 euros (0 si micro)">
           </div>
         </div>
 
@@ -83,7 +71,7 @@
       </div>
 
       <div class="card">
-        <h2 class="card-title">2. Édition & Hébergement</h2>
+        <h2 class="card-title">2. Édition et Hébergement</h2>
         
         <div class="form-group">
           <label class="form-label" for="c_director">Directeur de la publication</label>
@@ -110,7 +98,7 @@
 
       <div class="cta-box">
         <p>Besoin d'un site web professionnel, rapide et 100% conforme à la loi française ?</p>
-        <a href="https://duvaldvl.com" class="cta-link">Découvrir les offres Duval DVL →</a>
+        <a href="https://duvaldvl.com" class="cta-link">Découvrir les offres Duval DVL</a>
       </div>
     </aside>
 
@@ -124,8 +112,7 @@
           </div>
         </div>
         
-        <div class="output-content" id="legalOutput">
-          </div>
+        <div class="output-content" id="legalOutput"></div>
       </div>
     </main>
   </div>
@@ -147,12 +134,12 @@ function generateLegalText() {
     director: document.getElementById('c_director').value || "[Nom du directeur]",
     host_name: document.getElementById('c_host_name').value || "[Nom de l'hébergeur]",
     host_address: document.getElementById('c_host_address').value || "[Adresse de l'hébergeur]",
-    website: document.getElementById('c_website').value || "https://www.du.edu/"
+    website: document.getElementById('c_website').value || "https://www.mon-site.fr"
   };
 
   const htmlTemplate = `
 <h2>Mentions Légales</h2>
-<p>Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, il est précisé aux utilisateurs du site <strong>${data.website}</strong> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.</p>
+<p>Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, il est précisé aux utilisateurs du site <strong>${data.website}</strong> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.</p>
 
 <h3>1. Édition du site</h3>
 <p>Le présent site, accessible à l'URL ${data.website} (le « Site »), est édité par :<br>
@@ -180,7 +167,7 @@ Par courrier : ${data.address}</p>
 <p>Dans le cadre de l'utilisation du Site, l'Éditeur peut être amené à collecter des données personnelles (noms, prénoms, adresses e-mail, numéros de téléphone) via les formulaires de contact ou de demande de devis. Ces données sont collectées dans le seul but de répondre aux demandes des utilisateurs et d'assurer le suivi commercial de la prestation de service.</p>
 
 <h3>2. Conservation et sécurité</h3>
-<p>Les données personnelles sont conservées uniquement pendant la durée strictement nécessaire à la gestion de la relation commerciale. L'Éditeur s'engage à mettre en œuvre toutes les mesures techniques et organisationnelles appropriées afin de garantir un niveau de sécurité adapté au risque.</p>
+<p>Les données personnelles sont conservées uniquement pendant la durée strictement nécessaire à la gestion de la relation commerciale. L'Éditeur s'engage à mettre en oeuvre toutes les mesures techniques et organisationnelles appropriées afin de garantir un niveau de sécurité adapté au risque.</p>
 
 <h3>3. Droits des utilisateurs (RGPD)</h3>
 <p>Conformément à la réglementation européenne en vigueur (RGPD), les utilisateurs disposent des droits suivants : droit d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition et de portabilité de leurs données. Pour exercer ces droits, l'utilisateur peut contacter l'Éditeur par e-mail à l'adresse : ${data.email}.</p>
@@ -227,5 +214,3 @@ function copyText() {
 
 generateLegalText();
 </script>
-</body>
-</html>
