@@ -119,7 +119,7 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
 
 /* --- CORRECTIONS MOBILE --- */
 @media(max-width: 850px) { 
-  header h1 { display: none; } 
+  header h1 { font-size: 13px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
   .layout { display: flex; flex-direction: column; padding: 100px 1rem 2rem; gap: 1rem; }
   
   .sidebar { position: static; display: contents; } 
@@ -187,8 +187,7 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
         <h3 class="lead-title">Débloquez votre plan d'action</h3>
         <p class="lead-desc">Entrez votre e-mail pour révéler les recommandations prioritaires générées par votre audit.</p>
         
-       <form class="lead-form" id="leadForm" action="https://317bb498.sibforms.com/serve/MUIFACEr6xsKhJjORO7l_WdW7OLXhAiEguEHu2rOTc79uUhfUAxWHdkyGAbXGzC3CaVZlDcUNUo4SfQMAVZ4yxNXL-nFgLh-FARieXnYqZfKQyYfmtEPhiyr25ghIcyG2yzWIz1JhR_WqD4yjor4FSK6Hlx6wV-aILTper7cktCul9KplJLUuWO1ukKXmir_4hXz26OPbWLok2ulHg==" method="POST" target="hidden_iframe" onsubmit="unlockRecos()">
-  
+       <form class="lead-form" id="leadForm" action="https://317bb498.sibforms.com/serve/MUIFACEr6xsKhJjORO7l_WdW7OLXhAiEguEHu2rOTc79uUhfUAxWHdkyGAbXGzC3CaVZlDcUNUo4SfQMAVZ4yxNXL-nFgLh-FARieXnYqZfKQyYfmtEPhiyr25ghIcyG2yzWIz1JhR_WqD4yjor4FSK6Hlx6wV-aILTper7cktCul9KplJLUuWO1ukKXmir_4hXz26OPbWLok2ulHg==" method="POST" onsubmit="unlockRecos(event)">
         <input type="text" name="PRENOM" class="lead-input" placeholder="Votre prénom" required>
         <input type="text" name="JOB_TITLE" class="lead-input" placeholder="Nom de l'entreprise" required>
   
@@ -197,7 +196,6 @@ svg.gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
         <button type="submit" class="lead-btn">Déverrouiller mon plan d'action</button>
       </form>
         
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
       </div>
 
       <div class="reco-head">
@@ -368,10 +366,26 @@ function tog(id) {
   c.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
 }
 
-function unlockRecos() {
-  document.getElementById("leadGate").classList.add("hidden");
-  document.getElementById("recoList").classList.add("unlocked");
-  isUnlocked = true;
+function unlockRecos(e) {
+  e.preventDefault(); // Empêche le rechargement de la page
+  const form = document.getElementById("leadForm");
+  const formData = new FormData(form);
+  const btn = form.querySelector('.lead-btn');
+  btn.textContent = "Déverrouillage...";
+  
+  // Envoi asynchrone des données
+  fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors' // Contourne les blocages de sécurité Sendinblue
+  }).then(() => {
+      document.getElementById("leadGate").classList.add("hidden");
+      document.getElementById("recoList").classList.add("unlocked");
+  }).catch(error => {
+      // Débloque l'UI même en cas d'erreur réseau pour ne pas frustrer l'utilisateur
+      document.getElementById("leadGate").classList.add("hidden");
+      document.getElementById("recoList").classList.add("unlocked");
+  });
 }
 
 build(); render();
