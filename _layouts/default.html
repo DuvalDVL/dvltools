@@ -10,19 +10,22 @@
     <meta property="og:title" content="{{ page.title }}">
     <meta property="og:description" content="{{ page.description }}">
     <meta property="og:url" content="https://lab.duvaldvl.com{{ page.url }}">
-    <meta property="og:image" content="https://duvaldvl.com/assets/img/blog/chatgpt-geo-prestataires-locaux.webp">
+    <meta property="og:image" content="https://duvaldvl.com/assets/img/social-preview-lab-dvl.webp">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="canonical" href="https://lab.duvaldvl.com{{ page.url | replace: 'index.html', '' }}">
     <link rel="icon" type="image/png" href="/favicon-lab.png">
-    
     <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    {% if page.url contains 'calculateur-roi' %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% endif %}
+    {% if page.url contains 'convertisseur-images' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    {% endif %}
 </head>
 <body>
     {% include header.html %}
-    
     {{ content }}
-
     {% include footer.html %}
 </body>
 </html>
