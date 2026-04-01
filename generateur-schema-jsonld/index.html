@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Générateur gratuit de schéma JSON LD| Le Lab Duval DVL">
-<meta property="og:description" content="Générez gratuitementvotre schéma JSON LD pour optimiser votre site pour l'IA (GEO)">
-<meta property="og:url" content="https://lab.duvaldvl.com/generateur-schema-jsonld/">
-<meta property="og:image" content="https://duvaldvl.com/assets/img/social-preview-generateur-schema.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Générateur gratuit de schéma JSON-LD LocalBusiness. Créez vos données structurées Schema.org pour booster votre SEO local et votre visibilité sur Google.">
-<link rel="icon" type="image/png" href="/favicon-lab.png">
-<title>Générateur JSON-LD LocalBusiness (Schema SEO) | Duval DVL</title>
-
-</head>
-<body>
+---
+layout: default
+title: "Générateur JSON-LD LocalBusiness (Schema SEO) | Duval DVL"
+description: "Générateur gratuit de schéma JSON-LD LocalBusiness. Créez vos données structurées Schema.org pour booster votre SEO local et votre visibilité sur Google."
+---
 
 <header>
   <div class="header-left">
@@ -53,7 +41,7 @@
         <div class="form-group">
           <label class="form-label" for="image">URL de l'image / Logo *</label>
           <input type="url" id="image" class="form-input" placeholder="https://votre-site.com/logo.png">
-          <p class="form-help">Lien absolu vers votre logo ou une photo de la façade (format 1:1 recommandé).</p>
+          <p class="form-help">Lien absolu vers votre logo ou une photo de la facade (format 1:1 recommandé).</p>
         </div>
 
         <div class="form-group">
@@ -65,7 +53,7 @@
       <div class="card">
         <h2 class="card-title">
           <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          Coordonnées & Localisation
+          Coordonnées et Localisation
         </h2>
         
         <div class="form-group">
@@ -138,7 +126,7 @@ function updateCode() {
     "@id": data.url || "https://votre-site.com",
     "url": data.url || "https://votre-site.com",
     "telephone": data.telephone || "+33000000000",
-    "priceRange": "€€", 
+    "priceRange": "€€",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": data.street || "Adresse",
@@ -160,12 +148,12 @@ function updateCode() {
 function copyCode() {
   const copyText = document.getElementById("jsonOutput");
   copyText.select();
-  copyText.setSelectionRange(0, 99999); 
+  copyText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(copyText.value);
   
   const btn = document.getElementById('copyBtn');
   btn.textContent = "Copié !";
-  btn.style.background = "#111111"; 
+  btn.style.background = "#111111";
   
   setTimeout(() => {
     btn.textContent = "Copier le code";
@@ -179,5 +167,3 @@ inputs.forEach(id => {
 
 updateCode();
 </script>
-</body>
-</html>
