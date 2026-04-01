@@ -1,31 +1,140 @@
 ---
-layout: default
-title: Le Lab SEO & Web - Outils gratuits pour TPE/PME | Duval DVL
-description: Découvrez Le Lab Duval DVL : une suite d'outils SEO et webmarketing 100% gratuits (Audit GMB, simulateur ROI, etc.).
 ---
-<main class="container" style="padding: 4rem 24px;">
-    <div style="text-align: center;">
-        <span style="color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Le Lab Webmarketing</span>
-        <h1 style="margin: 1rem 0;">Les outils internes de l'agence,<br>ouverts à tous.</h1>
-        <p style="max-width: 700px; margin: 0 auto;">Optimisez votre visibilité locale, générez vos documents légaux ou redimensionnez vos images gratuitement.</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Outils gratuits pour webdesigner | Le Lab Duval DVL">
+    <meta property="og:description" content="Les outils Duval DVL mis à disposition gratuitement pour vos activités de webdesigner.">
+    <meta property="og:url" content="https://lab.duvaldvl.com/">
+    <meta property="og:image" content="https://duvaldvl.com/assets/img/social-preview-lab-dvl.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez Le Lab Duval DVL : une suite d'outils SEO et webmarketing 100% gratuits pour TPE, PME et artisans. Audit GMB, simulateur ROI, générateur de mentions légales et plus.">
+    <link rel="icon" type="image/png" href="/favicon-lab.png">
+    <title>Le Lab SEO & Web - Outils gratuits pour TPE/PME | Duval DVL</title>
+    <style>
+        /* ---CSS GLOBAL --- */
+        :root {
+            --primary-color: #009966;
+            --primary-dark: #007a52;
+            --primary-gradient: linear-gradient(135deg, #2ecf93 0%, #009966 100%);
+            --accent-color: #111111;
+            --text-body: #4a5568;
+            --bg-light: #f8fcf9;
+            --white: #ffffff;
+            --container-width: 1200px;
+            --header-height: 80px;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px rgba(0, 153, 102, 0.15);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); color: var(--text-body); line-height: 1.7; background-color: var(--bg-light); padding-top: var(--header-height); -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3, h4 { color: var(--accent-color); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1.5rem; }
+        a { text-decoration: none; transition: all 0.3s ease; color: inherit; }
+        ul { list-style: none; }
+        
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .section { padding: 5rem 0; }
+
+        /* --- STYLES SPÉCIFIQUES LAB (ACCUEIL) --- */
+        .lab-hero { text-align: center; padding: 4rem 0 2rem; }
+        .lab-hero h1 { font-size: 2.5rem; }
+        .lab-hero p { font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
+        
+        .tools-section { margin: 3rem 0 5rem 0; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .tool-card { background: white; border-radius: var(--radius-card); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
+        .tool-icon { background: #e8f7f2; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .tool-icon svg { width: 28px; height: 28px; }
+        .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .tool-card p { font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        .tool-link-text { color: var(--primary-color); font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    </style>
+</head>
+<body>
+
+{% include header.html %}
+
+<main class="container">
+    <div class="lab-hero">
+        <span style="color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Le Lab Webmarketing</span>
+        <h1>Les outils internes de l'agence,<br>ouverts à tous.</h1>
+        <p>Développés initialement pour accélérer mon quotidien d'expert SEO, ces utilitaires sont désormais en libre accès. Optimisez votre visibilité locale, générez vos documents légaux ou redimensionnez vos images gratuitement.</p>
     </div>
 
-    <section class="tools-grid">
-        <a href="/audit-gmb/" class="tool-card">
-            <div class="tool-icon" style="background:#e8f7f2;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:1rem;">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            </div>
-            <h3>Audit Google My Business</h3>
-            <p>Évaluez la puissance de votre fiche Google et obtenez un plan d'action priorisé.</p>
-            <span style="color: var(--primary); font-weight: 700; margin-top: auto;">Lancer l'audit →</span>
-        </a>
-        <a href="/calculateur-roi/" class="tool-card">
-            <div class="tool-icon" style="background:#e8f7f2;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:1rem;">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
-            </div>
-            <h3>Simulateur ROI : SEO vs Ads</h3>
-            <p>Calculez votre retour sur investissement sur 24 mois entre le SEO et la publicité.</p>
-            <span style="color: var(--primary); font-weight: 700; margin-top: auto;">Calculer mon ROI →</span>
-        </a>
-        </section>
+    <section class="tools-section">
+        <h2 class="sr-only">Tous nos outils gratuits pour votre présence en ligne</h2>
+        <div class="tools-grid">
+            
+            <a href="./audit-gmb/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <h3>Audit Google My Business</h3>
+                <p>Évaluez la puissance de votre fiche Google. Obtenez un score de visibilité locale en temps réel et un plan d'action priorisé pour dépasser vos concurrents.</p>
+                <span class="tool-link-text">Lancer l'audit →</span>
+            </a>
+
+            <a href="./calculateur-roi/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                </div>
+                <h3>Simulateur ROI : SEO vs Ads</h3>
+                <p>Combien coûte vraiment Google Ads par rapport au SEO naturel ? Calculez votre retour sur investissement sur 24 mois et découvrez comment économiser.</p>
+                <span class="tool-link-text">Calculer mon ROI →</span>
+            </a>
+
+            <a href="./generateur-mentions-legales/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <h3>Générateur de Mentions Légales</h3>
+                <p>Spécialement conçu pour les artisans et TPE. Générez des mentions légales et une politique de confidentialité RGPD conformes en 2 minutes chrono.</p>
+                <span class="tool-link-text">Générer mes textes →</span>
+            </a>
+
+            <a href="./convertisseur-images/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                </div>
+                <h3>Convertisseur d'Images WebP</h3>
+                <p>Redimensionnez et convertissez vos images en masse (WebP, JPG, PNG). Optimisez le poids de vos photos pour booster la vitesse de votre site internet.</p>
+                <span class="tool-link-text">Optimiser mes images →</span>
+            </a>
+
+            <a href="./generateur-schema-jsonld/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h3>Générateur Schema JSON-LD</h3>
+                <p>Outil technique SEO. Créez facilement le code des données structurées "LocalBusiness" pour aider l'algorithme de Google à mieux vous référencer.</p>
+                <span class="tool-link-text">Générer le code →</span>
+            </a>
+
+            <a href="./mockup-generator/" class="tool-card">
+                <div class="tool-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3>Générateur de Mockup Web</h3>
+                <p>Transformez de simples captures d'écran en superbes présentations professionnelles intégrées dans un navigateur avec ombres portées et fonds élégants.</p>
+                <span class="tool-link-text">Créer un mockup →</span>
+            </a>
+
+        </div>
+    </section>
 </main>
+
+{% include footer.html %}
+
+</body>
+</html>
