@@ -9,9 +9,9 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                 Accueil du Lab
             </a>
-            <a href="https://duvaldvl.com/creation-sites-internet">Création Site Internet</a>
-            <a href="https://duvaldvl.com/referencement-local">SEO Local</a>
-            <a href="https://duvaldvl.com/contact" class="btn" style="padding: 10px 24px; font-size: 0.95rem;">Créer mon site</a>
+            <a href="https://duvaldvl.com/creation-sites-internet/">Création Site Internet</a>
+            <a href="https://duvaldvl.com/referencement-local/">SEO Local</a>
+            <a href="https://duvaldvl.com/contact/" class="btn" style="padding: 10px 24px; font-size: 0.95rem;">Créer mon site</a>
         </nav>
     </div>
 </header>
@@ -32,14 +32,42 @@
 .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--accent-color, #111111); }
 
 @media (max-width: 900px) {
-    .nav-links { position: absolute; top: var(--header-height, 80px); left: 0; right: 0; background: white; flex-direction: column; padding: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: translateY(-150%); transition: transform 0.3s ease; }
-    .nav-links.active { transform: translateY(0); }
-    .menu-toggle { display: block; }
+    .menu-toggle { display: block; z-index: 1001; position: relative; }
+    .nav-links {
+        position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 320px;
+        background-color: #ffffff !important; display: flex; flex-direction: column;
+        padding: calc(var(--header-height, 80px) + 2rem) 2rem 2rem;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.15); transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: 1000; overflow-y: auto;
+    }
+    .nav-links.active { transform: translateX(0); }
+    .btn { width: 100%; }
 }
 </style>
 
 <script>
-    document.getElementById('mobile-menu').addEventListener('click', function() {
-        document.getElementById('nav-links').classList.toggle('active');
+    const mobileMenuBtn = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+
+    mobileMenuBtn.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+        if (navLinks.classList.contains('active')) {
+            mobileMenuBtn.innerHTML = '✕';
+            mobileMenuBtn.style.fontSize = '2rem';
+            document.body.style.overflow = 'hidden';
+        } else {
+            mobileMenuBtn.innerHTML = '☰';
+            mobileMenuBtn.style.fontSize = '1.8rem';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    const menuLinks = navLinks.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuBtn.innerHTML = '☰';
+            document.body.style.overflow = 'auto';
+        });
     });
 </script>
