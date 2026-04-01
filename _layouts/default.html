@@ -5,12 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     <meta name="description" content="{{ page.description }}">
-    <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:url" content="https://lab.duvaldvl.com{{ page.url }}">
+    <meta property="og:image" content="https://duvaldvl.com/assets/img/blog/chatgpt-geo-prestataires-locaux.webp">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="canonical" href="https://lab.duvaldvl.com{{ page.url | replace: 'index.html', '' }}">
     <link rel="icon" type="image/png" href="/favicon-lab.png">
+    
+    <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
     {% include header.html %}
+    
     {{ content }}
+
     {% include footer.html %}
 </body>
 </html>
