@@ -85,7 +85,7 @@ header h1 { font-size: 16px; font-weight: 700; }
 
 .loader { display: none; text-align: center; color: var(--muted); font-size: 14px; padding: 2rem; width: 100%; grid-column: 1 / -1;}
 
-@media(max-width: 850px) { header h1 { display: none; } }
+@media(max-width: 850px) { header h1 { font-size: 13px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
 </style>
 </head>
 <body>
@@ -257,7 +257,7 @@ function renameFile(originalName, newExtension) {
   const parts = originalName.split('.');
   parts.pop(); 
   const safeName = parts.join('.').replace(/[^a-z0-9\-_]/gi, '_'); 
-  return `${safeName}-dvl.${newExtension}`; 
+  return `${safeName}.${newExtension}`; 
 }
 
 function renderThumbnail(blob, name) {
